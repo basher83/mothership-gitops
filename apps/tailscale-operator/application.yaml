@@ -1,4 +1,5 @@
 # Tailscale Operator - Helm chart installation
+# Uses secret created by ExternalSecret
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -15,8 +16,14 @@ spec:
     helm:
       valuesObject:
         oauth:
-          clientId: ""
-          clientSecret: ""
+          clientId:
+            existingSecret:
+              name: operator-oauth
+              key: client_id
+          clientSecret:
+            existingSecret:
+              name: operator-oauth
+              key: client_secret
         operatorConfig:
           hostname: talos-prod-operator
   destination:
