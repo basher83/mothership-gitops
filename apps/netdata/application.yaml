@@ -1,5 +1,5 @@
 # Netdata - Cluster monitoring
-# Uses env vars to reference secret created by ExternalSecret
+# Uses envFrom to load claiming secrets from ExternalSecret
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -22,37 +22,17 @@ spec:
             enabled: true
             token: ""
             rooms: ""
-          env:
-            - name: NETDATA_CLAIM_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: netdata-claiming
-                  key: token
-            - name: NETDATA_CLAIM_ROOMS
-              valueFrom:
-                secretKeyRef:
-                  name: netdata-claiming
-                  key: rooms
-            - name: NETDATA_CLAIM_URL
-              value: "https://app.netdata.cloud"
+          envFrom:
+            - secretRef:
+                name: netdata-claiming
         child:
           claiming:
             enabled: true
             token: ""
             rooms: ""
-          env:
-            - name: NETDATA_CLAIM_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: netdata-claiming
-                  key: token
-            - name: NETDATA_CLAIM_ROOMS
-              valueFrom:
-                secretKeyRef:
-                  name: netdata-claiming
-                  key: rooms
-            - name: NETDATA_CLAIM_URL
-              value: "https://app.netdata.cloud"
+          envFrom:
+            - secretRef:
+                name: netdata-claiming
   destination:
     server: https://kubernetes.default.svc
     namespace: netdata
