@@ -1,0 +1,38 @@
+# Netdata - Cluster monitoring
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: netdata-helm
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  source:
+    repoURL: https://netdata.github.io/helmchart
+    chart: netdata
+    targetRevision: 3.*
+    helm:
+      valuesObject:
+        image:
+          tag: stable
+        parent:
+          claiming:
+            enabled: true
+            token: ""
+            rooms: ""
+        child:
+          claiming:
+            enabled: true
+            token: ""
+            rooms: ""
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: netdata
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

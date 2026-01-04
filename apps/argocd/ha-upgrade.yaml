@@ -1,0 +1,47 @@
+# ArgoCD HA Upgrade
+# Sync-wave 99, manual sync required
+# Only trigger after Longhorn is healthy and can provision PVCs
+#
+# To trigger: argocd app sync argocd-ha
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-ha-helm
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  source:
+    repoURL: https://argoproj.github.io/argo-helm
+    chart: argo-cd
+    targetRevision: 7.*
+    helm:
+      valuesObject:
+        server:
+          replicas: 2
+          extraArgs:
+            - --insecure
+          pdb:
+            enabled: true
+            minAvailable: 1
+        controller:
+          replicas: 2
+        repoServer:
+          replicas: 2
+          pdb:
+            enabled: true
+            minAvailable: 1
+        redis-ha:
+          enabled: true
+        configs:
+          params:
+            server.insecure: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    # No automated sync - manual trigger required
+    syncOptions:
+      - ServerSideApply=true

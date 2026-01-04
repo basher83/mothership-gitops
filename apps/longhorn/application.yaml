@@ -1,0 +1,37 @@
+# Longhorn - Distributed block storage
+# 2 replicas for Golf + Hotel workers
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: longhorn-helm
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  source:
+    repoURL: https://charts.longhorn.io
+    chart: longhorn
+    targetRevision: 1.*
+    helm:
+      valuesObject:
+        defaultSettings:
+          defaultReplicaCount: 2
+          storageMinimalAvailablePercentage: 10
+          defaultDataPath: /var/lib/longhorn
+          createDefaultDiskLabeledNodes: true
+        persistence:
+          defaultClass: true
+          defaultClassReplicaCount: 2
+        longhornUI:
+          replicas: 1
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: longhorn-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

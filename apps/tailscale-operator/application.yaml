@@ -1,0 +1,31 @@
+# Tailscale Operator - Helm chart installation
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tailscale-operator-helm
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  source:
+    repoURL: https://pkgs.tailscale.com/helmcharts
+    chart: tailscale-operator
+    targetRevision: 1.*
+    helm:
+      valuesObject:
+        oauth:
+          clientId: ""
+          clientSecret: ""
+        operatorConfig:
+          hostname: talos-prod-operator
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: tailscale-operator
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
