@@ -36,6 +36,13 @@ spec:
         - /data
         - /metadata/annotations
         - /metadata/labels
+    - group: ""
+      kind: Service
+      name: homarr-helm
+      jsonPointers:
+        - /metadata/annotations/tailscale.com~1expose
+        - /metadata/annotations/tailscale.com~1hostname
+        - /metadata/finalizers
   syncPolicy:
     automated:
       prune: true
