@@ -17,6 +17,8 @@ spec:
       valuesObject:
         image:
           tag: stable
+        ingress:
+          enabled: false
         parent:
           claiming:
             enabled: true
