@@ -52,6 +52,16 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: tailscale-operator
+  ignoreDifferences:
+    - group: external-secrets.io
+      kind: ExternalSecret
+      jsonPointers:
+        - /spec/data/0/remoteRef/conversionStrategy
+        - /spec/data/0/remoteRef/decodingStrategy
+        - /spec/data/0/remoteRef/metadataPolicy
+        - /spec/data/1/remoteRef/conversionStrategy
+        - /spec/data/1/remoteRef/decodingStrategy
+        - /spec/data/1/remoteRef/metadataPolicy
   syncPolicy:
     automated:
       prune: true
@@ -104,6 +114,16 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: netdata
+  ignoreDifferences:
+    - group: external-secrets.io
+      kind: ExternalSecret
+      jsonPointers:
+        - /spec/data/0/remoteRef/conversionStrategy
+        - /spec/data/0/remoteRef/decodingStrategy
+        - /spec/data/0/remoteRef/metadataPolicy
+        - /spec/data/1/remoteRef/conversionStrategy
+        - /spec/data/1/remoteRef/decodingStrategy
+        - /spec/data/1/remoteRef/metadataPolicy
   syncPolicy:
     automated:
       prune: true
