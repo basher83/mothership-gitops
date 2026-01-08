@@ -1,0 +1,10 @@
+# Namespace with PodSecurity exemption
+# Tailscale proxy pods require privileged mode for networking
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: tailscale-operator
+  labels:
+    pod-security.kubernetes.io/enforce: privileged
+    pod-security.kubernetes.io/audit: privileged
+    pod-security.kubernetes.io/warn: privileged
