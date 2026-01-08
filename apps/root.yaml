@@ -6,6 +6,7 @@
 #   4: Tailscale Operator (needs secrets from ESO)
 #   5: Longhorn (provides PVCs)
 #   6: Netdata (needs secrets from ESO)
+#   7: Homarr (homelab dashboard)
 #   99: ArgoCD HA (needs Longhorn PVCs, manual sync)
 ---
 apiVersion: argoproj.io/v1alpha1
@@ -124,6 +125,39 @@ spec:
         - /spec/data/1/remoteRef/conversionStrategy
         - /spec/data/1/remoteRef/decodingStrategy
         - /spec/data/1/remoteRef/metadataPolicy
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: homarr
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "7"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/basher83/mothership-gitops.git
+    targetRevision: main
+    path: apps/homarr
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: homarr
+  ignoreDifferences:
+    - group: external-secrets.io
+      kind: ExternalSecret
+      jsonPointers:
+        - /spec/data/0/remoteRef/conversionStrategy
+        - /spec/data/0/remoteRef/decodingStrategy
+        - /spec/data/0/remoteRef/metadataPolicy
   syncPolicy:
     automated:
       prune: true

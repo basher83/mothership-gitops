@@ -1,0 +1,47 @@
+# Homarr - Homelab dashboard
+# Uses db-encryption secret from ExternalSecret
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: homarr-helm
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  source:
+    repoURL: https://homarr-labs.github.io/charts/
+    chart: homarr
+    targetRevision: 8.*
+    helm:
+      valuesObject:
+        persistence:
+          database:
+            type: pvc
+            storageClass: longhorn
+            accessMode: ReadWriteOnce
+            size: 1Gi
+        service:
+          main:
+            annotations:
+              tailscale.com/expose: "true"
+              tailscale.com/hostname: "homarr"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: homarr
+  ignoreDifferences:
+    - group: ""
+      kind: Secret
+      name: db-encryption
+      jsonPointers:
+        - /data
+        - /metadata/annotations
+        - /metadata/labels
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - RespectIgnoreDifferences=true
