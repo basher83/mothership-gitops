@@ -21,10 +21,7 @@ spec:
             storageClass: longhorn
             accessMode: ReadWriteOnce
             size: 1Gi
-        service:
-          annotations:
-            tailscale.com/expose: "true"
-            tailscale.com/hostname: "homarr"
+        # Service annotations removed - using Tailscale Ingress instead
   destination:
     server: https://kubernetes.default.svc
     namespace: homarr
@@ -36,13 +33,6 @@ spec:
         - /data
         - /metadata/annotations
         - /metadata/labels
-    - group: ""
-      kind: Service
-      name: homarr-helm
-      jsonPointers:
-        - /metadata/annotations/tailscale.com~1expose
-        - /metadata/annotations/tailscale.com~1hostname
-        - /metadata/finalizers
   syncPolicy:
     automated:
       prune: true

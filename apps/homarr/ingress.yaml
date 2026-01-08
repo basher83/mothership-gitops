@@ -1,0 +1,18 @@
+# Tailscale Ingress - serves on 443 with auto TLS
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: homarr
+  namespace: homarr
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  ingressClassName: tailscale
+  defaultBackend:
+    service:
+      name: homarr-helm
+      port:
+        number: 7575
+  tls:
+    - hosts:
+        - homarr
