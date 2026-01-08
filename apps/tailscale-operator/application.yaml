@@ -29,6 +29,14 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: tailscale-operator
+  ignoreDifferences:
+    - group: ""
+      kind: Secret
+      name: operator-oauth
+      jsonPointers:
+        - /data
+        - /metadata/annotations
+        - /metadata/labels
   syncPolicy:
     automated:
       prune: true
@@ -36,3 +44,4 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
+      - RespectIgnoreDifferences=true
