@@ -21,15 +21,21 @@ spec:
           enabled: false
         k8sState:
           configs:
-            go.d: |
-              default_run: no
-              modules:
-                k8s_state: yes
-                coredns: yes
-            go.d-coredns: |
-              jobs:
-                - name: coredns
-                  url: http://kube-dns.kube-system.svc.cluster.local:9153/metrics
+            go.d:
+              enabled: true
+              path: /etc/netdata/go.d.conf
+              data: |
+                default_run: no
+                modules:
+                  k8s_state: yes
+                  coredns: yes
+            go.d-coredns:
+              enabled: true
+              path: /etc/netdata/go.d/coredns.conf
+              data: |
+                jobs:
+                  - name: coredns
+                    url: http://kube-dns.kube-system.svc.cluster.local:9153/metrics
         parent:
           claiming:
             enabled: true
