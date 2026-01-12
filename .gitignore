@@ -1,0 +1,9 @@
+.mcp.json
+*.env
+!*.env.example
+.mcp.json
+# GPG/encryption keys
+*.asc
+*.gpg
+.specstory
+project_file_tree_*.md
