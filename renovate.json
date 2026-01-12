@@ -1,29 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended", ":semanticCommits"],
-  "timezone": "America/New_York",
-  "schedule": ["before 6am on Monday"],
-  "labels": ["dependencies"],
-  "helmv3": {
-    "registryAliases": {
-      "https://argoproj.github.io/argo-helm": "argo",
-      "https://charts.external-secrets.io": "external-secrets",
-      "https://pkgs.tailscale.com/helmcharts": "tailscale",
-      "https://charts.longhorn.io": "longhorn",
-      "https://netdata.github.io/helmchart": "netdata"
-    }
-  },
-  "packageRules": [
-    {
-      "matchManagers": ["helmv3"],
-      "matchUpdateTypes": ["major"],
-      "enabled": false
-    },
-    {
-      "matchManagers": ["helmv3"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "automerge": false,
-      "groupName": "helm charts"
-    }
+  "extends": [
+    "local>basher83/renovate-config",
+    "local>basher83/renovate-config//presets/kubernetes.json"
   ]
 }
