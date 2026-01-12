@@ -1,0 +1,18 @@
+# Tailscale Ingress - serves on 443 with auto TLS
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: netdata
+  namespace: netdata
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  ingressClassName: tailscale
+  defaultBackend:
+    service:
+      name: netdata
+      port:
+        number: 19999
+  tls:
+    - hosts:
+        - netdata
