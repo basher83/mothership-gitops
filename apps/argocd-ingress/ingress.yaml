@@ -1,0 +1,16 @@
+# Tailscale Ingress - serves ArgoCD UI on 443 with auto TLS
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argocd
+  namespace: argocd
+spec:
+  ingressClassName: tailscale
+  defaultBackend:
+    service:
+      name: argocd-server
+      port:
+        number: 80
+  tls:
+    - hosts:
+        - argocd

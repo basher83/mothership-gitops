@@ -4,7 +4,9 @@
 #   2: External Secrets Operator (CRDs + controller)
 #   3: ClusterSecretStore (Infisical connection)
 #   4: Tailscale Operator (needs secrets from ESO)
+#   4: ArgoCD Ingress (Tailscale exposure, needs Tailscale operator)
 #   5: Longhorn (provides PVCs)
+#   5: Longhorn Ingress (Tailscale exposure)
 #   6: Netdata (needs secrets from ESO)
 #   7: Homarr (homelab dashboard)
 #   99: ArgoCD HA (needs Longhorn PVCs, manual sync)
@@ -69,6 +71,31 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      - ServerSideApply=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-ingress
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/basher83/mothership-gitops.git
+    targetRevision: main
+    path: apps/argocd-ingress
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
       - ServerSideApply=true
 ---
 apiVersion: argoproj.io/v1alpha1
