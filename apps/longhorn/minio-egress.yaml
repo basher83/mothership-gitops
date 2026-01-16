@@ -1,0 +1,12 @@
+# Tailscale egress proxy for MinIO S3 API on TrueNAS
+# Enables Longhorn backups to S3-compatible storage
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio-truenas
+  namespace: longhorn-system
+  annotations:
+    tailscale.com/tailnet-fqdn: truenas-scale.tailfb3ea.ts.net
+spec:
+  type: ExternalName
+  externalName: placeholder
