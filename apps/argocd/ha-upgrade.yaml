@@ -38,6 +38,19 @@ spec:
         configs:
           params:
             server.insecure: true
+          cm:
+            resource.customizations.ignoreDifferences.apps_Deployment: |
+              jsonPointers:
+                - /status/terminatingReplicas
+            resource.customizations.ignoreDifferences.apps_StatefulSet: |
+              jsonPointers:
+                - /status/terminatingReplicas
+            resource.customizations.ignoreDifferences.apps_ReplicaSet: |
+              jsonPointers:
+                - /status/terminatingReplicas
+            resource.customizations.ignoreDifferences.apps_DaemonSet: |
+              jsonPointers:
+                - /status/terminatingReplicas
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
