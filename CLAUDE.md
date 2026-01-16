@@ -97,6 +97,50 @@ Add entries for each data item index (0, 1, 2...).
 
 Apps exposed externally use Tailscale Ingress class with automatic TLS. See `apps/homarr/ingress.yaml` for pattern.
 
+### Egress to Tailnet Hosts
+
+For pods that need to reach Tailscale-connected hosts (e.g., Homarr → Proxmox APIs), use the egress + DNS pattern:
+
+1. **Egress Service** — Creates a Tailscale proxy for the target host:
+   ```yaml
+   apiVersion: v1
+   kind: Service
+   metadata:
+     name: proxmox-foxtrot
+     namespace: homarr
+     annotations:
+       tailscale.com/tailnet-fqdn: foxtrot.tailfb3ea.ts.net
+   spec:
+     type: ExternalName
+     externalName: placeholder
+   ```
+
+2. **DNSConfig** — Deploys Tailscale nameserver for MagicDNS resolution:
+   ```yaml
+   apiVersion: tailscale.com/v1alpha1
+   kind: DNSConfig
+   metadata:
+     name: ts-dns
+     namespace: tailscale-operator
+   spec:
+     nameserver:
+       image:
+         repo: tailscale/k8s-nameserver
+         tag: unstable
+   ```
+
+3. **CoreDNS** — Forward `*.ts.net` queries to the nameserver (IP from `kubectl get svc nameserver -n tailscale-operator`):
+   ```
+   ts.net:53 {
+       forward . <nameserver-clusterip>
+       cache 30
+   }
+   ```
+
+With this setup, pods connect using the actual tailnet FQDN (`https://foxtrot.tailfb3ea.ts.net`), preserving SNI for valid TLS with Tailscale Serve.
+
+**Note:** CoreDNS patch on Talos is volatile — may need reapplication after upgrades.
+
 ### Storage
 
 Longhorn provides the default StorageClass. PVCs use `ReadWriteOnce` access mode.
