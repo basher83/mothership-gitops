@@ -15,6 +15,10 @@ spec:
     targetRevision: 8.*
     helm:
       valuesObject:
+        env:
+          # Allow connections to Proxmox with self-signed certs
+          - name: NODE_TLS_REJECT_UNAUTHORIZED
+            value: "0"
         persistence:
           homarrDatabase:
             enabled: true
