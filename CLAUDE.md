@@ -70,6 +70,7 @@ Secrets flow from Infisical through External Secrets Operator. Each secrets path
 - `infisical-tailscale` → `/tailscale-operator`
 - `infisical-netdata` → `/netdata`
 - `infisical-homarr` → `/homarr`
+- `infisical-longhorn` → `/longhorn`
 
 To add secrets for a new app:
 
