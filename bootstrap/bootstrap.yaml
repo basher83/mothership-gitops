@@ -18,51 +18,6 @@ metadata:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd
-  namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "1"
-spec:
-  project: default
-  source:
-    repoURL: https://argoproj.github.io/argo-helm
-    chart: argo-cd
-    targetRevision: 7.*
-    helm:
-      valuesObject:
-        server:
-          extraArgs:
-            - --insecure
-        configs:
-          params:
-            server.insecure: true
-          cm:
-            resource.customizations.ignoreDifferences.apps_Deployment: |
-              jsonPointers:
-                - /status/terminatingReplicas
-            resource.customizations.ignoreDifferences.apps_StatefulSet: |
-              jsonPointers:
-                - /status/terminatingReplicas
-            resource.customizations.ignoreDifferences.apps_ReplicaSet: |
-              jsonPointers:
-                - /status/terminatingReplicas
-            resource.customizations.ignoreDifferences.apps_DaemonSet: |
-              jsonPointers:
-                - /status/terminatingReplicas
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: argocd
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
-      - ServerSideApply=true
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
   name: root
   namespace: argocd
   annotations:
