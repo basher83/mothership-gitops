@@ -101,6 +101,27 @@ Apps exposed externally use Tailscale Ingress class with automatic TLS. See `app
 
 Longhorn provides the default StorageClass. PVCs use `ReadWriteOnce` access mode.
 
+### Helm Chart Value Gotchas
+
+Some Helm charts use non-obvious value keys. Always verify against the chart's `values.yaml`:
+
+**Homarr** (`homarr-labs/homarr`):
+```yaml
+persistence:
+  homarrDatabase:        # NOT persistence.database
+    enabled: true
+    storageClassName: longhorn
+```
+
+**ArgoCD Redis HA** (`argo/argo-cd` with `redis-ha.enabled`):
+```yaml
+redis-ha:
+  enabled: true
+  persistentVolume:      # NOT redis-ha.persistence
+    enabled: true
+    storageClass: longhorn
+```
+
 ## Bootstrap
 
 Requires `kubectl` configured via Omni proxy and Infisical Machine Identity credentials.
