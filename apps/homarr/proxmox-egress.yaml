@@ -1,0 +1,35 @@
+# Tailscale egress proxies for Proxmox API access
+# Allows Homarr to reach Proxmox hosts via tailnet
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: proxmox-foxtrot
+  namespace: homarr
+  annotations:
+    tailscale.com/tailnet-fqdn: foxtrot.tailfb3ea.ts.net
+spec:
+  type: ExternalName
+  externalName: placeholder
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: proxmox-alpha
+  namespace: homarr
+  annotations:
+    tailscale.com/tailnet-fqdn: alpha.tailfb3ea.ts.net
+spec:
+  type: ExternalName
+  externalName: placeholder
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: proxmox-lloyd
+  namespace: homarr
+  annotations:
+    tailscale.com/tailnet-fqdn: lloyd.tailfb3ea.ts.net
+spec:
+  type: ExternalName
+  externalName: placeholder
