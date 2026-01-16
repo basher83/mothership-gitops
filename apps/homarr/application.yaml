@@ -16,9 +16,9 @@ spec:
     helm:
       valuesObject:
         persistence:
-          database:
-            type: pvc
-            storageClass: longhorn
+          homarrDatabase:
+            enabled: true
+            storageClassName: longhorn
             accessMode: ReadWriteOnce
             size: 1Gi
         # Service annotations removed - using Tailscale Ingress instead
