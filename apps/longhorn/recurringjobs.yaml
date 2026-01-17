@@ -1,0 +1,55 @@
+# Longhorn RecurringJobs for automated backups
+# Label volumes with: recurring-job-group.longhorn.io/<tier>=enabled
+#
+# Tiers:
+#   critical  - Every 4 hours, 42 backups (7 days)
+#   important - Daily at 2am, 14 backups (14 days)
+#   standard  - Weekly on Sunday at 3am, 4 backups (30 days)
+---
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: backup-critical
+  namespace: longhorn-system
+spec:
+  name: backup-critical
+  task: backup
+  cron: "0 */4 * * *"
+  retain: 42
+  concurrency: 1
+  groups:
+    - critical
+  labels:
+    tier: critical
+---
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: backup-important
+  namespace: longhorn-system
+spec:
+  name: backup-important
+  task: backup
+  cron: "0 2 * * *"
+  retain: 14
+  concurrency: 1
+  groups:
+    - important
+  labels:
+    tier: important
+---
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: backup-standard
+  namespace: longhorn-system
+spec:
+  name: backup-standard
+  task: backup
+  cron: "0 3 * * 0"
+  retain: 4
+  concurrency: 1
+  groups:
+    - standard
+  labels:
+    tier: standard
