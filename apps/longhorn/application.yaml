@@ -20,6 +20,8 @@ spec:
           storageMinimalAvailablePercentage: 10
           defaultDataPath: /var/lib/longhorn
           createDefaultDiskLabeledNodes: true
+          backupTarget: "s3://longhorn-backups@us-east-1/"
+          backupTargetCredentialSecret: "longhorn-backup-credentials"
         persistence:
           defaultClass: true
           defaultClassReplicaCount: 2
