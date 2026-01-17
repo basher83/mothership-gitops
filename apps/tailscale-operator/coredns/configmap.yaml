@@ -1,0 +1,49 @@
+# CoreDNS ConfigMap with Tailscale MagicDNS forwarding
+# Managed by ArgoCD for persistence across Talos upgrades
+#
+# The nameserver ClusterIP is from: kubectl get svc nameserver -n tailscale-operator
+# This IP is stable as long as the DNSConfig CR exists.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns
+  namespace: kube-system
+data:
+  Corefile: |
+    .:53 {
+        errors
+        health {
+            lameduck 5s
+        }
+        ready
+        log . {
+            class error
+        }
+        prometheus :9153
+
+        kubernetes cluster.local in-addr.arpa ip6.arpa {
+            pods insecure
+            fallthrough in-addr.arpa ip6.arpa
+            ttl 30
+        }
+        forward . /etc/resolv.conf {
+           max_concurrent 1000
+        }
+        cache 30 {
+           disable success cluster.local
+           disable denial cluster.local
+        }
+        loop
+        reload
+        loadbalance
+    }
+
+    ts.net:53 {
+        forward . 10.108.67.5
+        cache 30
+    }
+
+    tailfb3ea.ts.net:53 {
+        forward . 10.108.67.5
+        cache 30
+    }

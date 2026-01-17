@@ -1,0 +1,29 @@
+# CoreDNS configuration with Tailscale DNS forwarding
+# Managed via ArgoCD SSA for persistence across Talos upgrades
+#
+# IMPORTANT: The nameserver ClusterIP (10.108.67.5) is stable as long as
+# the DNSConfig CR exists. If DNSConfig is recreated, verify the IP:
+#   kubectl get svc nameserver -n tailscale-operator -o jsonpath='{.spec.clusterIP}'
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: coredns-tailscale
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/basher83/mothership-gitops.git
+    targetRevision: main
+    path: apps/tailscale-operator/coredns
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+  syncPolicy:
+    automated:
+      prune: false # Don't delete ConfigMap if app is removed
+      selfHeal: true # Restore config after Talos overwrites
+    syncOptions:
+      - ServerSideApply=true
+      - RespectIgnoreDifferences=true

@@ -4,6 +4,9 @@
 #   2: External Secrets Operator (CRDs + controller)
 #   3: ClusterSecretStore (Infisical connection)
 #   4: Tailscale Operator (needs secrets from ESO)
+#       - Sub-wave 0: DNSConfig (creates nameserver for ts.net resolution)
+#       - Sub-wave 1: tailscale-operator-helm
+#       - Sub-wave 5: coredns-tailscale (SSA patch for persistent ts.net forwarding)
 #   4: ArgoCD Ingress (Tailscale exposure, needs Tailscale operator)
 #   5: Longhorn (provides PVCs)
 #   5: Longhorn Ingress (Tailscale exposure)
