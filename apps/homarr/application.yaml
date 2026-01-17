@@ -15,6 +15,9 @@ spec:
     targetRevision: 8.*
     helm:
       valuesObject:
+        # Recreate strategy avoids RWO volume scheduling conflicts on rolling updates
+        strategy:
+          type: Recreate
         persistence:
           homarrDatabase:
             enabled: true
