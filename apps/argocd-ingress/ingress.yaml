@@ -8,7 +8,7 @@ spec:
   ingressClassName: tailscale
   defaultBackend:
     service:
-      name: argocd-server
+      name: argocd-ha-helm-server
       port:
         number: 80
   tls:
