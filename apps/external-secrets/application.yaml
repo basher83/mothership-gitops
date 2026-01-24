@@ -13,6 +13,7 @@ spec:
     chart: external-secrets
     targetRevision: 0.*
     helm:
+      releaseName: external-secrets
       valuesObject:
         installCRDs: true
         webhook:
