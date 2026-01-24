@@ -138,6 +138,11 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: longhorn-system
+  ignoreDifferences:
+    - group: ""
+      kind: Service
+      jsonPointers:
+        - /spec/externalName
   syncPolicy:
     automated:
       prune: false
@@ -151,6 +156,7 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
+      - RespectIgnoreDifferences=true
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -220,6 +226,10 @@ spec:
         - /spec/data/0/remoteRef/conversionStrategy
         - /spec/data/0/remoteRef/decodingStrategy
         - /spec/data/0/remoteRef/metadataPolicy
+    - group: ""
+      kind: Service
+      jsonPointers:
+        - /spec/externalName
   syncPolicy:
     automated:
       prune: true
