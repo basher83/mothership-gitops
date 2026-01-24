@@ -11,13 +11,13 @@ spec:
   source:
     repoURL: https://charts.external-secrets.io
     chart: external-secrets
-    targetRevision: 0.*
+    targetRevision: 1.*
     helm:
       releaseName: external-secrets
       valuesObject:
         installCRDs: true
         webhook:
-          port: 9443
+          port: 10250
         certController:
           requeueInterval: 5m
   destination:
