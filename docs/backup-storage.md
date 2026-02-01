@@ -85,4 +85,3 @@ spec:
 | `apps/longhorn/minio-egress.yaml` | Tailscale egress Service |
 | `apps/longhorn/recurringjobs.yaml` | Backup schedules (3 tiers) |
 | `apps/longhorn/storageclasses.yaml` | Tiered StorageClasses |
-
