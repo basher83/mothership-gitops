@@ -12,6 +12,7 @@
 #   5: Longhorn Ingress (Tailscale exposure)
 #   6: Netdata (needs secrets from ESO)
 #   7: Homarr (homelab dashboard)
+#   8: Anthropic OAuth Proxy (Kustomize from tailnet-microservices)
 #   99: ArgoCD HA (needs Longhorn PVCs, manual sync)
 ---
 apiVersion: argoproj.io/v1alpha1
