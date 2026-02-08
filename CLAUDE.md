@@ -48,6 +48,7 @@ Wave 4:  Tailscale Operator (network ingress)
 Wave 5:  Longhorn (distributed storage)
 Wave 6:  Netdata (monitoring)
 Wave 7:  Homarr (dashboard)
+Wave 8:  Anthropic OAuth Proxy (Kustomize from tailnet-microservices)
 Wave 99: ArgoCD HA upgrade (manual sync required)
 ```
 
@@ -62,6 +63,8 @@ All applications use automated sync with prune and self-heal except ArgoCD HA wh
 3. If app needs secrets: add `externalsecret.yaml` referencing the appropriate ClusterSecretStore
 4. Add Application manifest to `apps/root.yaml` with appropriate sync-wave annotation
 5. If using ExternalSecrets, add `ignoreDifferences` for ESO default fields to prevent reconciliation loops
+
+For apps without supporting resources (no ExternalSecrets, no Ingress, no extra manifests), use a single file `apps/<app-name>.yaml` instead of a directory. The root Application discovers all YAML in `apps/`, so standalone files are picked up automatically without an entry in `root.yaml`. Update the `root.yaml` comment header to document the wave assignment. See `apps/anthropic-oauth-proxy.yaml` for this pattern.
 
 ### ExternalSecrets Integration
 
@@ -166,6 +169,19 @@ redis-ha:
     enabled: true
     storageClass: longhorn
 ```
+
+### ServerSideApply + Deployment Strategy
+
+Switching a Deployment's `strategy.type` between `RollingUpdate` and `Recreate` via ServerSideApply can fail. SSA patches the `type` field but doesn't remove the `rollingUpdate` sub-fields, and Kubernetes rejects the apply because `rollingUpdate` is forbidden when type is `Recreate`. ArgoCD will retry and give up, leaving the deployment stuck with the old strategy.
+
+If this happens, fix with a JSON patch to remove the stale fields:
+
+```bash
+kubectl patch deployment <name> -n <ns> --type='json' \
+  -p='[{"op":"remove","path":"/spec/strategy/rollingUpdate"},{"op":"replace","path":"/spec/strategy/type","value":"Recreate"}]'
+```
+
+Alternatively, use `argocd app sync <app> --replace` to force a full resource replacement.
 
 ## Bootstrap
 
