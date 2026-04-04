@@ -36,6 +36,10 @@ spec:
         # Disable auth - Tailscale-only access, frictionless OTLP ingestion
         auth:
           enableAuth: false
+        server:
+          # Prevent UI from loading external resources (Google Fonts etc.)
+          # Pods have no outbound internet — external fetches hang the SPA
+          allowExternalResources: false
         # Enable pod security context for nonroot image (UID 65532)
         securityContext:
           pod:
