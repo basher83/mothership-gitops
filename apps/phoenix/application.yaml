@@ -25,9 +25,11 @@ spec:
             - ReadWriteOnce
           size: 10Gi
         # Recreate strategy avoids RWO volume scheduling conflicts
+        # rollingUpdate must be null to prevent SSA conflict with Recreate type
         deployment:
           strategy:
             type: Recreate
+            rollingUpdate: null
         # ClusterIP - using Tailscale Ingress instead of NodePort
         service:
           type: ClusterIP
