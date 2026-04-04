@@ -10,7 +10,7 @@ spec:
   ingressClassName: tailscale
   defaultBackend:
     service:
-      name: phoenix-svc
+      name: phoenix-helm-svc
       port:
         number: 6006
   tls:
@@ -29,7 +29,7 @@ spec:
   ingressClassName: tailscale
   defaultBackend:
     service:
-      name: phoenix-svc
+      name: phoenix-helm-svc
       port:
         number: 4317
   tls:
