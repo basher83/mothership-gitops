@@ -24,6 +24,8 @@ spec:
             existingSecret:
               name: operator-oauth
               key: client_secret
+        apiServerProxyConfig:
+          mode: "true"
         operatorConfig:
           hostname: talos-prod-operator
   destination:
