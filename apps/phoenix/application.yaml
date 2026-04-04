@@ -33,6 +33,9 @@ spec:
         # ClusterIP - using Tailscale Ingress instead of NodePort
         service:
           type: ClusterIP
+        # Disable auth - Tailscale-only access, frictionless OTLP ingestion
+        auth:
+          enableAuth: false
         # Enable pod security context for nonroot image (UID 65532)
         securityContext:
           pod:
