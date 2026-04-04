@@ -1,0 +1,37 @@
+# Tailscale Ingress - UI + HTTP OTLP on port 6006
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: phoenix
+  namespace: phoenix
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  ingressClassName: tailscale
+  defaultBackend:
+    service:
+      name: phoenix-svc
+      port:
+        number: 6006
+  tls:
+    - hosts:
+        - phoenix
+---
+# Tailscale Ingress - gRPC OTLP on port 4317
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: phoenix-otlp
+  namespace: phoenix
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  ingressClassName: tailscale
+  defaultBackend:
+    service:
+      name: phoenix-svc
+      port:
+        number: 4317
+  tls:
+    - hosts:
+        - phoenix-otlp

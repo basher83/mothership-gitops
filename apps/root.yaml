@@ -13,6 +13,7 @@
 #   6: Netdata (needs secrets from ESO)
 #   7: Homarr (homelab dashboard)
 #   8: Anthropic OAuth Proxy (Kustomize from tailnet-microservices)
+#   9: Phoenix (LLM observability eval backend)
 #   99: ArgoCD HA (needs Longhorn PVCs, manual sync)
 ---
 apiVersion: argoproj.io/v1alpha1
@@ -257,6 +258,38 @@ spec:
       - CreateNamespace=true
       - ServerSideApply=true
       - RespectIgnoreDifferences=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: phoenix
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "9"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/basher83/mothership-gitops.git
+    targetRevision: main
+    path: apps/phoenix
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: phoenix
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application

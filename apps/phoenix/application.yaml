@@ -1,0 +1,46 @@
+# Phoenix - LLM observability eval backend
+# SQLite mode, no Postgres dependency
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: phoenix-helm
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  source:
+    chart: phoenix-helm
+    repoURL: registry-1.docker.io/arizephoenix
+    targetRevision: 5.0.23
+    helm:
+      valuesObject:
+        # SQLite mode - no Postgres
+        postgresql:
+          enabled: false
+        persistence:
+          enabled: true
+          storageClass: longhorn
+          accessModes:
+            - ReadWriteOnce
+          size: 10Gi
+        # Recreate strategy avoids RWO volume scheduling conflicts
+        deployment:
+          strategy:
+            type: Recreate
+        # ClusterIP - using Tailscale Ingress instead of NodePort
+        service:
+          type: ClusterIP
+        # Disable built-in ingress - using Tailscale Ingress
+        ingress:
+          enabled: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: phoenix
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
