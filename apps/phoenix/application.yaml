@@ -33,6 +33,10 @@ spec:
         # ClusterIP - using Tailscale Ingress instead of NodePort
         service:
           type: ClusterIP
+        # Enable pod security context for nonroot image (UID 65532)
+        securityContext:
+          pod:
+            enabled: true
         # Disable built-in ingress - using Tailscale Ingress
         ingress:
           enabled: false
