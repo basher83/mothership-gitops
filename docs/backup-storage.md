@@ -20,7 +20,9 @@ Stored in Infisical under `/longhorn` path, synced via ExternalSecret:
 
 ## IAM Policy
 
-Scoped to `longhorn-backups` bucket only. See `minio-config/longhorn-backups-policy.json`.
+Bucket and object operations are scoped to `longhorn-backups`. The policy also
+allows global bucket listing for S3 client compatibility. See
+`minio-config/longhorn-backups-policy.json`.
 
 ## Backup Tiers
 

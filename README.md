@@ -4,7 +4,8 @@ GitOps manifests for `talos-prod-01` Kubernetes cluster.
 
 ## Architecture
 
-App of Apps pattern with sync waves. Single bootstrap command deploys:
+App of Apps pattern with sync waves. Bootstrap installs prerequisites first,
+then ArgoCD reconciles:
 
 1. ArgoCD (non-HA via Helm)
 2. External Secrets Operator + Infisical ClusterSecretStores
@@ -12,7 +13,9 @@ App of Apps pattern with sync waves. Single bootstrap command deploys:
 4. Longhorn (distributed storage) + Ingress
 5. Netdata (monitoring)
 6. Homarr (homelab dashboard)
-7. ArgoCD HA upgrade (manual trigger)
+7. Anthropic OAuth Proxy (tailnet-microservices Kustomize)
+8. Phoenix (LLM observability eval backend)
+9. ArgoCD HA upgrade (manual trigger)
 
 All web UIs exposed via Tailscale Ingress (no public exposure).
 
@@ -40,6 +43,11 @@ kubectl create secret generic universal-auth-credentials \
   -n external-secrets
 
 # 2. Install Cilium CNI (required before ArgoCD can schedule)
+#
+# MTU=1450 is MANDATORY. Omni's siderolink WireGuard tunnel runs at MTU 1280,
+# which Cilium will auto-detect and apply to every pod veth cluster-wide,
+# strangling all traffic through Tailscale Ingress (~22 KB/s vs ~99 Mbps).
+# Never omit --set MTU=1450. See Omni-Scale/docs/guides/CILIUM.md.
 CP_IP=$(kubectl get nodes -l node-role.kubernetes.io/control-plane \
   -o jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}')
 kubectl label namespace kube-system pod-security.kubernetes.io/enforce=privileged
@@ -47,6 +55,7 @@ helm repo add cilium https://helm.cilium.io/
 helm install cilium cilium/cilium -n kube-system \
   --set ipam.mode=kubernetes \
   --set kubeProxyReplacement=true \
+  --set MTU=1450 \
   --set k8sServiceHost=$CP_IP \
   --set k8sServicePort=6443 \
   --set cgroup.autoMount.enabled=false \
@@ -112,6 +121,8 @@ apps/
   longhorn/             # Storage + Ingress (wave 5)
   netdata/              # Monitoring + Ingress (wave 6)
   homarr/               # Dashboard + Ingress (wave 7)
+  anthropic-oauth-proxy.yaml  # External-source app (wave 8)
+  phoenix/              # LLM observability + Ingress (wave 9)
 ```
 
 ## Related

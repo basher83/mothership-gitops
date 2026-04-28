@@ -1,6 +1,6 @@
 # Spec: Operator Migration — GitOps (Spec B)
 
-**Status:** Draft
+**Status:** Implemented handoff record; live validation pending
 **Created:** 2026-02-07
 **Author:** Brent + Claude
 **Scope:** mothership-gitops repo only
@@ -9,13 +9,16 @@
 
 ## Overview
 
-Add ArgoCD management for the anthropic-oauth-proxy deployment after the Tailscale Operator migration (Spec A) is deployed and verified.
+This records the mothership-gitops side of the `anthropic-oauth-proxy` ArgoCD
+handoff after the Tailscale Operator migration. The source-level GitOps handoff
+is implemented: mothership-gitops owns the ArgoCD Application, and
+`tailnet-microservices/k8s` owns the rendered Kubernetes workload resources.
 
 ---
 
 ## Precondition
 
-**Spec A must be deployed and verified before this spec is executed.**
+**Spec A must be deployed and verified before live adoption is considered complete.**
 
 Verification checklist (performed by operator):
 - [ ] Single-container pod running in `anthropic-oauth-proxy` namespace
@@ -23,7 +26,7 @@ Verification checklist (performed by operator):
 - [ ] Aperture routes to it without reconfiguration
 - [ ] Claude Max OAuth tokens work end-to-end
 
-Do not proceed until all four are confirmed.
+These are live-cluster checks. They are not proven by this repository alone.
 
 ---
 
@@ -31,7 +34,7 @@ Do not proceed until all four are confirmed.
 
 ### R10: ArgoCD Application
 
-Create an ArgoCD Application in mothership-gitops:
+ArgoCD Application in mothership-gitops:
 
 - **Source:** `tailnet-microservices` repo, `k8s/` directory, Kustomize
 - **Destination:** `anthropic-oauth-proxy` namespace on talos-prod-01
@@ -39,9 +42,14 @@ Create an ArgoCD Application in mothership-gitops:
 - **Sync policy:** Automated with prune and self-heal
 - **No ExternalSecrets required** (zero secrets)
 
-**File convention:** Use a single file `apps/anthropic-oauth-proxy.yaml` rather than the directory-per-app pattern (`apps/<name>/application.yaml`). The proxy has no ExternalSecrets, no Ingress resources, and no supporting manifests — a single Application YAML is the entire definition. A directory would contain exactly one file.
+**File convention:** mothership-gitops uses a single file,
+`apps/anthropic-oauth-proxy.yaml`, rather than the directory-per-app pattern
+(`apps/<name>/application.yaml`). That is because this repo only owns the ArgoCD
+Application handoff. The rendered workload resources, including the namespace,
+service account, services, PVC, deployment, config map, and Tailscale Ingress,
+live in `tailnet-microservices/k8s`.
 
-Add to `apps/root.yaml` at wave 8.
+The root app documents this as wave 8 in `apps/root.yaml`.
 
 ### R11: Zero-downtime migration ordering
 
@@ -52,7 +60,9 @@ This spec is sequenced AFTER Spec A specifically to ensure zero downtime:
 3. This spec adds ArgoCD management — ArgoCD adopts the already-running deployment
 4. ArgoCD's automated sync with prune and self-heal takes over lifecycle management going forward
 
-Because the deployment already exists and is healthy when ArgoCD adopts it, there is no disruption. ArgoCD's first sync is effectively a no-op (manifests match what's running).
+Because the deployment should already exist and be healthy when ArgoCD adopts it,
+the intended migration path has no disruption. That zero-downtime claim still
+requires live-cluster verification.
 
 ---
 
@@ -67,16 +77,17 @@ Because the deployment already exists and is healthy when ArgoCD adopts it, ther
 
 ## Success Criteria
 
-- [ ] ArgoCD Application YAML exists in mothership-gitops at `apps/anthropic-oauth-proxy.yaml`
-- [ ] Added to `apps/root.yaml` at wave 8
+- [x] ArgoCD Application YAML exists in mothership-gitops at `apps/anthropic-oauth-proxy.yaml`
+- [x] Root app documents `anthropic-oauth-proxy` at wave 8 in `apps/root.yaml`
+- [x] No ExternalSecrets are defined in the mothership-gitops Application
 - [ ] ArgoCD sync status: Healthy, Synced
-- [ ] No ExternalSecrets in the Application
-- [ ] Proxy remains reachable throughout (zero downtime)
+- [ ] Proxy remains reachable throughout live adoption (zero downtime)
 
 ---
 
 ## References
 
 - `apps/root.yaml` — App of Apps sync wave ordering
-- Tailscale Operator docs — `tailscale.com/expose` annotation for headless Service exposure
-- tailnet-microservices `specs/operator-migration-refactor.md` — Spec A (precondition)
+- `apps/anthropic-oauth-proxy.yaml` — ArgoCD Application handoff
+- tailnet-microservices `k8s/` — rendered workload resources
+- tailnet-microservices operator migration docs — Spec A context and source-side manifests

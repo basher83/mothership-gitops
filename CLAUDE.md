@@ -39,20 +39,27 @@ spec:
 
 ## Architecture
 
-Single bootstrap command deploys the entire platform through ordered sync waves:
+Bootstrap is a two-stage process: install the required prerequisites with Helm
+first, then apply the root ArgoCD app-of-apps manifest. ArgoCD reconciles the
+platform through ordered sync waves:
 
 ```text
-Wave 1:  ArgoCD (non-HA bootstrap)
+Prereq:  Cilium CNI, External Secrets Operator, Longhorn, ArgoCD non-HA
 Wave 2:  Root App of Apps, External Secrets Operator, ClusterSecretStores
 Wave 4:  Tailscale Operator (network ingress)
 Wave 5:  Longhorn (distributed storage)
 Wave 6:  Netdata (monitoring)
 Wave 7:  Homarr (dashboard)
 Wave 8:  Anthropic OAuth Proxy (Kustomize from tailnet-microservices)
+Wave 9:  Phoenix (LLM observability eval backend)
 Wave 99: ArgoCD HA upgrade (manual sync required)
 ```
 
-All applications use automated sync with prune and self-heal except ArgoCD HA which requires manual trigger after Longhorn is healthy.
+Most applications use automated sync with prune and self-heal. Exceptions:
+ArgoCD HA requires a manual trigger after Longhorn is healthy, the nested
+`argocd-ha-helm` app is also manual, Longhorn disables prune at the root app to
+avoid storage deletion risk, and `coredns-tailscale` disables prune while keeping
+self-heal enabled.
 
 ## Key Patterns
 
@@ -64,7 +71,13 @@ All applications use automated sync with prune and self-heal except ArgoCD HA wh
 4. Add Application manifest to `apps/root.yaml` with appropriate sync-wave annotation
 5. If using ExternalSecrets, add `ignoreDifferences` for ESO default fields to prevent reconciliation loops
 
-For apps without supporting resources (no ExternalSecrets, no Ingress, no extra manifests), use a single file `apps/<app-name>.yaml` instead of a directory. The root Application discovers all YAML in `apps/`, so standalone files are picked up automatically without an entry in `root.yaml`. Update the `root.yaml` comment header to document the wave assignment. See `apps/anthropic-oauth-proxy.yaml` for this pattern.
+For apps without local supporting resources in this repo (no ExternalSecrets, no
+local Ingress, no extra local manifests), use a single file
+`apps/<app-name>.yaml` instead of a directory. The root Application discovers all
+YAML in `apps/`, so standalone files are picked up automatically without an
+entry in `root.yaml`. Update the `root.yaml` comment header to document the wave
+assignment. See `apps/anthropic-oauth-proxy.yaml` for this pattern; its
+supporting Kubernetes resources live in `tailnet-microservices/k8s`.
 
 ### ExternalSecrets Integration
 
@@ -143,7 +156,10 @@ For pods that need to reach Tailscale-connected hosts (e.g., Homarr → Proxmox 
 
 With this setup, pods connect using the actual tailnet FQDN (`https://foxtrot.tailfb3ea.ts.net`), preserving SNI for valid TLS with Tailscale Serve.
 
-**Note:** CoreDNS patch on Talos is volatile — may need reapplication after upgrades.
+**Note:** CoreDNS may still be overwritten by Talos lifecycle events, but this
+repo now manages the CoreDNS ConfigMap through the `coredns-tailscale` ArgoCD
+Application with self-heal enabled. If `DNSConfig` is recreated, revalidate the
+nameserver ClusterIP before relying on the checked-in CoreDNS forwarding target.
 
 ### Storage
 
@@ -185,7 +201,9 @@ Alternatively, use `argocd app sync <app> --replace` to force a full resource re
 
 ## Bootstrap
 
-Requires `kubectl` configured via Omni proxy and Infisical Machine Identity credentials.
+Requires `kubectl` configured via Omni proxy, `helm`, and Infisical Machine
+Identity credentials. Use `README.md` as the command source of truth; the short
+sequence is:
 
 ```bash
 # Create manual secret (only secret not managed by GitOps)
@@ -195,14 +213,20 @@ kubectl create secret generic universal-auth-credentials \
   --from-literal=clientSecret=<INFISICAL_CLIENT_SECRET> \
   -n external-secrets
 
-# Deploy everything
-kubectl apply -f bootstrap/bootstrap.yaml
+# Install prerequisites before ArgoCD can reconcile them
+# See README.md for exact Cilium, ESO, Longhorn, and ArgoCD Helm commands.
+
+# Bootstrap app-of-apps
+kubectl apply -f https://raw.githubusercontent.com/basher83/mothership-gitops/main/bootstrap/bootstrap.yaml
 
 # Monitor
 watch kubectl get applications -n argocd
 
 # After Longhorn healthy, trigger HA upgrade
-argocd app sync argocd-ha
+kubectl patch application argocd-ha -n argocd --type merge \
+  -p '{"operation":{"sync":{}}}'
+kubectl patch application argocd-ha-helm -n argocd --type merge \
+  -p '{"operation":{"sync":{}}}'
 ```
 
 ## Related Infrastructure
