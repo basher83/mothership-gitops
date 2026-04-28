@@ -1,14 +1,14 @@
 # Documentation Audit Report
 
-Generated: 2026-04-28 | Baseline commit: 76805e5 | Updated after doc cleanup | Scope: working tree docs, manifests, and tailnet-microservices cross-reference
+Generated: 2026-04-28 | Baseline commit: 76805e5 | Updated after doc cleanup and cluster verification | Scope: working tree docs, manifests, live cluster, and tailnet-microservices cross-reference
 
 ## Executive Summary
 
 This audit checked the user-facing documentation against the checked-in GitOps manifests. The target documents were `README.md`, `CLAUDE.md`, `docs/backup-storage.md`, and `specs/operator-migration-gitops.md`. The spec was included after cross-referencing `/Users/basher8383/3I/forge/tailnet-microservices/docs/audits/AUDIT_REPORT_2026-04-28.md`, which identified mothership-side drift for the `anthropic-oauth-proxy` ArgoCD handoff. This report itself is under `docs/audits/`, so it should be excluded from future audit scopes.
 
-The source-level documentation drift found by the audit has been patched. `CLAUDE.md` now describes the two-stage bootstrap path, Phoenix wave 9, sync-policy exceptions, the managed CoreDNS patch, and the external-source nature of `anthropic-oauth-proxy`. `README.md` now includes Anthropic OAuth Proxy and Phoenix in the architecture and structure sections. `docs/backup-storage.md` now describes the MinIO policy scope accurately. `specs/operator-migration-gitops.md` is now a completed handoff record with live validation still pending.
+The source-level documentation drift found by the audit has been patched. `CLAUDE.md` now describes the two-stage bootstrap path, Phoenix wave 9, sync-policy exceptions, the managed CoreDNS patch, and the external-source nature of `anthropic-oauth-proxy`. `README.md` now includes Anthropic OAuth Proxy and Phoenix in the architecture and structure sections. `docs/backup-storage.md` now describes the MinIO policy scope accurately. `specs/operator-migration-gitops.md` is now a completed handoff record with live validation partially complete.
 
-The manifests parse successfully as YAML using Ruby's `YAML.load_stream` across `apps/**/*.yaml` and `bootstrap/**/*.yaml`. The remaining work is live-cluster validation, not source documentation correction.
+The manifests parse successfully as YAML using Ruby's `YAML.load_stream` across `apps/**/*.yaml` and `bootstrap/**/*.yaml`. Kubernetes MCP checks confirmed the high-value live-cluster items: `anthropic-oauth-proxy` is Healthy/Synced in ArgoCD, the workload is running, Tailscale Ingress is active, CoreDNS forwards to the live Tailscale nameserver IP, and Longhorn backup-tier labels match the documented PVC mapping. The remaining work is client-path validation for Aperture and Claude Max OAuth, plus optional pod-level SNI testing.
 
 | Metric | Count |
 |--------|-------|
@@ -17,7 +17,7 @@ The manifests parse successfully as YAML using Ruby's `YAML.load_stream` across 
 | Verified true or corrected | 73 |
 | Open false claims | 0 |
 | Resolved false claims | 12 |
-| Needs live-cluster review | 5 |
+| Needs live-client/path review | 2 |
 
 ## Resolved Findings
 
@@ -50,9 +50,9 @@ The manifests parse successfully as YAML using Ruby's `YAML.load_stream` across 
 
 | Original Line | Claim | Resolution |
 |------|-------|------------|
-| 3 | Status is `Draft`. | Converted to `Implemented handoff record; live validation pending`. |
+| 3 | Status is `Draft`. | Converted to `Implemented handoff record; live validation partially complete`. |
 | 42 | The proxy has "no Ingress resources, and no supporting manifests" in the consumed source repo. | Rewritten to clarify that mothership-gitops owns only the ArgoCD Application, while `tailnet-microservices/k8s` owns rendered workload resources. |
-| 70-71 | Application YAML and root wave placement success criteria were unchecked. | Checked source-level criteria for the Application, root wave documentation, and no ExternalSecrets; left live validation criteria unchecked. |
+| 70-71 | Application YAML and root wave placement success criteria were unchecked. | Checked source-level criteria for the Application, root wave documentation, no ExternalSecrets, ArgoCD Healthy/Synced, and Tailscale Ingress; left client-path validation criteria unchecked. |
 
 ## Verified Claims
 
@@ -70,6 +70,20 @@ The backup storage GitOps file list is complete for the checked-in Longhorn back
 
 The cross-repo ArgoCD handoff itself is confirmed. `apps/anthropic-oauth-proxy.yaml:1-31` defines an automated ArgoCD Application in wave 8, targets `https://github.com/basher83/tailnet-microservices.git`, uses `targetRevision: main`, consumes `path: k8s`, deploys to namespace `anthropic-oauth-proxy`, and enables prune/self-heal with `CreateNamespace=true` and `ServerSideApply=true`.
 
+## Live Cluster Verification
+
+Kubernetes MCP checks confirmed that the live `anthropic-oauth-proxy` ArgoCD Application is `Healthy` and `Synced`. Its last operation succeeded, it is sourced from `https://github.com/basher83/tailnet-microservices.git` at `path: k8s`, and it deploys to the `anthropic-oauth-proxy` namespace.
+
+The live workload is running as a single ready pod, `anthropic-oauth-proxy-855fb454d8-hxcn8`, with `READY 1/1`, `STATUS Running`, and zero restarts at the time of verification. The deployment has one replica, one ready replica, one available replica, and uses `strategy.type: Recreate` with image `ghcr.io/basher83/tailnet-microservices/anthropic-oauth-proxy:sha-73688d8`.
+
+The Tailscale Ingress is active. It uses `ingressClassName: tailscale`, routes `/` to service `anthropic-oauth-proxy` on port 80, and reports load balancer hostname `anthropic-oauth-proxy.tailfb3ea.ts.net` on port 443.
+
+The Tailscale DNS path is consistent. `DNSConfig` `ts-dns` reports nameserver IP `10.108.67.5`, the `nameserver` Service in `tailscale-operator` has ClusterIP `10.108.67.5`, and the live CoreDNS ConfigMap forwards both `ts.net` and `tailfb3ea.ts.net` to `10.108.67.5`.
+
+The documented backup PVC mapping is accurate in the live cluster. Homarr's `homarr-database` Longhorn volume is labeled `recurring-job-group.longhorn.io/critical: enabled`; the three ArgoCD Redis HA volumes are labeled `important`; and the three documented Netdata volumes are labeled `standard`. Those checked Longhorn volumes report healthy robustness and recent backups.
+
+The proxy image does not include `wget` or `curl`, so an in-container HTTP `/health` response body was not collected. Kubernetes liveness/readiness probes are passing, which verifies the endpoint from kubelet's perspective but not its JSON payload.
+
 ## Pattern Summary
 
 | Pattern | Count | Root Cause |
@@ -78,15 +92,15 @@ The cross-repo ArgoCD handoff itself is confirmed. `apps/anthropic-oauth-proxy.y
 | Incomplete app inventory | 3 | Resolved in README and CLAUDE.md. |
 | Over-broad sync policy summary | 1 | Resolved in CLAUDE.md. |
 | Overstated IAM scoping | 1 | Resolved in docs/backup-storage.md. |
-| Stale migration spec | 3 | Resolved in specs/operator-migration-gitops.md at the source-documentation level; live validation remains open. |
+| Stale migration spec | 3 | Resolved in specs/operator-migration-gitops.md; live Kubernetes object validation is partially complete. |
 
 ## Human Review Queue
 
-- `docs/backup-storage.md:35-45` lists the current PVC-to-backup-tier mapping. The chart values imply likely PVC names for Homarr, Netdata, and ArgoCD Redis HA, but the exact PVC names are runtime objects and should be checked against the live cluster with `kubectl get pvc -A` after rebuild.
 - `README.md:44-47` claims MTU 1450 avoids Tailscale Ingress degradation of roughly 22 KB/s versus 99 Mbps. This is an operational measurement from Omni/Cilium behavior, not something verifiable from this repository alone.
 - `CLAUDE.md` documents a ServerSideApply deployment strategy failure mode and remediation. The Phoenix manifest contains the relevant `rollingUpdate: null` mitigation at `apps/phoenix/application.yaml:27-32`, but the historical failure mode itself requires cluster/API-server behavior to validate.
-- `CLAUDE.md` says preserving the actual tailnet FQDN preserves SNI for valid TLS with Tailscale Serve. The egress services and DNS forwarding exist, but TLS/SNI validity should be verified from a pod in the live cluster.
-- `specs/operator-migration-gitops.md` now leaves ArgoCD Healthy/Synced and zero-downtime reachability unchecked. Source manifests confirm intended GitOps configuration, but current live ArgoCD state still requires `kubectl get application anthropic-oauth-proxy -n argocd` or `argocd app get anthropic-oauth-proxy`.
+- `CLAUDE.md` says preserving the actual tailnet FQDN preserves SNI for valid TLS with Tailscale Serve. The egress services and DNS forwarding exist, but TLS/SNI validity should be verified from a pod that has a usable HTTP/TLS client.
+- `specs/operator-migration-gitops.md` still leaves Aperture routing and Claude Max OAuth end-to-end checks open. Kubernetes object state is healthy, but those claims require client-path testing.
+- The previous zero-downtime wording has been softened. The live deployment is single-replica with `strategy.type: Recreate`, so future rollouts can interrupt service briefly and should not be described as zero-downtime.
 
 ## Cross-Repo Reference
 
@@ -107,4 +121,13 @@ rg -n "ingressClassName: tailscale|kind: Ingress|kind: Application|kind: Externa
 ruby -e 'require "yaml"; Dir["{apps,bootstrap}/**/*.y{a,}ml"].each { |f| YAML.load_stream(File.read(f)); puts "OK #{f}" }'
 kubectl kustomize /Users/basher8383/3I/forge/tailnet-microservices/k8s
 rg -n 'Single bootstrap command|CoreDNS patch on Talos is volatile|Scoped to `longhorn-backups` bucket only|no Ingress resources|Status is `Draft`' CLAUDE.md README.md docs/backup-storage.md specs/operator-migration-gitops.md || true
+# Kubernetes MCP checks:
+# - applications.argoproj.io/anthropic-oauth-proxy -n argocd
+# - pods, services, ingress -n anthropic-oauth-proxy
+# - deployment/anthropic-oauth-proxy -n anthropic-oauth-proxy
+# - pvc -A
+# - volumes.longhorn.io for documented backup PVCs
+# - dnsconfigs.tailscale.com/ts-dns -n tailscale-operator
+# - service/nameserver -n tailscale-operator
+# - configmap/coredns -n kube-system
 ```

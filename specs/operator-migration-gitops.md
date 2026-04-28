@@ -1,6 +1,6 @@
 # Spec: Operator Migration — GitOps (Spec B)
 
-**Status:** Implemented handoff record; live validation pending
+**Status:** Implemented handoff record; live validation partially complete
 **Created:** 2026-02-07
 **Author:** Brent + Claude
 **Scope:** mothership-gitops repo only
@@ -21,12 +21,13 @@ is implemented: mothership-gitops owns the ArgoCD Application, and
 **Spec A must be deployed and verified before live adoption is considered complete.**
 
 Verification checklist (performed by operator):
-- [ ] Single-container pod running in `anthropic-oauth-proxy` namespace
-- [ ] `anthropic-oauth-proxy` is reachable on the tailnet via Tailscale Operator
+- [x] Single-container pod running in `anthropic-oauth-proxy` namespace
+- [x] `anthropic-oauth-proxy` is exposed on the tailnet via Tailscale Ingress
 - [ ] Aperture routes to it without reconfiguration
 - [ ] Claude Max OAuth tokens work end-to-end
 
-These are live-cluster checks. They are not proven by this repository alone.
+The remaining open items require client-path testing outside Kubernetes object
+state.
 
 ---
 
@@ -51,18 +52,20 @@ live in `tailnet-microservices/k8s`.
 
 The root app documents this as wave 8 in `apps/root.yaml`.
 
-### R11: Zero-downtime migration ordering
+### R11: Adoption and rollout behavior
 
-This spec is sequenced AFTER Spec A specifically to ensure zero downtime:
+This spec was sequenced after Spec A so ArgoCD could adopt the already-running
+deployment instead of introducing a new workload from scratch:
 
 1. Spec A ships the refactored manifests and deploys them (manually or via existing process)
 2. Operator verifies proxy is reachable at `anthropic-oauth-proxy` on the tailnet (precondition above)
 3. This spec adds ArgoCD management — ArgoCD adopts the already-running deployment
 4. ArgoCD's automated sync with prune and self-heal takes over lifecycle management going forward
 
-Because the deployment should already exist and be healthy when ArgoCD adopts it,
-the intended migration path has no disruption. That zero-downtime claim still
-requires live-cluster verification.
+Live cluster state confirms ArgoCD has adopted the Application and the current
+workload is Healthy/Synced. The workload is single-replica and uses
+`strategy.type: Recreate`, so future rollouts can interrupt service briefly and
+should not be described as zero-downtime.
 
 ---
 
@@ -80,8 +83,10 @@ requires live-cluster verification.
 - [x] ArgoCD Application YAML exists in mothership-gitops at `apps/anthropic-oauth-proxy.yaml`
 - [x] Root app documents `anthropic-oauth-proxy` at wave 8 in `apps/root.yaml`
 - [x] No ExternalSecrets are defined in the mothership-gitops Application
-- [ ] ArgoCD sync status: Healthy, Synced
-- [ ] Proxy remains reachable throughout live adoption (zero downtime)
+- [x] ArgoCD sync status: Healthy, Synced
+- [x] Tailscale Ingress exists with hostname `anthropic-oauth-proxy.tailfb3ea.ts.net`
+- [ ] Aperture/client path remains functional after ArgoCD adoption
+- [ ] Claude Max OAuth flow works end-to-end
 
 ---
 
