@@ -2,6 +2,24 @@
 
 GitOps manifests for `talos-prod-01` Kubernetes cluster.
 
+## Repo Boundary
+
+This repo answers: what runs on the cluster after the Omni-managed Talos
+substrate exists?
+
+mothership-gitops owns ArgoCD App of Apps reconciliation, sync waves, Longhorn
+Helm values, backup schedules, StorageClasses, ESO/Infisical wiring, Tailscale
+Operator manifests, ingress exposure, monitoring, dashboards, and workload
+applications.
+
+It does not own the Omni substrate. Sidero Omni self-hosting, the Proxmox
+infrastructure provider, cluster templates, machine classes, Talos node
+requirements, SideroLink/DNS/Tailscale access constraints, and provider
+troubleshooting live in `../Omni-Scale`. This repo may reference substrate
+constraints when they affect platform bootstrap, such as the required Cilium
+MTU override, but Omni-Scale is the source of truth for why those constraints
+exist.
+
 ## Architecture
 
 App of Apps pattern with sync waves. Bootstrap installs prerequisites first,
@@ -128,4 +146,6 @@ apps/
 ## Related
 
 - [Omni-Scale](https://github.com/basher83/Omni-Scale) - Infrastructure provisioning
+- [Troubleshooting](docs/troubleshooting.md) - ArgoCD, ESO, Tailscale
+  Ingress, and application reconciliation issues
 - [Infisical](https://app.infisical.com) - Secrets management (project: `mothership-s0-ew`)
