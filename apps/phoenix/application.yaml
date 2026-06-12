@@ -12,9 +12,12 @@ spec:
   source:
     chart: phoenix-helm
     repoURL: registry-1.docker.io/arizephoenix
-    targetRevision: 5.0.23
+    targetRevision: 9.0.3 # Phoenix 17.4.0
     helm:
       valuesObject:
+        # PXI agent assistant (new in v17) left enabled: it uses Phoenix's
+        # stored provider config, which points at the in-cluster
+        # anthropic-oauth-proxy (no external egress required).
         # SQLite mode - no Postgres
         postgresql:
           enabled: false
@@ -34,6 +37,7 @@ spec:
         service:
           type: ClusterIP
         # Disable auth - Tailscale-only access, frictionless OTLP ingestion
+        # NOTE: chart >= 9.x defaults enableAuth to true - keep this explicit
         auth:
           enableAuth: false
         server:
