@@ -8,4 +8,5 @@
 .specstory
 project_file_tree_*.md
 *.local.md
+.claude/settings.local.json
 .cursorindexingignore
