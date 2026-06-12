@@ -146,6 +146,12 @@ apps/
 ## Related
 
 - [Omni-Scale](https://github.com/basher83/Omni-Scale) - Infrastructure provisioning
+- [Architecture](docs/architecture.md) - Sync waves, sync policy exceptions
+- [Adding Applications](docs/adding-applications.md) - New app checklist,
+  ExternalSecrets wiring, UI exposure requirement
+- [Tailscale Networking](docs/tailscale-networking.md) - Ingress and
+  egress-to-tailnet patterns
+- [Backup Storage](docs/backup-storage.md) - Longhorn backup tiers, MinIO S3
 - [Troubleshooting](docs/troubleshooting.md) - ArgoCD, ESO, Tailscale
-  Ingress, and application reconciliation issues
+  Ingress, SSA, and Helm chart gotchas
 - [Infisical](https://app.infisical.com) - Secrets management (project: `mothership-s0-ew`)

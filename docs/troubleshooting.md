@@ -177,3 +177,58 @@ spec:
 
 Tailscale Ingress serves on port 443 with automatic TLS and avoids port suffixes
 in browser URLs. First access can be slow while the certificate is provisioned.
+
+## Deployment Strategy Change Stuck (ServerSideApply)
+
+Symptom: changing a Deployment's `strategy.type` between `RollingUpdate` and
+`Recreate` leaves the Application stuck; ArgoCD retries and gives up, and the
+deployment keeps the old strategy.
+
+ServerSideApply patches the `type` field but does not remove the stale
+`rollingUpdate` sub-fields, and Kubernetes rejects the apply because
+`rollingUpdate` is forbidden when type is `Recreate`.
+
+Fix with a JSON patch to remove the stale fields:
+
+```bash
+kubectl patch deployment <name> -n <ns> --type='json' \
+  -p='[{"op":"remove","path":"/spec/strategy/rollingUpdate"},{"op":"replace","path":"/spec/strategy/type","value":"Recreate"}]'
+```
+
+Alternatively, force a full resource replacement:
+
+```bash
+argocd app sync <app> --replace
+```
+
+Prevention: when a chart needs `Recreate`, also set `rollingUpdate: null` in
+values so SSA clears the sub-fields (see `apps/phoenix/application.yaml`).
+
+## Helm Chart Value Gotchas
+
+Symptom: a Helm value appears correct but has no effect on the deployed
+resources.
+
+Some charts use non-obvious value keys. Always verify against the chart's
+actual `values.yaml`. Known cases in this repo:
+
+**Homarr** (`homarr-labs/homarr`) — persistence key is `homarrDatabase`,
+not `database`:
+
+```yaml
+persistence:
+  homarrDatabase:        # NOT persistence.database
+    enabled: true
+    storageClassName: longhorn
+```
+
+**ArgoCD Redis HA** (`argo/argo-cd` with `redis-ha.enabled`) — persistence
+key is `persistentVolume`, not `persistence`:
+
+```yaml
+redis-ha:
+  enabled: true
+  persistentVolume:      # NOT redis-ha.persistence
+    enabled: true
+    storageClass: longhorn
+```
