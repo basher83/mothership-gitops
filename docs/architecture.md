@@ -14,8 +14,9 @@ single-file Applications (e.g. `apps/anthropic-oauth-proxy.yaml`).
 
 ```text
 Prereq:  Cilium CNI, External Secrets Operator, Longhorn, ArgoCD non-HA (Helm, see README)
-Wave 2:  External Secrets Operator (CRDs + controller)
-Wave 3:  ClusterSecretStores (Infisical connection)
+Wave 2:  External Secrets stack
+          - sub-wave 1: external-secrets-helm (CRDs + controller)
+          - sub-wave 2: ClusterSecretStores (Infisical connection)
 Wave 4:  Tailscale Operator + ArgoCD Ingress
           - sub-wave 0: DNSConfig (nameserver for ts.net resolution)
           - sub-wave 1: tailscale-operator-helm

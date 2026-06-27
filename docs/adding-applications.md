@@ -72,6 +72,7 @@ ClusterSecretStore in `apps/external-secrets/clustersecretstore.yaml`:
 | `infisical-netdata` | `/netdata` |
 | `infisical-homarr` | `/homarr` |
 | `infisical-longhorn` | `/longhorn` |
+| `infisical-phoenix` | `/phoenix` |
 
 To add secrets for a new app:
 

@@ -134,7 +134,7 @@ apps/
   root.yaml             # App of Apps orchestrator
   argocd/               # HA upgrade (wave 99, manual)
   argocd-ingress/       # Tailscale Ingress for ArgoCD (wave 4)
-  external-secrets/     # ESO + ClusterSecretStores (wave 2-3)
+  external-secrets/     # ESO + ClusterSecretStores (root wave 2, child waves 1-2)
   tailscale-operator/   # Tailscale Operator (wave 4)
   longhorn/             # Storage + Ingress (wave 5)
   netdata/              # Monitoring + Ingress (wave 6)

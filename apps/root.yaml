@@ -1,8 +1,9 @@
 # App of Apps - orchestrates all platform components via sync waves
 #
 # Wave order:
-#   2: External Secrets Operator (CRDs + controller)
-#   3: ClusterSecretStore (Infisical connection)
+#   2: External Secrets stack
+#       - Sub-wave 1: external-secrets-helm (CRDs + controller)
+#       - Sub-wave 2: ClusterSecretStores (Infisical connection)
 #   4: Tailscale Operator (needs secrets from ESO)
 #       - Sub-wave 0: DNSConfig (creates nameserver for ts.net resolution)
 #       - Sub-wave 1: tailscale-operator-helm
