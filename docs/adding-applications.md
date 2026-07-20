@@ -94,15 +94,17 @@ git, causing permanent OutOfSync. Add to the app's Application in
 ignoreDifferences:
   - group: external-secrets.io
     kind: ExternalSecret
-    jsonPointers:
-      - /spec/data/0/remoteRef/conversionStrategy
-      - /spec/data/0/remoteRef/decodingStrategy
-      - /spec/data/0/remoteRef/metadataPolicy
+    jqPathExpressions:
+      - .spec.data[].remoteRef.conversionStrategy
+      - .spec.data[].remoteRef.decodingStrategy
+      - .spec.data[].remoteRef.metadataPolicy
 ```
 
-Add entries for each data item index (0, 1, 2...), and include
-`RespectIgnoreDifferences=true` in `syncOptions`. See `troubleshooting.md`
-for the symptom-side description.
+The `[]` wildcard covers every `spec.data` entry, so adding secret keys later
+requires no `root.yaml` change. Do not use indexed `jsonPointers`
+(`/spec/data/0/...`) — they silently stop covering entries added beyond the
+enumerated indexes. Include `RespectIgnoreDifferences=true` in `syncOptions`.
+See `troubleshooting.md` for the symptom-side description.
 
 ## Storage
 

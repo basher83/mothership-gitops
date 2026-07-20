@@ -70,13 +70,10 @@ spec:
   ignoreDifferences:
     - group: external-secrets.io
       kind: ExternalSecret
-      jsonPointers:
-        - /spec/data/0/remoteRef/conversionStrategy
-        - /spec/data/0/remoteRef/decodingStrategy
-        - /spec/data/0/remoteRef/metadataPolicy
-        - /spec/data/1/remoteRef/conversionStrategy
-        - /spec/data/1/remoteRef/decodingStrategy
-        - /spec/data/1/remoteRef/metadataPolicy
+      jqPathExpressions:
+        - .spec.data[].remoteRef.conversionStrategy
+        - .spec.data[].remoteRef.decodingStrategy
+        - .spec.data[].remoteRef.metadataPolicy
   syncPolicy:
     automated:
       prune: true
@@ -148,16 +145,10 @@ spec:
         - /spec/externalName
     - group: external-secrets.io
       kind: ExternalSecret
-      jsonPointers:
-        - /spec/data/0/remoteRef/conversionStrategy
-        - /spec/data/0/remoteRef/decodingStrategy
-        - /spec/data/0/remoteRef/metadataPolicy
-        - /spec/data/1/remoteRef/conversionStrategy
-        - /spec/data/1/remoteRef/decodingStrategy
-        - /spec/data/1/remoteRef/metadataPolicy
-        - /spec/data/2/remoteRef/conversionStrategy
-        - /spec/data/2/remoteRef/decodingStrategy
-        - /spec/data/2/remoteRef/metadataPolicy
+      jqPathExpressions:
+        - .spec.data[].remoteRef.conversionStrategy
+        - .spec.data[].remoteRef.decodingStrategy
+        - .spec.data[].remoteRef.metadataPolicy
   syncPolicy:
     automated:
       prune: false
@@ -194,13 +185,10 @@ spec:
   ignoreDifferences:
     - group: external-secrets.io
       kind: ExternalSecret
-      jsonPointers:
-        - /spec/data/0/remoteRef/conversionStrategy
-        - /spec/data/0/remoteRef/decodingStrategy
-        - /spec/data/0/remoteRef/metadataPolicy
-        - /spec/data/1/remoteRef/conversionStrategy
-        - /spec/data/1/remoteRef/decodingStrategy
-        - /spec/data/1/remoteRef/metadataPolicy
+      jqPathExpressions:
+        - .spec.data[].remoteRef.conversionStrategy
+        - .spec.data[].remoteRef.decodingStrategy
+        - .spec.data[].remoteRef.metadataPolicy
   syncPolicy:
     automated:
       prune: true
@@ -237,10 +225,10 @@ spec:
   ignoreDifferences:
     - group: external-secrets.io
       kind: ExternalSecret
-      jsonPointers:
-        - /spec/data/0/remoteRef/conversionStrategy
-        - /spec/data/0/remoteRef/decodingStrategy
-        - /spec/data/0/remoteRef/metadataPolicy
+      jqPathExpressions:
+        - .spec.data[].remoteRef.conversionStrategy
+        - .spec.data[].remoteRef.decodingStrategy
+        - .spec.data[].remoteRef.metadataPolicy
     - group: ""
       kind: Service
       jsonPointers:
@@ -281,13 +269,10 @@ spec:
   ignoreDifferences:
     - group: external-secrets.io
       kind: ExternalSecret
-      jsonPointers:
-        - /spec/data/0/remoteRef/conversionStrategy
-        - /spec/data/0/remoteRef/decodingStrategy
-        - /spec/data/0/remoteRef/metadataPolicy
-        - /spec/data/1/remoteRef/conversionStrategy
-        - /spec/data/1/remoteRef/decodingStrategy
-        - /spec/data/1/remoteRef/metadataPolicy
+      jqPathExpressions:
+        - .spec.data[].remoteRef.conversionStrategy
+        - .spec.data[].remoteRef.decodingStrategy
+        - .spec.data[].remoteRef.metadataPolicy
   syncPolicy:
     automated:
       prune: true
