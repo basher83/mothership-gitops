@@ -1,6 +1,6 @@
 # Spec: Operator Migration — GitOps (Spec B)
 
-**Status:** Implemented handoff record; live validation partially complete
+**Status:** Implemented handoff record; live validation complete 2026-07-20
 **Created:** 2026-02-07
 **Author:** Brent + Claude
 **Scope:** mothership-gitops repo only
@@ -27,15 +27,19 @@ Verification checklist (performed by operator):
   request to `http://ai/v1/messages` traversed Aperture → proxy and returned a
   well-formed proxy response with a `request_id`. Prior evidence: Q11 latency
   gate (2026-03) and live re-probe 2026-07-07 (`lab/aperture` bundle).
-- [ ] Claude Max OAuth tokens work end-to-end — **FAILED re-validation
-  2026-07-20**: HTTP 503 `pool_exhausted`; the sole account
-  (`claude-max-local`) has been disabled since 2026-07-20T03:36Z because token
-  refresh is rejected with `invalid_grant: Refresh token expired`. Last passing
-  evidence was 2026-05-09 (tailnet-microservices
-  `specs/operator-migration-addendum.md`). Recovery: re-provision credentials
+- [x] Claude Max OAuth tokens work end-to-end — validated 2026-07-20 after
+  same-day credential recovery. The morning re-validation FAILED (HTTP 503
+  `pool_exhausted`; sole account `claude-max-local` disabled at
+  2026-07-20T03:36Z, token refresh rejected with `invalid_grant: Refresh token
+  expired`; last prior passing evidence 2026-05-09, tailnet-microservices
+  `specs/operator-migration-addendum.md`). Operator re-provisioned credentials
   per tailnet-microservices `docs/runbook/accounts.md` (keychain extraction —
-  PKCE provisioning is blocked server-side by Anthropic and is out of scope
-  for this check). Re-run the validation after re-provisioning.
+  PKCE provisioning remains blocked server-side by Anthropic and is out of
+  scope). Post-recovery: `http://ai/v1/messages` through the full
+  Aperture → proxy chain returned HTTP 200 with a message body; `/health`
+  reports pool healthy, 1 available, 0 disabled. Known caveat: with a single
+  pool account, refresh-token expiry is a recurring single point of failure —
+  the proxy cannot self-recover from `invalid_grant`.
 
 ---
 
@@ -95,8 +99,9 @@ should not be described as zero-downtime.
 - [x] Tailscale Ingress exists with hostname `anthropic-oauth-proxy.tailfb3ea.ts.net`
 - [x] Aperture/client path remains functional after ArgoCD adoption —
   validated 2026-07-20 (see Precondition checklist for evidence)
-- [ ] Claude Max OAuth flow works end-to-end — FAILED 2026-07-20: refresh
-  token expired, account disabled (see Precondition checklist)
+- [x] Claude Max OAuth flow works end-to-end — validated 2026-07-20 after
+  same-day credential recovery (see Precondition checklist for the full
+  failure/recovery record)
 
 ---
 
