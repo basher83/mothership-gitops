@@ -17,15 +17,9 @@ spec:
     server: https://kubernetes.default.svc
     namespace: anthropic-oauth-proxy
   syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    retry:
-      limit: 5
-      backoff:
-        duration: 5s
-        factor: 2
-        maxDuration: 3m
+    # Manual sync — promotion gate for the cross-repo boundary. This app
+    # tracks tailnet-microservices main, whose CI does not gate manifest
+    # validity; sync deliberately. See docs/architecture.md.
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true

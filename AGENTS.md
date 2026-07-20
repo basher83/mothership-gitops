@@ -55,6 +55,8 @@ knowledge itself lives in `docs/`.
 * Do NOT enable prune on `longhorn`, `longhorn-helm`, or `coredns-tailscale`.
 * Do NOT add automated sync to `argocd-ha` or `argocd-ha-helm` — the manual
   gate is the safety mechanism.
+* Do NOT add automated sync to `anthropic-oauth-proxy` — it tracks another
+  repo's main branch; the manual gate is the cross-repo promotion step.
 * Adding a new sync policy deviation requires a documented reason in
   `docs/architecture.md` in the same change.
 

@@ -44,6 +44,7 @@ plus `ServerSideApply=true`. Deviations are deliberate:
 | `longhorn` | `prune: false` | Pruning storage resources risks data deletion |
 | `longhorn-helm` (nested) | `prune: false` | Chart-owned CRDs and controllers — a chart revision that stops rendering a CRD would make it prune-eligible, and CRD deletion removes all CRs stored under it, taking down the storage control plane |
 | `coredns-tailscale` | `prune: false`, `selfHeal: true` | ConfigMap must survive app removal; self-heal restores ts.net forwarding after Talos lifecycle events overwrite CoreDNS |
+| `anthropic-oauth-proxy` | No automated sync | Cross-repo promotion gate — the app tracks `tailnet-microservices` `main`, whose CI does not gate manifest validity (bot tag-bump commits carry `[skip ci]`, and the manifests job does not block deploy). Manual sync is the deliberate promotion step; revisit an exact SHA pin once the proxy's refactor churn settles |
 
 ## Chart Versioning
 
