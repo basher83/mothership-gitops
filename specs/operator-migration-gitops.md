@@ -23,11 +23,19 @@ is implemented: mothership-gitops owns the ArgoCD Application, and
 Verification checklist (performed by operator):
 - [x] Single-container pod running in `anthropic-oauth-proxy` namespace
 - [x] `anthropic-oauth-proxy` is exposed on the tailnet via Tailscale Ingress
-- [ ] Aperture routes to it without reconfiguration
-- [ ] Claude Max OAuth tokens work end-to-end
-
-The remaining open items require client-path testing outside Kubernetes object
-state.
+- [x] Aperture routes to it without reconfiguration — validated 2026-07-20: a
+  request to `http://ai/v1/messages` traversed Aperture → proxy and returned a
+  well-formed proxy response with a `request_id`. Prior evidence: Q11 latency
+  gate (2026-03) and live re-probe 2026-07-07 (`lab/aperture` bundle).
+- [ ] Claude Max OAuth tokens work end-to-end — **FAILED re-validation
+  2026-07-20**: HTTP 503 `pool_exhausted`; the sole account
+  (`claude-max-local`) has been disabled since 2026-07-20T03:36Z because token
+  refresh is rejected with `invalid_grant: Refresh token expired`. Last passing
+  evidence was 2026-05-09 (tailnet-microservices
+  `specs/operator-migration-addendum.md`). Recovery: re-provision credentials
+  per tailnet-microservices `docs/runbook/accounts.md` (keychain extraction —
+  PKCE provisioning is blocked server-side by Anthropic and is out of scope
+  for this check). Re-run the validation after re-provisioning.
 
 ---
 
@@ -85,8 +93,10 @@ should not be described as zero-downtime.
 - [x] No ExternalSecrets are defined in the mothership-gitops Application
 - [x] ArgoCD sync status: Healthy, Synced
 - [x] Tailscale Ingress exists with hostname `anthropic-oauth-proxy.tailfb3ea.ts.net`
-- [ ] Aperture/client path remains functional after ArgoCD adoption
-- [ ] Claude Max OAuth flow works end-to-end
+- [x] Aperture/client path remains functional after ArgoCD adoption —
+  validated 2026-07-20 (see Precondition checklist for evidence)
+- [ ] Claude Max OAuth flow works end-to-end — FAILED 2026-07-20: refresh
+  token expired, account disabled (see Precondition checklist)
 
 ---
 
