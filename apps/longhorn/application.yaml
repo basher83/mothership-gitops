@@ -32,7 +32,10 @@ spec:
     namespace: longhorn-system
   syncPolicy:
     automated:
-      prune: true
+      # No prune: chart-owned CRDs are unprotected — a chart revision that
+      # stops rendering one would make it prune-eligible, deleting all CRs
+      # stored under it (storage control-plane loss). See docs/architecture.md.
+      prune: false
       selfHeal: true
     syncOptions:
       - CreateNamespace=true

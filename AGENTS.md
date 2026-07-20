@@ -52,7 +52,7 @@ knowledge itself lives in `docs/`.
 
 * Default is automated sync with prune and self-heal. Deviations are
   deliberate and documented in `docs/architecture.md`.
-* Do NOT enable prune on `longhorn` or `coredns-tailscale`.
+* Do NOT enable prune on `longhorn`, `longhorn-helm`, or `coredns-tailscale`.
 * Do NOT add automated sync to `argocd-ha` or `argocd-ha-helm` — the manual
   gate is the safety mechanism.
 * Adding a new sync policy deviation requires a documented reason in

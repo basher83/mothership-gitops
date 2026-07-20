@@ -42,6 +42,7 @@ plus `ServerSideApply=true`. Deviations are deliberate:
 | `argocd-ha` (wave 99) | No automated sync | Safety gate — HA upgrade is triggered manually after Longhorn is healthy |
 | `argocd-ha-helm` (nested) | No automated sync | Same safety gate, second stage |
 | `longhorn` | `prune: false` | Pruning storage resources risks data deletion |
+| `longhorn-helm` (nested) | `prune: false` | Chart-owned CRDs and controllers — a chart revision that stops rendering a CRD would make it prune-eligible, and CRD deletion removes all CRs stored under it, taking down the storage control plane |
 | `coredns-tailscale` | `prune: false`, `selfHeal: true` | ConfigMap must survive app removal; self-heal restores ts.net forwarding after Talos lifecycle events overwrite CoreDNS |
 
 ## Network Exposure
