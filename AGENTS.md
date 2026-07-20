@@ -68,6 +68,12 @@ knowledge itself lives in `docs/`.
   Git convergent afterward.
 * One concern per commit. Conventional commit style, scoped to the app
   (`fix(phoenix): ...`, `feat(longhorn): ...`, `docs: ...`).
+* Commit messages must be verifiable against the diff alone. Name the
+  actual resources changed (parent vs child Application matters) and scope
+  any safety or behavior claim to what the diff delivers — do not describe
+  intent the change does not implement. Precedent: b8d7e59 claimed PVC
+  deletion protection while changing only the parent app's prune flag,
+  which cost a multi-round audit to untangle.
 * Run `pre-commit run --files <changed>` before committing.
 * When a change embeds operational knowledge (a gotcha, a caveat, a non-obvious
   value key), update the matching doc in the same commit.
