@@ -3,5 +3,40 @@
   "extends": [
     "local>basher83/renovate-config",
     "local>basher83/renovate-config//presets/kubernetes.json"
+  ],
+  "argocd": {
+    "managerFilePatterns": ["/^apps/.*\\.ya?ml$/"]
+  },
+  "packageRules": [
+    {
+      "description": "Auto-merge ArgoCD-managed chart patch updates (PR merge)",
+      "matchManagers": ["argocd"],
+      "matchUpdateTypes": ["patch"],
+      "automerge": true
+    },
+    {
+      "description": "Group ArgoCD-managed chart minor updates for Monday review",
+      "matchManagers": ["argocd"],
+      "matchUpdateTypes": ["minor"],
+      "groupName": "ArgoCD Charts (Minor)",
+      "schedule": ["before 5am on Monday"]
+    },
+    {
+      "description": "Require approval for ArgoCD-managed chart major updates",
+      "matchManagers": ["argocd"],
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "description": "Substrate charts (storage, secrets): no automerge at any level",
+      "matchManagers": ["argocd"],
+      "matchPackageNames": ["longhorn", "external-secrets"],
+      "automerge": false
+    },
+    {
+      "description": "Label ArgoCD chart PRs",
+      "matchManagers": ["argocd"],
+      "addLabels": ["kubernetes", "infrastructure"]
+    }
   ]
 }

@@ -45,6 +45,20 @@ plus `ServerSideApply=true`. Deviations are deliberate:
 | `longhorn-helm` (nested) | `prune: false` | Chart-owned CRDs and controllers — a chart revision that stops rendering a CRD would make it prune-eligible, and CRD deletion removes all CRs stored under it, taking down the storage control plane |
 | `coredns-tailscale` | `prune: false`, `selfHeal: true` | ConfigMap must survive app removal; self-heal restores ts.net forwarding after Talos lifecycle events overwrite CoreDNS |
 
+## Chart Versioning
+
+Substrate charts are exact-pinned: `longhorn-helm` and `external-secrets-helm`
+(everything else transitively depends on storage and secrets), plus `phoenix`
+(pinned after the 5.0.23 -> 9.0.3 upgrade churn). Version bumps for pinned
+charts arrive as Renovate PRs via the `argocd` manager (`renovate.json`):
+patches auto-merge except for the substrate pair, minors group for Monday
+review, majors require dependency-dashboard approval. Merging the PR is the
+promotion step.
+
+Remaining charts (`tailscale-operator`, `netdata`, `homarr`, `argo-cd`) still
+float on major-version wildcards — Renovate cannot bump a wildcard, so they
+upgrade unattended within their major. Pin them to opt into PR-gated upgrades.
+
 ## Network Exposure
 
 All web UIs are exposed via Tailscale Ingress only — no public exposure.
