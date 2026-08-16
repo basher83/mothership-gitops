@@ -1,0 +1,1 @@
+I'm good with it. I would add though: add rule for commit msgs so we can attempt to avoid the blind trust footgun in the future. Had this been a non infra repo I wouldn't care so much but hence the multi round reviews here - infra is a more delicate beast.
