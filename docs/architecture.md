@@ -76,6 +76,13 @@ rollout gates are recorded in
 This is planned work and must not be read as a claim that the findings are
 remediated.
 
+## Architecture Decisions
+
+Consequential platform choices and their supersession history live in the
+[ADR library](adrs/README.md). The active decision to keep the Tailscale API
+server proxy as a standing secondary `kubectl` path is recorded in
+[ADR-002](adrs/ADR-002-enable-tailscale-api-server-proxy.md).
+
 ## Repo Boundary
 
 This repo owns everything ArgoCD reconciles onto the cluster. The Talos/Omni

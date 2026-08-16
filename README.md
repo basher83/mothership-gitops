@@ -141,12 +141,15 @@ apps/
   homarr/               # Dashboard + Ingress (wave 7)
   anthropic-oauth-proxy.yaml  # External-source app (wave 8)
   phoenix/              # LLM observability + Ingress (wave 9)
+docs/
+  adrs/                 # Architecture decisions and supersession history
 ```
 
 ## Related
 
 - [Omni-Scale](https://github.com/basher83/Omni-Scale) - Infrastructure provisioning
 - [Architecture](docs/architecture.md) - Sync waves, sync policy exceptions
+- [Architecture Decisions](docs/adrs/README.md) - Accepted and superseded ADRs
 - [Adding Applications](docs/adding-applications.md) - New app checklist,
   ExternalSecrets wiring, UI exposure requirement
 - [Tailscale Networking](docs/tailscale-networking.md) - Ingress and
