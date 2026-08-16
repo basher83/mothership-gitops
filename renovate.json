@@ -15,6 +15,12 @@
       "automerge": true
     },
     {
+      "description": "Radar chart: require manual review at every update level",
+      "matchManagers": ["argocd"],
+      "matchPackageNames": ["radar"],
+      "automerge": false
+    },
+    {
       "description": "Group ArgoCD-managed chart minor updates for Monday review",
       "matchManagers": ["argocd"],
       "matchUpdateTypes": ["minor"],

@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Status | Draft for operator review; not yet implemented |
+| Status | Approved for implementation; runtime validation pending |
 | Created | 2026-08-16 |
 | Scope | Single-cluster, single-operator Radar OSS deployment on `talos-prod-01` |
 

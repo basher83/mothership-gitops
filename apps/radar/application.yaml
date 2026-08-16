@@ -1,0 +1,62 @@
+# Radar - Kubernetes UI and MCP server
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: radar-helm
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  source:
+    repoURL: https://skyhook-io.github.io/helm-charts
+    chart: radar
+    targetRevision: 1.10.0
+    helm:
+      releaseName: radar
+      valuesObject:
+        replicaCount: 1
+        service:
+          type: ClusterIP
+          port: 9280
+        ingress:
+          enabled: false
+        httpRoute:
+          enabled: false
+        auth:
+          mode: none
+        cloud:
+          enabled: false
+        mcp:
+          enabled: true
+        rbac:
+          create: true
+          helm: false
+          secrets: false
+          viewRBAC: false
+          viewWebhooks: false
+          podExec: false
+          podLogs: true
+          portForward: false
+          selfUpgrade: false
+          traffic: false
+          metrics: false
+        timeline:
+          storage: sqlite
+          retention: 168h
+          maxSize: 800Mi
+        persistence:
+          enabled: true
+          storageClassName: longhorn-standard
+          accessMode: ReadWriteOnce
+          size: 1Gi
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: radar
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

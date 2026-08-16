@@ -30,10 +30,11 @@ then ArgoCD reconciles:
 3. Tailscale Operator + Ingress for ArgoCD
 4. Longhorn (distributed storage) + Ingress
 5. Netdata (monitoring)
-6. Homarr (homelab dashboard)
-7. Anthropic OAuth Proxy (tailnet-microservices Kustomize)
-8. Phoenix (LLM observability eval backend)
-9. ArgoCD HA upgrade (manual trigger)
+6. Radar (Kubernetes UI and MCP server)
+7. Homarr (homelab dashboard)
+8. Anthropic OAuth Proxy (tailnet-microservices Kustomize)
+9. Phoenix (LLM observability eval backend)
+10. ArgoCD HA upgrade (manual trigger)
 
 All web UIs exposed via Tailscale Ingress (no public exposure).
 
@@ -138,6 +139,7 @@ apps/
   tailscale-operator/   # Tailscale Operator (wave 4)
   longhorn/             # Storage + Ingress (wave 5)
   netdata/              # Monitoring + Ingress (wave 6)
+  radar/                # Kubernetes UI + MCP + Ingress (wave 6)
   homarr/               # Dashboard + Ingress (wave 7)
   anthropic-oauth-proxy.yaml  # External-source app (wave 8)
   phoenix/              # LLM observability + Ingress (wave 9)
@@ -154,6 +156,8 @@ docs/
   ExternalSecrets wiring, UI exposure requirement
 - [Tailscale Networking](docs/tailscale-networking.md) - Ingress and
   egress-to-tailnet patterns
+- [Radar Deployment Specification](specs/radar-in-cluster.md) - Access,
+  persistence, MCP, and validation contract
 - [Backup Storage](docs/backup-storage.md) - Longhorn backup tiers, MinIO S3
 - [Troubleshooting](docs/troubleshooting.md) - ArgoCD, ESO, Tailscale
   Ingress, SSA, and Helm chart gotchas

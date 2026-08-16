@@ -18,6 +18,33 @@ Notes:
 - Tailscale proxy pods need a privileged namespace; the pattern is carried in
   `apps/tailscale-operator/namespace.yaml`.
 
+### Restricting ClusterIP Bypass
+
+Tailscale Ingress controls the tailnet path, but it does not prevent an
+ordinary cluster pod from calling the backend ClusterIP directly. Applications
+that rely on Tailscale as their user-access boundary need an ingress
+NetworkPolicy. `apps/radar/networkpolicy.yaml` is the canonical example.
+
+Combine the `tailscale-operator` namespace selector and all four proxy pod
+labels in the same `from` item so Kubernetes evaluates them as an AND:
+
+```yaml
+- namespaceSelector:
+    matchLabels:
+      kubernetes.io/metadata.name: tailscale-operator
+  podSelector:
+    matchLabels:
+      tailscale.com/managed: "true"
+      tailscale.com/parent-resource: <ingress-name>
+      tailscale.com/parent-resource-ns: <ingress-namespace>
+      tailscale.com/parent-resource-type: ingress
+```
+
+The operator also adds an `app` label whose value is a generated UUID. Do not
+commit that UUID as a policy identity. Revalidate the stable parent labels on a
+live operator-created proxy after Tailscale Operator upgrades before changing
+or copying the policy.
+
 ## Egress: Reaching Tailnet Hosts from Pods
 
 For pods that need to reach Tailscale-connected hosts (e.g. Homarr →

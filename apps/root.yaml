@@ -12,6 +12,7 @@
 #   5: Longhorn (provides PVCs)
 #   5: Longhorn Ingress (Tailscale exposure)
 #   6: Netdata (needs secrets from ESO)
+#   6: Radar (Kubernetes UI + MCP, needs Longhorn and Tailscale)
 #   7: Homarr (homelab dashboard)
 #   8: Anthropic OAuth Proxy (Kustomize from tailnet-microservices)
 #   9: Phoenix (LLM observability eval backend)
@@ -203,6 +204,38 @@ spec:
       - CreateNamespace=true
       - ServerSideApply=true
       - RespectIgnoreDifferences=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: radar
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/basher83/mothership-gitops.git
+    targetRevision: main
+    path: apps/radar
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: radar
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application

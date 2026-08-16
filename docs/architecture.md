@@ -22,7 +22,7 @@ Wave 4:  Tailscale Operator + ArgoCD Ingress
           - sub-wave 1: tailscale-operator-helm
           - sub-wave 5: coredns-tailscale (SSA patch for ts.net forwarding)
 Wave 5:  Longhorn (storage) + Longhorn Ingress
-Wave 6:  Netdata (monitoring)
+Wave 6:  Netdata (monitoring) + Radar (Kubernetes UI and MCP)
 Wave 7:  Homarr (dashboard)
 Wave 8:  Anthropic OAuth Proxy (Kustomize from tailnet-microservices)
 Wave 9:  Phoenix (LLM observability eval backend)
@@ -50,11 +50,13 @@ plus `ServerSideApply=true`. Deviations are deliberate:
 
 Substrate charts are exact-pinned: `longhorn-helm` and `external-secrets-helm`
 (everything else transitively depends on storage and secrets), plus `phoenix`
-(pinned after the 5.0.23 -> 9.0.3 upgrade churn). Version bumps for pinned
-charts arrive as Renovate PRs via the `argocd` manager (`renovate.json`):
-patches auto-merge except for the substrate pair, minors group for Monday
-review, majors require dependency-dashboard approval. Merging the PR is the
-promotion step.
+(pinned after the 5.0.23 -> 9.0.3 upgrade churn) and `radar`. Version bumps for
+pinned charts arrive as Renovate PRs via the `argocd` manager
+(`renovate.json`): patches auto-merge except for the substrate pair and Radar,
+minors group for Monday review, and majors require dependency-dashboard
+approval. Radar never auto-merges at any update level because its chart couples
+the UI, MCP tool surface, generated ClusterRole, and SQLite storage behavior.
+Merging the PR is the promotion step.
 
 Remaining charts (`tailscale-operator`, `netdata`, `homarr`, `argo-cd`) still
 float on major-version wildcards — Renovate cannot bump a wildcard, so they
@@ -64,6 +66,15 @@ upgrade unattended within their major. Pin them to opt into PR-gated upgrades.
 
 All web UIs are exposed via Tailscale Ingress only — no public exposure.
 See `tailscale-networking.md` for ingress and egress patterns.
+
+Radar is a deliberate single-operator exception to application-level ingress
+authentication. Its UI and MCP endpoint share the `radar` Tailscale hostname
+and the chart ServiceAccount: pod logs and cluster resource reads are enabled,
+while Secrets, Helm writes, pod exec, port-forward, and node mutations are not.
+A NetworkPolicy admits the ClusterIP only from the operator-created Radar
+Ingress proxy, preventing ordinary pods from bypassing Tailscale. The selected
+chart, storage, access, upgrade, and validation contract is recorded in
+[`../specs/radar-in-cluster.md`](../specs/radar-in-cluster.md).
 
 Tailscale exposure does not make every cluster-internal route authorized. For
 the credential-backed `anthropic-oauth-proxy`, tailnet membership is the

@@ -1,0 +1,18 @@
+# Tailscale Ingress - serves the Radar UI and MCP endpoint with automatic TLS
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: radar
+  namespace: radar
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  ingressClassName: tailscale
+  defaultBackend:
+    service:
+      name: radar
+      port:
+        number: 9280
+  tls:
+    - hosts:
+        - radar
