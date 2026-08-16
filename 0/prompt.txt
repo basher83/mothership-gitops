@@ -1,0 +1,90 @@
+Unverified live-cluster claims - dispatch scout subagents one to ~/3I/forge/tailnet-microservices and one to ~/3I/lab/aperture/index.md for answers. In the mean time lets tackle: Longhorn floating on 1.* with exceptions - Mostly sound, with three corrections.
+
+ Live State Verified
+
+ ```console
+   longhorn-helm=1.12.0
+   external-secrets-helm=1.3.2
+   observed_at=2026-07-20T07:43:10Z
+ ```
+
+ Both remain automated wildcard applications:
+
+ ```yaml
+   # apps/longhorn/application.yaml
+   targetRevision: 1.*
+
+   # apps/external-secrets/application.yaml
+   targetRevision: 1.*
+ ```
+
+ Longhorn’s history confirms unattended-compatible minor transitions from 1.10.x through 1.11.x to 1.12.0. Therefore “an unattended
+ minor upgrade can still roll the storage control plane” is accurate.
+
+ Correction 1: prune: false Does Not Mean “Cannot Delete Anything”
+
+ That phrase is false. prune: false only prevents Argo CD from automatically deleting resources that disappear from the rendered
+ desired state.
+
+ A chart upgrade can still:
+
+ - Roll Deployments and DaemonSets, deleting old Pods.
+ - Replace resources when immutable fields change.
+ - Apply destructive desired-state changes.
+ - Trigger controller or migration behavior that deletes or rewrites resources.
+
+ The precise claim is: a removed chart resource, including an unprotected CRD, will no longer be automatically pruned by Argo CD. The
+ storage control plane can still be rolled.
+
+ Correction 2: The Prune Fix Is Not Live Yet
+
+ The repository has the fix locally in 8d5587a, but local main is two commits ahead of origin/main:
+
+ ```console
+   HEAD         4c2fdfb
+   origin/main  9acf572
+ ```
+
+ The cluster remains reconciled to 9acf572:
+
+ ```console
+   APP             REVISION   PRUNE
+   longhorn        9acf572…   false
+   longhorn-helm   1.12.0     true
+ ```
+
+ So the live child still has pruning enabled. The statement is valid only as a description of the unpushed local change.
+
+ Correction 3: Renovate Detection and Renovate Policy Are Separate
+
+ The Argo CD manager is not configured:
+
+ ```console
+   $ rg -n '"argocd"|managerFilePatterns' \
+       renovate.json ../renovate-config/default.json \
+       ../renovate-config/presets || printf 'NO_MATCH\n'
+   NO_MATCH
+ ```
+
+ Enabling argocd.managerFilePatterns would allow Renovate to detect the pinned chart revisions and create PRs. However, the existing
+ Helm policies only match:
+
+ ```json
+   "matchManagers": ["helmv3", "helm-values"]
+ ```
+
+ They would not apply to dependencies extracted by the argocd manager. Detection would work, but existing patch automerge, minor
+ grouping/scheduling, and major-approval rules would not automatically govern these updates unless they also match argocd.
+
+ Verdict
+
+ The strategy is sound:
+
+ - Pin longhorn-helm to verified live revision 1.12.0.
+ - Pin external-secrets-helm to verified live revision 1.3.2.
+ - Enable Renovate’s argocd manager for apps/**/*.yaml.
+ - Treat argocd dependencies explicitly in the intended Renovate package policies.
+
+ Without the Argo CD manager, exact pins remain manual under current automation. The only materially wrong wording is that prune:
+ false means a surprise upgrade “can no longer delete anything”; it blocks Argo pruning, not every deletion or disruptive action an
+ upgrade can cause.
