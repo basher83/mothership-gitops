@@ -76,6 +76,14 @@ Ingress proxy, preventing ordinary pods from bypassing Tailscale. The selected
 chart, storage, access, upgrade, and validation contract is recorded in
 [`../specs/radar-in-cluster.md`](../specs/radar-in-cluster.md).
 
+Radar's canonical Git-rendered diffs use a separate ArgoCD local account with
+only `applications get`. Its dedicated token flows from Infisical `/radar`
+through ESO into the Radar Deployment and is pinned to the plain-HTTP
+`argocd-ha-helm-server` cluster Service. The token grants no sync or mutation
+authority and does not expand the chart ServiceAccount. Account and policy
+changes inherit the manual `argocd-ha` and `argocd-ha-helm` promotion gates;
+the Secret-backed Radar configuration follows Radar's normal automated sync.
+
 Tailscale exposure does not make every cluster-internal route authorized. For
 the credential-backed `anthropic-oauth-proxy`, tailnet membership is the
 intended main-proxy boundary, while kubeconfig and Kubernetes RBAC through

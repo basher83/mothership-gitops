@@ -29,6 +29,11 @@ spec:
           enabled: false
         mcp:
           enabled: true
+        argocd:
+          existingSecret: radar-argocd-token
+          existingSecretKey: token
+          url: http://argocd-ha-helm-server.argocd.svc.cluster.local
+          insecureTls: false
         rbac:
           create: true
           helm: false

@@ -73,6 +73,7 @@ ClusterSecretStore in `apps/external-secrets/clustersecretstore.yaml`:
 | `infisical-homarr` | `/homarr` |
 | `infisical-longhorn` | `/longhorn` |
 | `infisical-phoenix` | `/phoenix` |
+| `infisical-radar` | `/radar` |
 
 To add secrets for a new app:
 
