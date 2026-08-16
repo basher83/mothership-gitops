@@ -68,16 +68,16 @@ spec:
   ignoreDifferences:
     - group: external-secrets.io
       kind: ExternalSecret
-      jsonPointers:
-        - /spec/data/0/remoteRef/conversionStrategy
-        - /spec/data/0/remoteRef/decodingStrategy
-        - /spec/data/0/remoteRef/metadataPolicy
-        - /spec/data/1/remoteRef/conversionStrategy
-        - /spec/data/1/remoteRef/decodingStrategy
-        - /spec/data/1/remoteRef/metadataPolicy
+      jqPathExpressions:
+        - .spec.data[].remoteRef.conversionStrategy
+        - .spec.data[].remoteRef.decodingStrategy
+        - .spec.data[].remoteRef.metadataPolicy
 ```
 
-Also set `RespectIgnoreDifferences=true` on the Application when needed.
+The wildcard covers every `spec.data` entry, including keys added later. Do not
+use index-specific JSON pointers: they silently stop covering entries beyond
+the enumerated indexes. Also set `RespectIgnoreDifferences=true` on the
+Application.
 
 ## Helm App Drifts From ESO-Managed Secret
 
