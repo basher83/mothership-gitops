@@ -81,6 +81,32 @@ Recover in Git:
 3. Preserve `prune: false` on both the parent and nested Longhorn Applications.
 4. Commit and push the convergent desired state, then let ArgoCD retry it.
 
+If the live release already matches the corrected revision, ArgoCD may become
+`Synced` and `Healthy` without starting a new operation. Its historical
+`operationState` can then remain `Failed`, which keeps Radar's
+`gitops_operation_failed` issue active. Verify that the desired revision, live
+chart version, and rendered resources agree before clearing that history. Then
+run one no-prune sync of the convergent revision:
+
+```bash
+argocd app sync longhorn-helm \
+  --app-namespace argocd \
+  --revision <matching-revision>
+```
+
+If an ArgoCD API session is unavailable, the Kubernetes-side equivalent is a
+one-time operation request. Keep `prune: false`, use the already-verified
+revision, and do not use this to force a downgrade:
+
+```bash
+kubectl -n argocd patch application longhorn-helm --type=merge \
+  -p '{"operation":{"sync":{"revision":"<matching-revision>","prune":false,"syncOptions":["CreateNamespace=true","ServerSideApply=true","SkipDryRunOnMissingResource=true"]}}}'
+```
+
+ArgoCD removes the requested operation after processing it. Confirm the new
+`operationState.phase` is `Succeeded` and Radar no longer reports the failed
+operation.
+
 The chart instruction is recorded in the
 [Longhorn `1.12.0` values](https://github.com/longhorn/longhorn/blob/v1.12.0/chart/values.yaml).
 
