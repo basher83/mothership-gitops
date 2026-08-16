@@ -1,0 +1,7 @@
+Recovery complete.
+
+* Replaced credentials atomically with `0600` permissions.
+* Restarted deployment successfully.
+* Pool status: healthy, `1 available`, `0 disabled`.
+* Live `/v1/messages` smoke test returned HTTP 200.
+* Temporary credential files were removed.
