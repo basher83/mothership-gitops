@@ -1,0 +1,83 @@
+<task-notification>
+<task-id>ac91c2bf2fd578866</task-id>
+<tool-use-id>toolu_01VEeRSn26hktZD94dZz36oZ</tool-use-id>
+<output-file>/private/tmp/claude-501/-Users-basher8383-3I-lab-mothership-gitops/53d37f8a-af60-4804-8906-7db38f7e4d2f/tasks/ac91c2bf2fd578866.output</output-file>
+<status>completed</status>
+<summary>Agent "Scout tailnet-microservices for OAuth validation" finished</summary>
+<note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
+<result>I have all the evidence needed. Here is the compact factual report.
+
+---
+
+# Investigation Report: anthropic-oauth-proxy Claude Max OAuth end-to-end flow
+
+Repo: `/Users/basher8383/3I/forge/tailnet-microservices` (Spec A / source + k8s side). Cross-refs to `mothership-gitops` (ArgoCD side) noted.
+
+## Q1 — What the service is / what the OAuth end-to-end flow involves
+
+**VERIFIED.** `anthropic-oauth-proxy` is a single-binary Rust OAuth 2.0 gateway that manages Claude Max subscription credentials and proxies authenticated requests to `https://api.anthropic.com`.
+
+Components / token flow:
+- **Auth modes** — Passthrough (static `[[headers]]`) vs OAuth Pool (`[oauth]` section). Committed cluster config runs OAuth mode. `specs/anthropic-oauth-gateway.md:79-92`; `docs/runbook/clients.md` "Authentication Mode"; README.md:14.
+- **OAuth constants** — public client ID `9d1c250a-…`, `AUTHORIZE_ENDPOINT=https://claude.ai/oauth/authorize`, `TOKEN_ENDPOINT=https://platform.claude.com/v1/oauth/token`, `REDIRECT_URI=https://platform.claude.com/oauth/code/callback`, scopes incl. `user:sessions:claude_code`. `specs/anthropic-oauth-gateway.md:154-175`; source `crates/anthropic-auth/src/constants.rs`.
+- **PKCE provisioning** — admin CLI → gateway generates PKCE verifier/S256 challenge → user authorizes at claude.ai → paste `code#state` → gateway `POST /v1/oauth/token` → stores `{access, refresh, expires}`. `specs/anthropic-oauth-gateway.md:177-210`; `crates/anthropic-auth/src/pkce.rs`, `token.rs`, `credentials.rs`.
+- **Credential storage** — `/data/credentials.json` on a PVC, keyed by account ID; access token `sk-ant-oat*`, refresh `sk-ant-ort*`. `specs/anthropic-oauth-gateway.md:211-263`.
+- **Subscription pool** — round-robin selection, quota (429) failover to `CoolingDown`, 401/403 → `Disabled`. `crates/anthropic-pool/src/pool.rs`, `quota.rs`; `specs/anthropic-oauth-gateway.md:265-322`.
+- **Request pipeline (OAuth mode)** — strips client `Authorization`, injects `Bearer {access}` from pool, injects `anthropic-beta: oauth-2025-04-20,…`, `anthropic-version`, CC `user-agent`, `x-anthropic-billing-header`, and prepends the required Claude Code system-prompt prefix, then forwards to `api.anthropic.com`. `specs/anthropic-oauth-gateway.md:330-408`; `services/oauth-proxy/src/proxy.rs`.
+- **Token refresh** — inline (&lt;60s to expiry) + background tokio task (5-min interval / 15-min threshold) via `grant_type=refresh_token`. `specs/anthropic-oauth-gateway.md:410-448`.
+- **Endpoints** — proxy `/v1/messages` + `/health` (tailnet, port 8080→svc 80 via Tailscale Ingress); admin API port 9090 (`/admin/accounts`, `/admin/pool`, `/admin/accounts/init-oauth`, `/complete-oauth`), not exposed on tailnet. `docs/runbook/accounts.md`; `docs/runbook/deployment.md`.
+- **Client path** — Aperture / Pi (`anthropic-proxy` provider) → Tailscale Ingress → ClusterIP svc → proxy → Anthropic. `specs/anthropic-oauth-gateway.md:34-72`; `docs/runbook/clients.md`.
+
+Note: the runtime **PKCE add-account provisioning flow is blocked by Anthropic server-side policy**; the working provisioning path is macOS keychain extraction. `docs/runbook/accounts.md` ("PKCE Flow — Currently Blocked"); `specs/anthropic-oauth-gateway.md:7` status line.
+
+## Q2 — Evidence the OAuth end-to-end flow was validated after the Operator migration
+
+**VERIFIED — recorded evidence exists (in tailnet-microservices), but the mothership-gitops spec checkbox was never updated. The evidence covers the OAuth-mode inference/token-injection path, NOT the PKCE provisioning path.**
+
+Recorded validation, dated **2026-05-09** (post-migration):
+- `specs/operator-migration-addendum.md` Success Criteria (all `[x]`), incl.: "Upstream proxy requests (to api.anthropic.com) complete successfully — 2026-05-09 Pi `anthropic-proxy` smoke returned `live-proxy-ok`; proxy logs showed POST `/v1/messages` status 200." Status line: "Ingress-only tailnet exposure live-validated 2026-05-09".
+- `docs/until-done/2026-05-09_live-validation-closeout_ud-j6rdih/distilled.md` "Key Evidence": Pi smoke `live-proxy-ok`; Phoenix span `proxy_request`, `status=200`, `path=/v1/messages`, **`pool=oauth`**; health JSON `mode=anthropic`, one available account. This confirms a live request ran through **OAuth pool mode** (bearer injected from a Max account) and returned 200 from Anthropic.
+- `tasks.yaml` T-005 learnings (same run): "recent proxy logs show POST /v1/messages status=200 … no timeout/error/504".
+- `IMPLEMENTATION_PLAN.md:7,14` records the closeout.
+- Commit `fbb9838` "docs: close out live validation and document header provenance".
+- Automatable form of this check lives in `mise.toml:77-125` (`live:validate`): asserts Pi smoke returns `live-proxy-ok` AND a Phoenix span exists with `metadata.proxy.pool_mode == "oauth"` and `url.path == "/v1/messages"`.
+
+Gaps / NOT FOUND:
+- **No CI e2e test.** `.github/workflows/ci.yml` has jobs lint/audit/test/build/manifests/docker/deploy — no live/e2e job. `live:validate` is explicitly local/operator-only and excluded from CI (`mise.toml:77-78` comment; closeout `distilled.md` "Gotchas"). Requires kube/Tailscale/Phoenix/Pi credentials.
+- **mothership-gitops spec never updated.** `mothership-gitops/specs/operator-migration-gitops.md` still lists `[ ] Claude Max OAuth tokens work end-to-end` and `[ ] Claude Max OAuth flow works end-to-end` unchecked; that spec is scoped "mothership-gitops repo only" and defers to client-path testing. The tailnet-microservices 2026-05-09 evidence was never propagated into it. (Corroborated by `docs/audits/AUDIT_REPORT_2026-04-28.md` "GitOps Deployment Cross-Check", which flags that spec as stale/Draft.)
+- **PKCE provisioning path is NOT validated end-to-end and is externally blocked** (see Q1). So if "OAuth end-to-end flow" is read to include browser authorize → code exchange → add-account, that portion has no passing evidence; only keychain-loaded credentials + runtime inference path are validated.
+- The 2026-05-09 run predates later on-wire header/billing changes (commits `4dc58df`, `0fb754b`, `17e7b5d`, `fc871b5`, etc. bumping CC attribution and beta flags); no equivalent recorded live re-validation after those commits was found.
+
+## Q3 — How k8s/ manifests get updated; CI bot commits; pre-merge manifest validation
+
+**VERIFIED.** k8s/ manifests live in tailnet-microservices; image tags are bumped by a CI **bot commit**, and manifest validation does **not** gate that commit.
+
+- `.github/workflows/ci.yml` `deploy` job ("Update K8s Tag", `needs: [docker]`, only on push to `main`): `sed -i "s/newTag: .*/newTag: ${SHA_TAG}/" k8s/kustomization.yaml`, then commits as `github-actions[bot]` with message `deploy: update image tag to sha-&lt;7char&gt; [skip ci]` and `git push`. Confirmed in history: `432c586 deploy: update image tag to sha-4abf487 [skip ci]`, `949b76f`, `31830a3`, `215d020`.
+- The bot commit carries `[skip ci]`, so it does **not** re-trigger CI (and thus not the manifests validation) on the manifest change it introduces.
+- **Manifest validation exists but does not block deploy.** `manifests` job runs `mise run k8s:validate`, but `docker.needs = [lint, audit, test, build]` — `manifests` is NOT a dependency of `docker` or `deploy`. A failing manifest validation does not stop image build or the tag-bump push. This exact gap is documented in `docs/audits/AUDIT_REPORT_2026-04-28.md` (RUNBOOK.md line 31 finding: "A failing manifests job does not block the Docker or deploy jobs") and `docs/runbook/deployment.md:7`.
+- On the GitOps side, ArgoCD Application `anthropic-oauth-proxy` (wave 8) watches `main` at `path: k8s`, automated sync + prune + selfHeal, so the bot's tag bump on `main` auto-rolls out. `mothership-gitops/apps/anthropic-oauth-proxy.yaml`. No pre-merge/admission manifest gate found on the mothership-gitops side beyond ArgoCD's own sync.
+
+## Q4 — Concrete steps to validate the OAuth flow end-to-end
+
+**VERIFIED** (procedures exist in-repo). Run from an operator machine on the tailnet with kube context to talos-prod-01:
+
+1. **One-shot automated gate:** `mise run live:validate` (`mise.toml:77-125`). Checks ArgoCD Synced/Healthy, ingress→svc→pod route, one Tailscale proxy pod, tailnet `/health` 200, **Pi OAuth-mode smoke** (`live-proxy-ok`), and a Phoenix `proxy_request` span with `pool_mode=oauth`, `/v1/messages`, 200.
+2. **Raw client-path E2E** (`docs/runbook/deployment.md:56-74`): `curl -s -X POST "https://anthropic-oauth-proxy.tailfb3ea.ts.net/v1/messages" -H "Content-Type: application/json" -d '{"model":"claude-haiku-4-5-20251001","max_tokens":64,"messages":[{"role":"user","content":"Say hello in exactly 5 words."}]}'`. No credentials sent; proxy injects bearer. Success = JSON with `"type":"message"` + `usage`.
+3. **Pi client E2E + routing counter** (`docs/runbook/clients.md`): `pi -p --provider anthropic-proxy --model claude-haiku-4-5 --thinking off --no-tools --no-context-files 'Reply exactly: ok'`; compare `/health` `.requests_served` before/after. A 400 "out of extra usage" means billing-header/prompt-sanitizer image not deployed.
+4. **Account/pool provisioning check** (`docs/runbook/accounts.md`): `kubectl -n anthropic-oauth-proxy port-forward deployment/anthropic-oauth-proxy 9090:9090`, then `curl -s http://localhost:9090/admin/pool | jq .` to confirm ≥1 `available` account. Note: PKCE `init-oauth`/`complete-oauth` is blocked by Anthropic; provisioning is keychain extraction.
+5. **Telemetry confirm:** query Phoenix (`https://phoenix.tailfb3ea.ts.net`, project `default`) for recent `proxy_request` spans with `metadata.proxy.pool_mode=oauth`, status 200.
+
+Caveat for a true "end-to-end after latest code" sign-off: steps 1–3 validate the runtime OAuth token-injection inference path but not the PKCE add-account flow (blocked), and no recorded live run exists after the recent header/billing/beta-flag commits (`4dc58df`…`fc871b5`).
+
+---
+### Key files
+- `specs/anthropic-oauth-gateway.md` (current OAuth contract), `specs/operator-migration-addendum.md` (2026-05-09 live evidence), `specs/oauth-proxy.md`/`operator-migration.md` (historical)
+- `docs/until-done/2026-05-09_live-validation-closeout_ud-j6rdih/{distilled.md,tasks.yaml}`
+- `docs/audits/AUDIT_REPORT_2026-04-28.md`
+- `docs/runbook/{deployment.md,accounts.md,clients.md}`
+- `.github/workflows/ci.yml`, `mise.toml` (`live:validate` lines 77-125, `k8s:validate`)
+- `IMPLEMENTATION_PLAN.md`
+- `crates/anthropic-auth/src/{constants.rs,pkce.rs,token.rs,credentials.rs}`, `crates/anthropic-pool/src/{pool.rs,quota.rs,refresh.rs}`, `services/oauth-proxy/src/{main.rs,proxy.rs}`
+- `mothership-gitops/apps/anthropic-oauth-proxy.yaml`, `mothership-gitops/specs/operator-migration-gitops.md`</result>
+<usage><subagent_tokens>85653</subagent_tokens><tool_uses>14</tool_uses><duration_ms>149579</duration_ms></usage>
+</task-notification>
