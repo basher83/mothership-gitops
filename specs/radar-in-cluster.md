@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Status | Approved for implementation; runtime validation pending |
+| Status | Implemented and runtime-validated; cross-restart SQLite retention pending the first normal replacement |
 | Created | 2026-08-16 |
 | Scope | Single-cluster, single-operator Radar OSS deployment on `talos-prod-01` |
 
@@ -373,6 +373,42 @@ After ArgoCD reconciliation:
 Record runtime results as dated evidence. ArgoCD health proves reconciliation,
 not the Tailscale, NetworkPolicy, RBAC, MCP, or persistence boundaries by
 itself.
+
+### Runtime Evidence — 2026-08-16
+
+- Git commit `0655de3709cdf7042646e17bc7e89b05bc3353fa` was pushed to
+  `origin/main`, and the local and remote SHAs matched after a fresh fetch.
+- ArgoCD reconciled `root` and parent `radar` at that commit; both were
+  `Synced` and `Healthy`. Child `radar-helm` was `Synced` and `Healthy` at chart
+  revision `1.10.0`.
+- The Radar Deployment rolled out one ready pod with the `Recreate` strategy.
+  PVC `radar` was `Bound` as `1Gi` `ReadWriteOnce` on
+  `longhorn-standard`; its Longhorn volume was attached and healthy.
+- `https://radar.tailfb3ea.ts.net/` returned HTTP 200 through the
+  operator-created `ts-radar-*` proxy. The live proxy carried all four stable
+  labels selected by the NetworkPolicy. A request from an ordinary Netdata pod
+  to `radar.radar.svc.cluster.local:9280` timed out, proving the ClusterIP
+  bypass was denied while the Tailscale path remained available.
+- `/api/health` returned HTTP 200 with status `healthy`. `/api/diagnostics`
+  reported Radar `1.10.0`, `timeline.storageType: sqlite`, retention `168h`,
+  maximum storage `838860800` bytes, a present event store, and zero store
+  errors.
+- MCP initialization negotiated protocol `2025-06-18` with server version
+  `1.10.0`; `tools/list` returned 28 tools. Read-only `get_dashboard` and
+  `get_pod_logs` calls both succeeded.
+- ServiceAccount checks used a short-lived `radar` token directly against a
+  port-forwarded API server. Pod and pod-log reads were allowed; Secret and
+  metrics reads, Deployment create and patch, Pod delete, exec, and
+  port-forward were denied. This direct-token method was necessary because
+  `kubectl auth can-i --as=...` through the Tailscale API proxy returned the
+  caller's broader authority and was not valid evidence for the pod identity.
+- Metrics collection reported Kubernetes `403` responses and Prometheus was
+  disconnected, while the UI, MCP server, cache, timeline, and ArgoCD health
+  remained available as designed.
+- The restart-survival criterion remains pending until the first normal chart
+  rollout or pod replacement. No imperative restart was forced solely for the
+  check; the bound PVC, mounted `/data` volume, and live SQLite diagnostics
+  establish the current persistence boundary.
 
 ## Upgrade and Renovate Policy
 
