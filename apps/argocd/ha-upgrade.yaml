@@ -43,6 +43,8 @@ spec:
           params:
             server.insecure: true
           cm:
+            # API-only account for Radar's canonical Git-rendered diff.
+            accounts.radar: apiKey
             resource.customizations.ignoreDifferences.apps_Deployment: |
               jsonPointers:
                 - /status/terminatingReplicas
@@ -55,6 +57,10 @@ spec:
             resource.customizations.ignoreDifferences.apps_DaemonSet: |
               jsonPointers:
                 - /status/terminatingReplicas
+          rbac:
+            policy.csv: |
+              p, role:radar, applications, get, */*, allow
+              g, radar, role:radar
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd

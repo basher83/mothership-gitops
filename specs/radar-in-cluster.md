@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Status | Implemented and runtime-validated; cross-restart SQLite retention pending the first normal replacement |
+| Status | Base deployment runtime-validated; ArgoCD deep-diff extension selected and in progress; cross-restart SQLite retention pending the first normal replacement |
 | Created | 2026-08-16 |
 | Scope | Single-cluster, single-operator Radar OSS deployment on `talos-prod-01` |
 
@@ -11,8 +11,8 @@
 Deploy Radar directly into the homelab as an always-on Kubernetes UI and MCP
 server. The deployment complements the existing `kubectl` and Kubernetes MCP
 paths with Radar's token-optimized issues, topology, events, logs, timeline,
-and resource relationships. It is not a pre-production pilot: the homelab is
-the proving ground.
+resource relationships, and canonical ArgoCD desired-versus-live diffs. It is
+not a pre-production pilot: the homelab is the proving ground.
 
 This document selects the deployment and access design. It does not create
 manifests, connect an MCP client, mutate the live cluster, or claim that Radar
@@ -25,6 +25,9 @@ is deployed.
 - Tailscale is the user-access boundary; do not add Radar OIDC or proxy auth.
 - Enable MCP. The operator accepts responsibility for connecting clients and
   invoking tools; an agent confirmation prompt is not a security boundary.
+- Connect Radar to the in-cluster ArgoCD API with a dedicated, get-only local
+  account. Deliver its token through Infisical and External Secrets Operator;
+  do not save an admin or personal token through the Radar UI.
 - Use Radar's chart-managed, read-only ServiceAccount permissions. Do not grant
   Secrets, Helm writes, pod exec, port-forward, self-upgrade, or node-operation
   permissions.
@@ -41,11 +44,13 @@ is deployed.
 2. Serve the Radar MCP endpoint through the same trusted tailnet path.
 3. Provide cluster-wide read-only topology, issue, event, resource, ArgoCD CRD,
    and pod-log visibility.
-4. Persist timeline history across normal pod restarts, targeting seven days
+4. Provide canonical Git-rendered desired-versus-live diffs through a
+   dedicated ArgoCD API account without granting sync or mutation authority.
+5. Persist timeline history across normal pod restarts, targeting seven days
    subject to the configured storage cap.
-5. Prevent ordinary cluster workloads from bypassing Tailscale through the
+6. Prevent ordinary cluster workloads from bypassing Tailscale through the
    Radar ClusterIP.
-6. Keep the deployment declarative and recoverable through ArgoCD.
+7. Keep the deployment declarative and recoverable through ArgoCD.
 
 ## Non-Goals
 
@@ -56,8 +61,8 @@ is deployed.
   node operations, or self-upgrade through Radar.
 - Installing metrics-server, Prometheus, VictoriaMetrics, OpenCost, Hubble
   Relay, or another telemetry dependency as part of this change.
-- Configuring Radar's ArgoCD API token integration. Reading ArgoCD CRDs is in
-  scope; deep Git-rendered diffs and token-backed GitOps actions are deferred.
+- Granting the ArgoCD account permission to sync, update, delete, refresh, or
+  otherwise mutate Applications. The token is for canonical diffs only.
 - Replacing the existing `kubectl` or Kubernetes MCP servers.
 - Changing Talos, Cilium, Omni, nodes, taints, or other substrate configuration.
 
@@ -86,6 +91,19 @@ topology, issue, timeline, and MCP functions do not depend on those services.
 CPU/memory widgets, PromQL, cost, traffic, and rightsizing will remain absent or
 degraded until their respective dependencies are added separately.
 
+Radar chart `1.10.0` exposes `argocd.existingSecret`,
+`argocd.existingSecretKey`, `argocd.url`, and `argocd.insecureTls`. The chart
+renders the selected Secret key as `RADAR_ARGOCD_TOKEN`; it does not place the
+token value in Helm release state. Radar reads environment-managed integration
+settings at startup, makes the Settings card read-only, and requires a pod
+restart after token rotation.
+
+The same-day live ArgoCD observation found chart `7.9.1`, Service
+`argocd-ha-helm-server.argocd.svc.cluster.local`, and `server.insecure: true`.
+The selected internal endpoint is therefore plain HTTP. TLS verification must
+remain enabled for any future HTTPS endpoint; the current HTTP endpoint does
+not require the insecure-TLS exception.
+
 The live Tailscale Operator currently labels ingress proxy pods with:
 
 ```yaml
@@ -107,6 +125,10 @@ flowchart LR
     OP["Operator or MCP client on tailnet"] -->|"Tailscale identity and TLS"| TS["Tailscale Ingress proxy"]
     TS -->|"NetworkPolicy allow on TCP 9280"| RD["Radar pod and ClusterIP"]
     RD -->|"Read-only ServiceAccount"| API["Kubernetes API"]
+    RD -->|"Get-only API token over cluster HTTP"| ARGO["ArgoCD API server"]
+    INF["Infisical /radar"] --> ESO["External Secrets Operator"]
+    ESO --> SEC["radar-argocd-token Secret"]
+    SEC --> RD
     RD -->|"SQLite"| PVC["1 GiB Longhorn PVC"]
     KP["Ordinary cluster pod"] -. "NetworkPolicy deny" .-> RD
 ```
@@ -127,7 +149,7 @@ the Radar directory:
 
 | Sub-wave | Resource | Reason |
 |---|---|---|
-| 0 | NetworkPolicy | Establish the ClusterIP boundary before a Radar pod exists |
+| 0 | NetworkPolicy and ExternalSecret | Establish the ClusterIP boundary and materialize the token before a Radar pod exists |
 | 1 | `radar-helm` child Application | Install the exact-pinned chart |
 | 2 | Tailscale Ingress | Expose the healthy Service to the tailnet |
 
@@ -160,6 +182,12 @@ cloud:
 
 mcp:
   enabled: true
+
+argocd:
+  existingSecret: radar-argocd-token
+  existingSecretKey: token
+  url: http://argocd-ha-helm-server.argocd.svc.cluster.local
+  insecureTls: false
 
 rbac:
   create: true
@@ -226,6 +254,39 @@ Pod-log access is intentionally retained. Logs can contain application data
 despite Radar's documented redaction, so Tailscale access to Radar also implies
 access to every log the ServiceAccount may read. The operator accepts that
 tradeoff for this homelab.
+
+### ArgoCD API Boundary
+
+The ArgoCD Helm values define a local account with only the `apiKey`
+capability:
+
+```yaml
+configs:
+  cm:
+    accounts.radar: apiKey
+  rbac:
+    policy.csv: |
+      p, role:radar, applications, get, */*, allow
+      g, radar, role:radar
+```
+
+This permits Radar to request ArgoCD's canonical rendered Application diff and
+nothing else. It does not grant `sync`, `update`, `delete`, `action`, or
+`override`. The ArgoCD token is a separate authorization boundary from Radar's
+Kubernetes ServiceAccount: neither credential expands the other.
+
+The non-expiring token is dedicated to this one in-cluster consumer and is
+stored at `/radar/ARGOCD_TOKEN` in the `mothership-s0-ew` Infisical project,
+`prod` environment. ESO materializes only a `token` key in Secret
+`radar/radar-argocd-token`. No token value may appear in Git, Helm values,
+command output, runtime evidence, or documentation.
+
+The endpoint is pinned to
+`http://argocd-ha-helm-server.argocd.svc.cluster.local`; do not use the
+Tailscale ingress from inside the cluster. Rotation means minting a replacement
+token, updating Infisical, waiting for ESO to refresh, and rolling the Radar
+Deployment so its environment is re-read. Revoke the old token only after the
+replacement connection is verified.
 
 ## NetworkPolicy Contract
 
@@ -294,41 +355,43 @@ is connected.
 
 ## Repository Change Set
 
-Implementation is expected to create or update only these concerns:
+The ArgoCD deep-diff extension creates or updates only these concerns:
 
 | File | Intended change |
 |---|---|
-| `apps/radar/application.yaml` | Exact-pinned child Helm Application, `releaseName`, and selected values |
-| `apps/radar/networkpolicy.yaml` | Pre-workload ingress isolation |
-| `apps/radar/ingress.yaml` | Tailscale UI and MCP exposure |
-| `apps/root.yaml` | Wave 6 parent Application and wave header |
-| `renovate.json` | Radar-specific `automerge: false` override |
-| `docs/architecture.md` | Wave, no-auth boundary, and version-policy exception |
-| `README.md` | Application inventory and repository structure |
-| `docs/tailscale-networking.md` | Only if implementation reveals a reusable proxy-label caveat |
+| `apps/argocd/ha-upgrade.yaml` | API-only `radar` account and get-only Application policy |
+| `apps/external-secrets/clustersecretstore.yaml` | Infisical `/radar` ClusterSecretStore |
+| `apps/radar/externalsecret.yaml` | Token projection into `radar-argocd-token` |
+| `apps/radar/application.yaml` | Existing Secret reference and pinned in-cluster endpoint |
+| `apps/root.yaml` | ESO default-field ignore rules and `RespectIgnoreDifferences=true` |
+| `docs/adding-applications.md` | `/radar` secret-store inventory |
+| `docs/architecture.md` | ArgoCD token and authorization boundary |
+| `specs/radar-in-cluster.md` | Selected design, rollout gates, and runtime evidence |
 
-No ExternalSecret, ClusterSecretStore, RoleBinding, or committed MCP client
-configuration is required.
+No Secret value, new human RoleBinding, or MCP client configuration belongs in
+this repository.
 
-## Implementation Sequence
+## ArgoCD Integration Sequence
 
-1. Re-download chart `1.10.0`, confirm its package digest, and re-check the
-   selected value keys and generated labels against the packaged templates.
-2. Re-read the live Tailscale ingress proxy labels and confirm the stable
-   selector contract still holds.
-3. Add the Radar directory with NetworkPolicy wave 0, Helm Application wave 1,
-   and Tailscale Ingress wave 2. Keep the child Application name `radar-helm`
-   distinct from the parent and set the Helm release name to `radar`.
-4. Add the wave 6 parent Application with automated prune and self-heal plus
-   `CreateNamespace=true` and `ServerSideApply=true`.
-5. Add the Radar Renovate no-automerge override after the general ArgoCD patch
-   rule, and document the exception in `docs/architecture.md`.
-6. Update the application inventory without describing Radar as deployed until
-   runtime validation succeeds.
-7. Render, lint, dry-run where namespace availability permits, and run
-   pre-commit on the exact changed files.
-8. Publish through Git; ArgoCD's normal automated policy performs the direct
-   homelab rollout. There is no separate pilot or manual-sync exception.
+1. Re-check Radar chart `1.10.0` and ArgoCD chart `7.9.1` value keys against
+   their actual `values.yaml` files.
+2. Add the API-only account and get-only Application policy to the nested
+   ArgoCD Helm values. Render and validate the generated ConfigMaps.
+3. Publish the account change as an atomic commit. Because both `argocd-ha` and
+   `argocd-ha-helm` are manual-sync safety gates, inspect all pre-existing
+   drift before explicitly syncing both stages.
+4. After the account is live, mint one non-expiring token with ID
+   `radar-in-cluster`. Never print or persist it outside the direct transfer to
+   Infisical.
+5. Create `/radar/ARGOCD_TOKEN` in Infisical, then add the ClusterSecretStore,
+   ExternalSecret, Radar Helm values, parent ignore rules, and documentation.
+6. Render and validate the Radar Deployment's Secret reference and URL without
+   resolving or printing the Secret value.
+7. Publish the integration as a second atomic commit. Let the normal automated
+   policy reconcile `root`, parent `radar`, and child `radar-helm`.
+8. Verify the ExternalSecret, Secret metadata, Deployment rollout, Radar
+   integration status, canonical deep diff, and get-only ArgoCD permissions.
+9. Record dated runtime evidence and fresh local/remote SHA equality.
 
 ## Verification and Acceptance Criteria
 
@@ -343,6 +406,10 @@ Before publication:
   port-forward, or node mutation permissions; pod-log reads are present.
 - The local NetworkPolicy selects the rendered Radar pod labels and only the
   observed stable Tailscale ingress proxy labels.
+- The ArgoCD chart renders `accounts.radar: apiKey` and only the selected
+  Application `get` policy.
+- The Radar chart renders a `secretKeyRef` to `radar-argocd-token/token`, the
+  pinned HTTP endpoint, and `insecureTls: false`; no token value is rendered.
 - Client-side schema validation accepts all local resources. Server-side
   dry-run validates the ArgoCD Applications in the existing `argocd` namespace;
   do not create the future `radar` namespace imperatively just to dry-run its
@@ -369,6 +436,14 @@ After ArgoCD reconciliation:
 8. After the first normal chart rollout or pod replacement, timeline events
    from before the restart remain available. Do not force an imperative restart
    solely to satisfy this check.
+9. ArgoCD reports account `radar` with API-key capability. Its token can get
+   Applications and cannot sync, update, delete, or invoke actions.
+10. ExternalSecret `radar-argocd-token` is Ready, its target Secret exists with
+    key name `token`, and no validation output contains the value.
+11. Radar reports the ArgoCD integration connected to the pinned in-cluster
+    endpoint after the Secret-backed rollout.
+12. An Application Changes view returns the canonical ArgoCD-rendered diff or
+    a confirmed no-drift result rather than the annotation-only fallback.
 
 Record runtime results as dated evidence. ArgoCD health proves reconciliation,
 not the Tailscale, NetworkPolicy, RBAC, MCP, or persistence boundaries by
@@ -410,6 +485,13 @@ itself.
   check; the bound PVC, mounted `/data` volume, and live SQLite diagnostics
   establish the current persistence boundary.
 
+### ArgoCD Deep-Diff Runtime Evidence — Pending
+
+Populate this section only after both GitOps stages reconcile. Record commit
+SHAs, account capability and denied-action checks, ESO Ready state, rollout
+identity, Radar's connected integration state, and a canonical diff result.
+Never record the token or Secret data.
+
 ## Upgrade and Renovate Policy
 
 `targetRevision` is exactly `1.10.0`. A Radar-specific Renovate rule must set
@@ -443,7 +525,6 @@ Each of these is a separate decision and change:
 - Add Prometheus or VictoriaMetrics for PromQL and historical metrics.
 - Add OpenCost for cost views.
 - Add Hubble Relay or another supported source for traffic views.
-- Add an Infisical-to-ESO ArgoCD token for deep Git-rendered diffs.
 - Enable Radar RBAC-object visibility, Secrets, or any write capability.
 - Add OIDC or proxy auth if the user population grows beyond the single
   operator or the Tailscale trust boundary changes.
@@ -452,8 +533,11 @@ Each of these is a separate decision and change:
 
 - [Radar in-cluster deployment](https://radarhq.io/docs/configuration/in-cluster)
 - [Radar MCP documentation](https://radarhq.io/docs/features/mcp)
+- [Radar GitOps and ArgoCD integration](https://github.com/skyhook-io/radar/blob/v1.10.0/docs/gitops.md)
 - [Radar chart 1.10.0 release](https://github.com/skyhook-io/helm-charts/releases/tag/radar-1.10.0)
 - [Radar chart values](https://github.com/skyhook-io/helm-charts/blob/main/charts/radar/values.yaml)
+- [ArgoCD local accounts](https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/)
+- [ArgoCD RBAC](https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/)
 - [`docs/adding-applications.md`](../docs/adding-applications.md)
 - [`docs/architecture.md`](../docs/architecture.md)
 - [`docs/tailscale-networking.md`](../docs/tailscale-networking.md)
