@@ -1,0 +1,111 @@
+Alright, one more round back at you: Review of the Proposed Consensus
+
+ The core remediation is defensible, but two assertions still overreach.
+
+ Dependency Prioritization
+
+ This is now sound as a recommendation. The manifests enforce:
+
+ ```console
+   external-secrets  wave 2
+   tailscale         wave 4
+   longhorn          wave 5
+   netdata           wave 6
+   homarr            wave 7
+   argocd-ha         wave 99
+ ```
+
+ Longhorn has an ExternalSecret at child wave 0, while longhorn-helm is child wave 1. External Secrets therefore precedes Longhorn
+ structurally. “Storage and/or secrets” is accurate for the named applications.
+
+ “Precisely because” remains an inference about historical intent, but the dependency itself is real.
+
+ Oversight Probability
+
+ The history is verified:
+
+ ```console
+   $ git show --no-patch b8d7e59
+   Set prune: false on Longhorn app to prevent accidental PVC deletion
+
+   $ git diff-tree --no-commit-id --name-only -r b8d7e59
+   apps/longhorn/storageclasses.yaml
+   apps/root.yaml
+   docs/backup-storage.md
+
+   $ git diff b8d7e59^ b8d7e59 -- apps/longhorn/application.yaml | wc -l
+   0
+ ```
+
+ The parent-only change and asymmetric AGENTS wording make oversight plausible—probably the leading hypothesis. They do not justify a
+ numerical 90% confidence. The same wording can be steelmanned in the opposite direction: because the author explicitly enumerated
+ both Argo applications, naming only longhorn may have been resource-name-specific.
+
+ There is no checkpoint-backed intent capable of resolving that ambiguity:
+
+ ```console
+   $ entire status
+   ○ not set up (run `entire enable` to get started)
+ ```
+
+ “Half-Delivered PVC Protection” Is Inaccurate
+
+ Neither Longhorn Application directly manages a PVC:
+
+ ```console
+   $ for app in longhorn longhorn-helm; do
+       kubectl -n argocd get application "$app" -o json |
+         jq '[.status.resources[] |
+              select(.kind=="PersistentVolumeClaim")] | length'
+     done
+   longhorn       0
+   longhorn-helm  0
+ ```
+
+ The parent manages the child Application, three tiered StorageClasses, three RecurringJobs, an ExternalSecret, an Ingress, and a
+ Service. The child manages 23 CRDs and Longhorn’s controllers and configuration.
+
+ Consequently, changing child pruning would not literally “complete” direct PVC protection. It would close a different and more
+ defensible risk: automatic pruning of chart-owned Longhorn CRDs and control-plane resources.
+
+ CRD Risk
+
+ The risk path is real but conditional. Chart 1.12.0 has no CRD prune protection:
+
+ ```console
+   PVC templates=0
+   CRD protection annotations=0
+   CRD annotation values=0
+ ```
+
+ If a later chart stops rendering one of those CRDs, automated pruning makes it eligible for deletion. Kubernetes documents that
+ deleting a CRD removes the custom objects stored under it.
+
+ “Clean deletion path through to every CR” is still too absolute. Finalizers may delay deletion, and removing Volume/Replica CR
+ objects does not itself prove immediate deletion of replica data from disk. The established risk is loss of Kubernetes/Longhorn
+ control-plane objects and resulting storage outage or recovery work—not guaranteed physical data erasure.
+
+ Proposed Commit
+
+ The three-file change is internally consistent with repository policy:
+
+ 1. Disabling child auto-prune creates a deliberate sync-policy deviation.
+ 2. Naming longhorn-helm in AGENTS.md makes the directive unambiguous.
+ 3. Recording the child exception in docs/architecture.md satisfies §4’s documentation requirement.
+ 4. All three changes address one concern, satisfying §5.
+
+ The defensible rationale is prevent automatic pruning of Longhorn’s chart-owned CRDs and control-plane resources. “Completes PVC
+ deletion protection” is not supported by the resource inventories.
+
+ Defense-in-Depth Aside
+
+ The proposed CRD annotations are not presently available through Longhorn 1.12.0 values, and protecting only four CRDs is
+ under-scoped: engines, volume attachments, instance managers, settings, and other CRDs also participate in recovery. Since that
+ option was explicitly deferred, it does not undermine the primary plan.
+
+ Verdict
+
+ Mostly sound, with corrected rationale required. External Secrets before Longhorn is coherent dependency ordering, and disabling
+ child auto-prune plus documenting both Applications is a defensible policy-alignment change. The evidence strongly suggests an
+ overlooked parent/child gap, but does not support a quantified 90% certainty. Most importantly, the change mitigates conditional
+ CRD/control-plane pruning; it does not directly complete protection against PVC deletion.
