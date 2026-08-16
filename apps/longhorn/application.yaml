@@ -12,9 +12,11 @@ spec:
   source:
     repoURL: https://charts.longhorn.io
     chart: longhorn
-    targetRevision: 1.12.0 # exact pin — storage substrate; Renovate PRs bumps
+    targetRevision: 1.12.1 # exact pin — storage substrate; Renovate PRs bumps
     helm:
       valuesObject:
+        preUpgradeChecker:
+          jobEnabled: false
         defaultSettings:
           defaultReplicaCount: 2
           storageMinimalAvailablePercentage: 10
