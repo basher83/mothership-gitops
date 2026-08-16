@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Status | Base deployment runtime-validated; ArgoCD deep-diff extension selected and in progress; cross-restart SQLite retention pending the first normal replacement |
+| Status | Implemented and runtime-validated, including ArgoCD deep diff and cross-restart SQLite retention |
 | Created | 2026-08-16 |
 | Scope | Single-cluster, single-operator Radar OSS deployment on `talos-prod-01` |
 
@@ -14,9 +14,9 @@ paths with Radar's token-optimized issues, topology, events, logs, timeline,
 resource relationships, and canonical ArgoCD desired-versus-live diffs. It is
 not a pre-production pilot: the homelab is the proving ground.
 
-This document selects the deployment and access design. It does not create
-manifests, connect an MCP client, mutate the live cluster, or claim that Radar
-is deployed.
+This document records the selected design, declarative manifests, and dated
+runtime evidence. It does not make personal MCP client configuration part of
+the repository or authorize future capability expansion.
 
 ## Operator Decisions
 
@@ -61,8 +61,9 @@ is deployed.
   node operations, or self-upgrade through Radar.
 - Installing metrics-server, Prometheus, VictoriaMetrics, OpenCost, Hubble
   Relay, or another telemetry dependency as part of this change.
-- Granting the ArgoCD account permission to sync, update, delete, refresh, or
-  otherwise mutate Applications. The token is for canonical diffs only.
+- Granting the ArgoCD account permission to sync, update, delete, invoke
+  actions, override, or otherwise mutate Applications. The token is for
+  canonical diffs only.
 - Replacing the existing `kubectl` or Kubernetes MCP servers.
 - Changing Talos, Cilium, Omni, nodes, taints, or other substrate configuration.
 
@@ -480,17 +481,49 @@ itself.
 - Metrics collection reported Kubernetes `403` responses and Prometheus was
   disconnected, while the UI, MCP server, cache, timeline, and ArgoCD health
   remained available as designed.
-- The restart-survival criterion remains pending until the first normal chart
-  rollout or pod replacement. No imperative restart was forced solely for the
-  check; the bound PVC, mounted `/data` volume, and live SQLite diagnostics
-  establish the current persistence boundary.
+- The Secret-backed ArgoCD rollout performed the first normal chart-driven pod
+  replacement at `2026-08-16T09:11:49Z`. After the replacement, Radar MCP
+  returned 42 retained changes timestamped before the new pod, including the
+  `argocd-cm` and `argocd-rbac-cm` changes from `09:04:28Z`. This closes the
+  cross-restart SQLite retention criterion without an imperative test restart.
 
-### ArgoCD Deep-Diff Runtime Evidence — Pending
+### ArgoCD Deep-Diff Runtime Evidence — 2026-08-16
 
-Populate this section only after both GitOps stages reconcile. Record commit
-SHAs, account capability and denied-action checks, ESO Ready state, rollout
-identity, Radar's connected integration state, and a canonical diff result.
-Never record the token or Secret data.
+- Commit `a6e1d90a33ab61c4d7acf9c752d77b5c1ed27472` added the API-only
+  account and get-only policy. Commit
+  `c5d40f9fb2797435b14b09c6f059b8f84c7dad16` added the Infisical, ESO,
+  and Secret-backed Radar configuration. Each commit was pushed to `main`,
+  followed by a fresh fetch proving local and remote SHA equality.
+- Parent `argocd-ha` was manually synced at the account commit. The nested
+  `argocd-ha-helm` Application already had unrelated Deployment, StatefulSet,
+  and hook drift, so only ConfigMaps `argocd-cm` and `argocd-rbac-cm` were
+  selectively dry-run and synced. The account change did not roll or reconcile
+  the pre-existing HA workload drift; the child remains `Healthy` and
+  `OutOfSync` for that separate concern.
+- Live ArgoCD reports account `radar` enabled with only the `apiKey`
+  capability and one non-expiring token ID, `radar-in-cluster`. Policy checks
+  returned `Yes` only for Application `get`; `sync`, `update`, `delete`,
+  `action`, and `override` each returned `No`.
+- Infisical contains key name `ARGOCD_TOKEN` under `/radar`. The token value
+  was transferred directly without entering Git, a file, Helm state, command
+  output, or runtime evidence. ClusterSecretStore `infisical-radar` reported
+  `Ready=True` with `store validated`; ExternalSecret `radar-argocd-token`
+  reported `Ready=True` with `secret synced`; the resulting Opaque Secret had
+  only key name `token` and an ExternalSecret owner reference.
+- Root, `external-secrets`, parent `radar`, and child `radar-helm` Applications
+  reconciled `Synced` and `Healthy`. Radar Deployment generation 2 became ready
+  with one replica and no restarts. Its pod template references
+  `radar-argocd-token/token` for `RADAR_ARGOCD_TOKEN` and pins
+  `RADAR_ARGOCD_URL` to the selected cluster Service.
+- Radar `/api/config` reported `argoCdEnvManaged: true` and
+  `argoCdTokenSet: true`; `/api/integrations/argocd/status` reported
+  `configured: true`, `connected: true`, and the selected internal address.
+  Logs confirmed the environment-provisioned integration is read-only in
+  Settings.
+- A resource diff for NetworkPolicy `radar/radar-ingress` returned source
+  `argocd-api`, non-empty Git-rendered desired and normalized live manifests,
+  and zero field drift. This proves the canonical ArgoCD API path rather than
+  the annotation-only fallback.
 
 ## Upgrade and Renovate Policy
 
