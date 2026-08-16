@@ -49,6 +49,118 @@ helm:
 If pods cannot schedule because the cluster lacks schedulable workers, fix the
 machine classes or cluster template in `../Omni-Scale`.
 
+## Longhorn Helm Sync Attempts a Downgrade
+
+Symptom: `longhorn-helm` is healthy at runtime but `OutOfSync`, and its ArgoCD
+operation fails after repeated attempts to run `longhorn-pre-upgrade`. The live
+Longhorn workloads may remain healthy on a newer chart revision.
+
+Before retrying the sync, compare the desired chart revision with the revisions
+in the Application history:
+
+```bash
+kubectl -n argocd get application longhorn-helm \
+  -o jsonpath='{.spec.source.targetRevision}{"\n"}{range .status.history[*]}{.deployedAt}{"\t"}{.revision}{"\n"}{end}'
+```
+
+An exact pin can become a downgrade request when it reaches the cluster after a
+wildcard revision has already allowed a newer chart to deploy. On 2026-08-16,
+Longhorn `1.12.1` had been running since 2026-08-14, but the later-reconciled Git
+state pinned `1.12.0`. ArgoCD then attempted `1.12.0`; the pre-upgrade Job
+reached its backoff limit after five retries. The Job's exact error output was
+no longer retained, so the history proves the downgrade trigger but not the
+hook's internal rejection reason.
+
+Recover in Git:
+
+1. Move `spec.source.targetRevision` forward to the deliberately selected
+   revision. Do not force the live release back to the stale pin.
+2. Set `preUpgradeChecker.jobEnabled: false` in the Longhorn Helm values.
+   Longhorn's chart explicitly directs ArgoCD and other GitOps installations to
+   disable this hook.
+3. Preserve `prune: false` on both the parent and nested Longhorn Applications.
+4. Commit and push the convergent desired state, then let ArgoCD retry it.
+
+The chart instruction is recorded in the
+[Longhorn `1.12.0` values](https://github.com/longhorn/longhorn/blob/v1.12.0/chart/values.yaml).
+
+## Radar Shows No CPU or Memory Samples While Netdata Is Healthy
+
+Symptom: Radar's Capacity view renders scheduling capacity, but actual usage is
+unavailable and MCP `top_resources` reports `metricsAvailable: false`. Netdata
+can still show healthy CPU, memory, disk, and Kubernetes cgroup telemetry.
+
+These are separate data paths. Radar's cluster scheduling ledger uses node
+allocatable capacity and pod requests, so it works without a metrics backend.
+Actual CPU and memory samples require the Kubernetes Metrics API, while Radar's
+PromQL views require a configured Prometheus-compatible endpoint. Netdata
+collecting the same class of telemetry does not automatically connect it to
+Radar. Treat unavailable usage as unknown, not zero; Radar documents this
+separation in its [Capacity guide](https://radarhq.io/docs/features/capacity).
+
+This repository currently sets `rbac.metrics: false` for Radar. The
+2026-08-16 runtime check also found no `metrics.k8s.io` APIService and no
+connected Prometheus service. Installing metrics-server alone would therefore
+remain insufficient because Radar's ServiceAccount would still receive `403`
+responses.
+
+Enabling live CPU and memory widgets is a separate reviewed change that must do
+both of the following:
+
+1. Install and validate metrics-server so `metrics.k8s.io` is available.
+2. Set Radar `rbac.metrics: true` so its ServiceAccount can read that API.
+
+Configure Radar's Prometheus integration separately when PromQL or historical
+metrics are wanted. Validate the Metrics API before diagnosing Radar itself:
+
+```bash
+kubectl get apiservice v1beta1.metrics.k8s.io
+kubectl get --raw /apis/metrics.k8s.io/v1beta1/nodes
+```
+
+## Radar Reports Longhorn PDBs Blocking Evictions
+
+Symptom: Radar reports one warning for each Longhorn instance-manager
+PodDisruptionBudget because it selects one healthy pod and permits zero
+voluntary disruptions.
+
+This is expected storage protection, not an active workload failure. Longhorn
+uses strict instance-manager PDBs to prevent a drain from evicting the last
+healthy process serving attached volumes. Do not apply Radar's generic advice
+to relax these PDBs during normal operation.
+
+For planned node maintenance, verify volume and replica health and follow
+Longhorn's controlled drain procedure. A blocked drain is a maintenance gate
+to investigate, not evidence that the PDB should be weakened. See Longhorn's
+[maintenance guidance](https://longhorn.io/docs/1.12.0/maintenance/maintenance/)
+and [PDB behavior with cluster autoscaling](https://longhorn.io/docs/1.12.0/high-availability/k8s-cluster-autoscaler/).
+
+## Radar Repeats Argo Application “Spec Changed”
+
+Symptom: Radar records an ArgoCD Application generation change every few
+minutes and classifies it as an unspecified spec or configuration change, even
+when no Git commit or field-level spec change occurred.
+
+Check whether the installed Application CRD exposes a status subresource:
+
+```bash
+kubectl get crd applications.argoproj.io \
+  -o jsonpath='{range .spec.versions[*]}{.name}{"\t"}{.subresources}{"\n"}{end}'
+```
+
+On 2026-08-16, every live Application showed this cadence and the storage
+version of the CRD had `subresources: {}`. Without a `/status` subresource,
+normal controller status writes update the main custom resource and can advance
+`metadata.generation`. Radar sees the generation change but has no field-level
+record, so its generic label is not proof that `.spec` changed. Kubernetes
+documents the generation and status-subresource behavior in its
+[CRD reference](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/).
+
+Treat this explanation as high-confidence unless an audit log or consecutive
+raw-object diff proves the changing field. Before responding to a Radar record,
+inspect the ArgoCD desired-versus-live diff and the Application's actual `spec`.
+A generation-only record should not trigger a sync or rollback.
+
 ## ExternalSecret Causes Parent App OutOfSync
 
 Symptom: the parent Application shows `OutOfSync` while child Helm apps are

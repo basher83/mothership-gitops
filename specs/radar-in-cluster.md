@@ -90,7 +90,9 @@ custom metrics, or external metrics APIService and no Prometheus,
 VictoriaMetrics, OpenCost, or Hubble Relay workload. Radar's core resource,
 topology, issue, timeline, and MCP functions do not depend on those services.
 CPU/memory widgets, PromQL, cost, traffic, and rightsizing will remain absent or
-degraded until their respective dependencies are added separately.
+degraded until their respective dependencies are added separately. Netdata is
+an independent monitoring surface: its presence does not provide Radar with a
+Metrics API or configured PromQL endpoint.
 
 Radar chart `1.10.0` exposes `argocd.existingSecret`,
 `argocd.existingSecretKey`, `argocd.url`, and `argocd.insecureTls`. The chart
@@ -480,7 +482,12 @@ itself.
   caller's broader authority and was not valid evidence for the pod identity.
 - Metrics collection reported Kubernetes `403` responses and Prometheus was
   disconnected, while the UI, MCP server, cache, timeline, and ArgoCD health
-  remained available as designed.
+  remained available as designed. A same-day follow-up through Netdata Cloud
+  confirmed that the cluster separately retained CPU, memory, disk, and
+  Kubernetes cgroup telemetry with no active alerts. Radar's Capacity
+  scheduling ledger remained valid because it uses node allocatable capacity
+  and pod requests; only metrics-sampled actual usage was unavailable. Netdata
+  telemetry is not automatically a Radar metrics backend.
 - The Secret-backed ArgoCD rollout performed the first normal chart-driven pod
   replacement at `2026-08-16T09:11:49Z`. After the replacement, Radar MCP
   returned 42 retained changes timestamped before the new pod, including the
@@ -554,8 +561,10 @@ review before merge.
 
 Each of these is a separate decision and change:
 
-- Add metrics-server for live CPU and memory widgets.
-- Add Prometheus or VictoriaMetrics for PromQL and historical metrics.
+- Add metrics-server **and** enable Radar `rbac.metrics` in the same reviewed
+  change for live CPU and memory widgets. Either half alone is insufficient.
+- Connect Prometheus or VictoriaMetrics to Radar for PromQL and historical
+  metrics. Existing Netdata collection does not create that connection.
 - Add OpenCost for cost views.
 - Add Hubble Relay or another supported source for traffic views.
 - Enable Radar RBAC-object visibility, Secrets, or any write capability.
@@ -566,6 +575,7 @@ Each of these is a separate decision and change:
 
 - [Radar in-cluster deployment](https://radarhq.io/docs/configuration/in-cluster)
 - [Radar MCP documentation](https://radarhq.io/docs/features/mcp)
+- [Radar Capacity](https://radarhq.io/docs/features/capacity)
 - [Radar GitOps and ArgoCD integration](https://github.com/skyhook-io/radar/blob/v1.10.0/docs/gitops.md)
 - [Radar chart 1.10.0 release](https://github.com/skyhook-io/helm-charts/releases/tag/radar-1.10.0)
 - [Radar chart values](https://github.com/skyhook-io/helm-charts/blob/main/charts/radar/values.yaml)
