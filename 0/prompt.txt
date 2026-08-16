@@ -1,0 +1,184 @@
+Finding 3 rebuttal is mostly clean other than; “Everything else rides on storage and secrets” is still false if “and” means both dependencies.
+
+ The checked-in dependency structure is:
+
+ - Tailscale uses an ExternalSecret but has no PVC.
+ - Argo CD HA uses Longhorn persistence but has no checked-in ExternalSecret.
+ - Netdata and Homarr use both External Secrets and Longhorn.
+ - Longhorn itself consumes an ExternalSecret for backup credentials.
+
+ The root sync order confirms the actual dependency sequence:
+
+ ```console
+   APP                 WAVE
+   external-secrets    2
+   tailscale-operator  4
+   longhorn            5
+   netdata             6
+   homarr              7
+   argocd-ha           99
+ ```
+
+ Thus dependency-based prioritization is supported, but the literal relationship is storage and/or secrets, not storage and secrets
+ universally. If dependency order is the stated basis, External Secrets precedes Longhorn rather than forming an unordered pair.
+
+On the new finding: Review: Longhorn Child Prune Finding
+
+ Claim-by-Claim Assessment
+
+ ┌─────────────────────────────────┬──────────────┬──────────────────────────────────────────────────────────────────────────────────┐
+ │ Assertion                       │ Status       │ Finding                                                                          │
+ ├─────────────────────────────────┼──────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+ │ longhorn-helm has prune: true   │ VERIFIED     │ Exact match in apps/longhorn/application.yaml:33-36.                             │
+ │ at line 35                      │              │                                                                                  │
+ ├─────────────────────────────────┼──────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+ │ AGENTS.md says “Do NOT enable   │ VERIFIED     │ Exact text at AGENTS.md:51-59.                                                   │
+ │ prune on longhorn”              │              │                                                                                  │
+ ├─────────────────────────────────┼──────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+ │ Architecture and audit          │ REVISED      │ The audit explicitly says “root-app.” architecture.md merely names longhorn; it  │
+ │ carefully restrict the          │              │ does not explain the parent/child distinction.                                   │
+ │ exception to the root app       │              │                                                                                  │
+ ├─────────────────────────────────┼──────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+ │ The child owns Longhorn CRDs    │ REVISED      │ It owns 23 CRDs and Longhorn’s controllers/configuration. The parent separately  │
+ │ and storage machinery           │              │ owns tiered StorageClasses and RecurringJobs; dynamic Volume/Replica CRs are     │
+ │                                 │              │ controller-created rather than desired Argo resources.                           │
+ ├─────────────────────────────────┼──────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+ │ The child is where prune risk   │ REVISED      │ Child pruning is a material risk surface, but not the only one. It applies only  │
+ │ is real                         │              │ when resources disappear from the rendered chart, not on every upgrade.          │
+ ├─────────────────────────────────┼──────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+ │ This is either a documented     │ UNPROVEN     │ No deliberate distinction is documented. Git history suggests an incomplete      │
+ │ deliberate distinction or a     │ DICHOTOMY    │ root-only safety change, while the directive’s exact resource-name scope remains │
+ │ directive violation             │              │ ambiguous.                                                                       │
+ └─────────────────────────────────┴──────────────┴──────────────────────────────────────────────────────────────────────────────────┘
+
+ Evidence
+
+ The child policy is unambiguous:
+
+ ```console
+   $ nl -ba apps/longhorn/application.yaml | awk 'NR>=33 && NR<=36'
+   33  syncPolicy:
+   34    automated:
+   35      prune: true
+   36      selfHeal: true
+ ```
+
+ The governing directive says:
+
+ ```console
+   $ nl -ba AGENTS.md | awk 'NR>=51 && NR<=59'
+   51  ## 4. Sync Policy Discipline
+   53  * Default is automated sync with prune and self-heal. Deviations are
+   54    deliberate and documented in `docs/architecture.md`.
+   55  * Do NOT enable prune on `longhorn` or `coredns-tailscale`.
+   56  * Do NOT add automated sync to `argocd-ha` or `argocd-ha-helm` — the manual
+   57    gate is the safety mechanism.
+ ```
+
+ The audit is explicitly scoped:
+
+ │ “longhorn has root-app prune: false”
+
+ — docs/audits/AUDIT_REPORT_2026-06-20.md:50.
+
+ The architecture document is not:
+
+ │ “longhorn | prune: false | Pruning storage resources risks data deletion”
+
+ — docs/architecture.md:40-44.
+
+ That table distinguishes argocd-ha from nested argocd-ha-helm, but does not similarly mention longhorn-helm. Calling this “carefully
+ scoped” overstates the architecture document.
+
+ Where the Resources Actually Live
+
+ Live Argo inventory shows that longhorn-helm owns:
+
+ ```console
+   CustomResourceDefinition  23
+   DaemonSet                   1
+   Deployment                  2
+   ConfigMap                   3
+   Service                     4
+ ```
+
+ Those CRDs include:
+
+ ```console
+   backups.longhorn.io
+   replicas.longhorn.io
+   snapshots.longhorn.io
+   volumes.longhorn.io
+ ```
+
+ None currently carries Argo or Helm prune protection:
+
+ ```console
+   CRD                    argocd sync-options  helm resource-policy
+   backups.longhorn.io    -                    -
+   replicas.longhorn.io   -                    -
+   snapshots.longhorn.io  -                    -
+   volumes.longhorn.io    -                    -
+ ```
+
+ This makes the child policy materially relevant. Argo CD documents pruning as deletion of resources no longer defined in the desired
+ source. Kubernetes documents that deleting a CRD “removes all custom objects that were stored under that definition”; recreating it
+ starts empty (Kubernetes CRD documentation
+ (https://github.com/kubernetes/website/blob/main/content/en/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions
+ .md)).
+
+ That does not establish that an ordinary Longhorn chart bump will delete CRDs or underlying replica data. It establishes that a chart
+ revision which removes or renames an unprotected CRD exposes a serious prune path.
+
+ The parent also owns storage-related resources:
+
+ ```console
+   Application      longhorn-helm
+   RecurringJob     backup-critical
+   RecurringJob     backup-important
+   RecurringJob     backup-standard
+   StorageClass     longhorn-critical
+   StorageClass     longhorn-important
+   StorageClass     longhorn-standard
+ ```
+
+ Therefore “the child is where prune risk is real” is too exclusive. Both layers own consequential resources, though the child’s CRD
+ ownership presents the sharper control-plane risk.
+
+ Historical Intent
+
+ No Entire checkpoint history is available:
+
+ ```console
+   $ entire status
+   ○ not set up (run `entire enable` to get started)
+ ```
+
+ Git history nevertheless exposes the recorded commit intent. Commit b8d7e59 said:
+
+ │ “Set prune: false on Longhorn app to prevent accidental PVC deletion”
+
+ But its diff changed only the parent in apps/root.yaml:
+
+ ```diff
+    syncPolicy:
+      automated:
+   -    prune: true
+   +    prune: false
+        selfHeal: true
+ ```
+
+ apps/longhorn/application.yaml was not changed; its child prune: true dates back to the original 4448861 commit. The later AGENTS.md
+ directive and architecture table inherited the parent-only state without documenting why the chart-owning child remained different.
+
+ This history supplies no evidence that the split was deliberate. It instead points toward an incomplete safety control or an
+ imprecisely scoped directive.
+
+ Verdict
+
+ Materially sound finding, overstated conclusion. The child really has automated pruning, owns 23 unprotected Longhorn CRDs, and is
+ omitted from the documented exception despite the stated data-deletion rationale. That is a genuine policy and safety inconsistency.
+ It is not yet a proven directive violation because AGENTS.md literally names the parent Application longhorn, while the child is
+ longhorn-helm; nor is there evidence of a deliberate exception. The defensible finding is an undocumented, historically unexplained
+ parent/child policy gap with a real conditional prune risk, not a conclusively intentional distinction or conclusively established
+ violation.
