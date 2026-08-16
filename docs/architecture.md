@@ -65,6 +65,17 @@ upgrade unattended within their major. Pin them to opt into PR-gated upgrades.
 All web UIs are exposed via Tailscale Ingress only — no public exposure.
 See `tailscale-networking.md` for ingress and egress patterns.
 
+Tailscale exposure does not make every cluster-internal route authorized. For
+the credential-backed `anthropic-oauth-proxy`, tailnet membership is the
+intended main-proxy boundary, while kubeconfig and Kubernetes RBAC through
+port-forwarding are the intended admin boundary. The current source manifests
+do not yet enforce those boundaries against ordinary cluster pods. The
+selected design, evidence classification, cross-repository ownership, and
+rollout gates are recorded in
+[`../specs/oauth-proxy-boundary-remediation.md`](../specs/oauth-proxy-boundary-remediation.md).
+This is planned work and must not be read as a claim that the findings are
+remediated.
+
 ## Repo Boundary
 
 This repo owns everything ArgoCD reconciles onto the cluster. The Talos/Omni
