@@ -2,9 +2,9 @@ min_version = "2026.8.12"
 
 [tools]
 helm = "3.21.4"
-kubeconform = "0.7.0"
-pre-commit = "4.6.0"
-ripgrep = "15.1.0"
+kubeconform = "0.8.0"
+pre-commit = "4.6.2"
+ripgrep = "15.2.0"
 yq = "4.53.6"
 
 [tasks.hygiene]
