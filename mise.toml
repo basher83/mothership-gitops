@@ -1,0 +1,28 @@
+min_version = "2026.8.12"
+
+[tools]
+helm = "3.21.4"
+kubeconform = "0.7.0"
+pre-commit = "4.6.0"
+ripgrep = "15.1.0"
+yq = "4.53.6"
+
+[tasks.hygiene]
+description = "Run repository hygiene and schema checks"
+run = "pre-commit run --all-files --show-diff-on-failure"
+
+[tasks."validate:renovate"]
+description = "Validate the Renovate configuration schema"
+run = "pre-commit run check-renovate --all-files"
+
+[tasks."validate:gitops"]
+description = "Render exact-pinned Helm Applications and validate Kubernetes resources"
+run = "bash scripts/validate-gitops.sh"
+
+[tasks.ci]
+description = "Run the fast pull-request gate"
+depends = ["hygiene", "validate:gitops"]
+run = "echo 'Fast gate passed'"
+
+[settings]
+jobs = 2

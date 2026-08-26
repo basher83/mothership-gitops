@@ -16,3 +16,9 @@ repos:
     hooks:
       - id: yamllint
         args: [-d, relaxed]
+
+  - repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.38.0
+    hooks:
+      - id: check-renovate
+      - id: check-github-workflows

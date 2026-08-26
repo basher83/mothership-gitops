@@ -58,6 +58,18 @@ approval. Radar never auto-merges at any update level because its chart couples
 the UI, MCP tool surface, generated ClusterRole, and SQLite storage behavior.
 Merging the PR is the promotion step.
 
+Renovate automerge relies on the repository-owned `Fast Gate` workflow. Its
+`mise run ci` task preserves the pre-commit hygiene and YAML checks, validates
+the Renovate and GitHub Actions schemas, then renders every exact-pinned Helm
+Application with its committed values and validates rendered built-in
+Kubernetes resources with kubeconform. The workflow runs on `renovate/**`
+branch pushes so the inherited `prCreation: not-pending` policy receives a
+repository-owned result before Renovate creates a PR. The render is
+cluster-independent: it does not prove CRD semantics, admission behavior,
+Argo reconciliation, or live runtime health. Floating chart revisions are
+intentionally reported and skipped because re-resolving them would make an
+unrelated pull request test a different desired version.
+
 Remaining charts (`tailscale-operator`, `netdata`, `homarr`, `argo-cd`) still
 float on major-version wildcards — Renovate cannot bump a wildcard, so they
 upgrade unattended within their major. Pin them to opt into PR-gated upgrades.
