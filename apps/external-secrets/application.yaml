@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://charts.external-secrets.io
     chart: external-secrets
-    targetRevision: 1.3.2 # exact pin — secrets substrate; Renovate PRs bumps
+    targetRevision: 2.9.0 # exact pin — secrets substrate; Renovate PRs bumps
     helm:
       releaseName: external-secrets
       valuesObject:
