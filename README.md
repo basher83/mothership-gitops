@@ -145,6 +145,7 @@ apps/
   phoenix/              # LLM observability + Ingress (wave 9)
 docs/
   adrs/                 # Architecture decisions and supersession history
+  incidents/            # Historical incident reports and follow-up status
 ```
 
 ## Related
@@ -152,6 +153,8 @@ docs/
 - [Omni-Scale](https://github.com/basher83/Omni-Scale) - Infrastructure provisioning
 - [Architecture](docs/architecture.md) - Sync waves, sync policy exceptions
 - [Architecture Decisions](docs/adrs/README.md) - Accepted and superseded ADRs
+- [Incident Reports](docs/incidents/README.md) - Evidence-bounded incident
+  timelines, causes, and follow-up status
 - [Adding Applications](docs/adding-applications.md) - New app checklist,
   ExternalSecrets wiring, UI exposure requirement
 - [Tailscale Networking](docs/tailscale-networking.md) - Ingress and

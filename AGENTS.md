@@ -24,6 +24,7 @@ knowledge itself lives in `docs/`.
 * `README.md` — bootstrap commands and recovery. Do not restate them elsewhere.
 * `docs/architecture.md` — sync waves and sync policy exceptions.
 * `docs/adrs/` — architecture decisions and their supersession history.
+* `docs/incidents/` — historical incident reports and follow-up status.
 * `docs/adding-applications.md` — new application checklist and patterns.
 * `docs/tailscale-networking.md` — ingress and egress-to-tailnet patterns.
 * `docs/backup-storage.md` — Longhorn backup tiers and MinIO wiring.

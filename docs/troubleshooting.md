@@ -161,6 +161,46 @@ to investigate, not evidence that the PDB should be weakened. See Longhorn's
 [maintenance guidance](https://longhorn.io/docs/1.12.0/maintenance/maintenance/)
 and [PDB behavior with cluster autoscaling](https://longhorn.io/docs/1.12.0/high-availability/k8s-cluster-autoscaler/).
 
+## Phoenix Experiments Time Out While Manual Playground Runs Succeed
+
+Symptom: Phoenix server-side experiments produce terminal `timeout after 3
+retries` rows or no output for some examples, while the same provider and proxy
+complete manual Playground requests. Proxy logs may show successful status 200
+responses with short latency even when Phoenix later records a timeout.
+
+Do not infer an authentication or network refusal from the missing experiment
+output alone. Phoenix 20.4.0 applies a 120-second wall-clock deadline around the
+complete streamed response. Its timeout path retries the task but does not
+persist the partial span or token counts. The deployed Anthropic OAuth proxy's
+`request completed` log is also header-time, not stream-completion time.
+
+First, identify the Phoenix timeout cadence:
+
+```bash
+kubectl -n phoenix logs deploy/phoenix-helm --since=24h \
+  | rg 'TaskWorkItem .* timed out|circuit breaker'
+```
+
+Approximately 120-second waves support the caller-deadline path. Immediate
+401, 403, or 429 responses, failed token refreshes, account cooldown, upstream
+5xx responses, or a failing tailnet health check instead support transport,
+authentication, or provider hypotheses and must be investigated separately.
+
+For completed comparison runs, inspect both wall-clock latency and completion
+tokens. Do not treat a timed-out run with no persisted span as zero duration or
+zero generated tokens. A manual span longer than 120 seconds can complete
+successfully because the Playground request is not under the server-side
+experiment deadline.
+
+Mitigation remains a reviewed choice: verify a client-side experiment path,
+shorten the requested deliverable and measure it, or adopt a supported
+configurable timeout if Phoenix exposes one. Do not set a low `max_tokens`
+value merely to fit the deadline; it can truncate the final sections rather
+than make the response concise.
+
+The full evidence, rejected hypotheses, and open corrective actions are in the
+[2026-08-27 incident report](incidents/2026-08-27-phoenix-experiment-timeouts.md).
+
 ## Radar Repeats Argo Application “Spec Changed”
 
 Symptom: Radar records an ArgoCD Application generation change every few
