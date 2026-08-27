@@ -21,16 +21,19 @@ and Netdata resource telemetry all contradicted those hypotheses. Phoenix
 20.4.0 source and pod logs instead showed that its server-side experiment
 runner places a hard 120-second wall-clock deadline around the complete model
 stream. When that deadline expires, Phoenix cancels the stream, retries it, and
-eventually persists a terminal timeout without the partial span or token count.
-That persistence behavior created the apparently binary outcome.
+eventually persists a terminal timeout without partial experiment output or
+token usage. Proxy-emitted request spans stored in Phoenix still preserve the
+request-to-upstream-header portion of those attempts. The experiment-result
+persistence behavior, not the complete observability system, created the
+apparently binary outcome.
 
 Output length is the leading reason the characterized Radar prompt crossed the
 deadline. A controlled five-run prompt change added a required deliverable
 contract and increased mean completion length by about 1,500 tokens, moving
 every measured duration above 120 seconds. This result covers one of the eight
 dataset examples, not every timed-out stream. The unpersisted attempts remain
-censored observations, so their token counts and partial generation rates are
-unknown.
+censored for stream completion and usage, so their token counts and partial
+generation rates are unknown even though header-time proxy spans remain.
 
 ## Impact
 
@@ -38,9 +41,9 @@ unknown.
   timeouts. Experiment 3 persisted timeout results for its selected examples.
 - Most affected examples produced no usable experiment output despite the
   upstream model beginning work on some attempts.
-- Timeout attempts did not retain partial spans or completion-token counts,
-  increasing diagnosis time and making missing output look like transport
-  refusal.
+- Experiment results did not retain partial output or completion-token counts.
+  Proxy request spans retained header-time evidence, but not stream completion
+  or cancellation, and the split evidence surfaces increased diagnosis time.
 - No cluster-wide outage, proxy outage, authentication outage, data corruption,
   or workload resource saturation was observed.
 
@@ -66,12 +69,12 @@ All times are UTC on 2026-08-27.
 | 12:15:53–12:22:00 | Four timeout waves occurred at approximately 120-second intervals, representing the initial attempt and three retries. Phoenix then tripped the task circuit breaker. |
 | 12:25:20 | Experiments 2 and 3 were created. |
 | 12:27:21–12:29:20 | One experiment 2 run completed naturally with 8,424 completion tokens in 119.225 seconds. |
-| 12:27:20–12:33:27 | Further attempts timed out in approximately 120-second waves. Terminal rows recorded `timeout after 3 retries`; timed-out traces were absent. |
+| 12:27:20–12:33:27 | Further attempts timed out in approximately 120-second waves. Terminal rows recorded `timeout after 3 retries` without partial output or usage; proxy-project spans retained request-to-header evidence. |
 | Later that day | Proxy, Tailscale, pod health, Netdata, Phoenix source, experiment rows, and Playground spans were reviewed read-only. The network hypothesis was rejected and the Phoenix deadline was identified. |
 
 ## Evidence
 
-### Phoenix deadline and persistence behavior
+### Phoenix deadline and experiment-result persistence behavior
 
 The live Deployment ran
 `docker.io/arizephoenix/phoenix:version-20.4.0-nonroot`. In the exact source for
@@ -83,8 +86,8 @@ that release:
 - Timeout handling is separate from rate-limit and transient-error handling.
 - The task is retried three times before a terminal timeout result is
   persisted.
-- The timeout path does not persist the partial trace or token counts that the
-  success path writes.
+- The timeout path does not persist the partial output or token usage that the
+  experiment success path writes.
 
 See the exact-version
 [`TaskWorkItem` constructor](https://github.com/Arize-ai/phoenix/blob/a015c6f69ccb23f1eb2d2a31a25097b42f9dba00/src/phoenix/server/daemons/experiment_runner.py#L371-L420),
@@ -95,6 +98,33 @@ and [terminal retry handling](https://github.com/Arize-ai/phoenix/blob/a015c6f69
 Phoenix logs contained 64 matching `TaskWorkItem ... timed out` entries across
 the retry waves. The timing aligned with the source-level 120-second boundary,
 not with authentication refusal or immediate connection failure.
+
+### Evidence layers and retry correlation
+
+A later review corrected the initial assertion that timed-out attempts left no
+spans anywhere. The evidence was split across three Phoenix surfaces, and the
+experiment-result layer censored the attempts' partial response data:
+
+| Evidence surface | Retained evidence | Missing evidence |
+|---|---|---|
+| Playground `ChatCompletion` spans | Full outputs, completion latency, and token usage for 11 completed manual runs | Evidence for other unmeasured attempts |
+| `anthropic-oauth-proxy` project spans | Proxy request occurrence, request-to-upstream-header latency, and span status during timeout windows | Stream completion, token usage, partial output, and downstream cancellation |
+| Experiment results | Completed results and terminal timeout records | Partial output, partial usage, and useful elapsed-stream progress for timed-out attempts |
+
+Proxy `proxy_request` spans correlated with the incident cadence. Batches of
+eight spans appeared at 12:15:54.418–12:15:55.862,
+12:17:56.457–12:17:57.901, and 12:20:00.479–12:20:01.921. A later batch began
+at 12:25:20.280 alongside experiments 2 and 3. The spans were `OK` and lasted
+approximately 1.0–1.7 seconds.
+
+These spans show that the corresponding requests reached the proxy and
+received acceptable upstream response headers. They do not show that the
+streamed bodies completed: the proxy ends this instrumentation at header time.
+The correlation therefore strengthens rejection of authentication, rate-limit,
+and immediate transport-refusal hypotheses without measuring the cancelled
+portion of each stream. The displayed batches are strong attempt-level
+correlation; the project-wide trace count alone is not proof that every one of
+the 64 runner timeout events has a matching proxy span.
 
 ### Proxy and network path
 
@@ -156,7 +186,8 @@ were the non-thinking output-token remainder.
 Across all 11 manual runs, completion count explained about 96.3% of latency
 variance. This is strong evidence that output length dominated latency for the
 characterized example. It does not characterize the failed attempts for the
-other seven dataset examples because their partial spans were not persisted.
+other seven dataset examples because neither the experiment results nor the
+header-time proxy spans retain stream-completion usage.
 
 The one successful server-side experiment run completed naturally with 8,424
 completion tokens in 119.225 seconds, or about 14.153 milliseconds per token.
@@ -169,9 +200,11 @@ limit: the enforced mechanism remains wall-clock time.
 Phoenix 20.4.0's server-side experiment runner enforced a hard 120-second
 wall-clock deadline around the entire streamed model response. Streams that did
 not finish before that deadline were cancelled. After the initial attempt and
-three retries, Phoenix persisted a terminal timeout without the partial span,
-token count, or output. That caller-side cancellation and persistence behavior
-caused the apparent served-or-missing binary result shape.
+three retries, Phoenix persisted a terminal timeout without partial output,
+token usage, or a completed experiment result. Proxy request spans still
+preserved request-to-header timing. That caller-side cancellation and
+experiment-result persistence behavior caused the apparent served-or-missing
+shape in the experiment table.
 
 For dataset example 38, the required deliverable contract was a demonstrated
 contributing trigger: it increased output length enough that all five measured
@@ -180,10 +213,12 @@ as the cause for every other censored stream.
 
 ## Contributing Factors
 
-- Timeout attempts did not preserve partial span timing, token counts, or
-  output, hiding evidence of work already performed.
-- Proxy completion logs measured time to upstream response headers, not stream
+- Experiment results did not preserve partial output, token counts, or useful
+  elapsed-stream progress, hiding evidence of work already performed.
+- Proxy logs and spans measured time to upstream response headers, not stream
   completion or downstream cancellation.
+- Evidence was split across Playground spans, the proxy trace project, and
+  experiment results; the initial review did not query all three surfaces.
 - Phoenix and proxy logs lacked a shared request identifier for exact
   cross-component correlation.
 - The initial diagnosis treated absence of a persisted result as absence of
@@ -197,9 +232,9 @@ as the cause for every other censored stream.
 
 | Hypothesis | Disposition | Basis |
 |---|---|---|
-| OAuth proxy authentication failure | Rejected for this incident | Healthy accounts, successful refreshes, and no 401/403 series |
-| Rate limiting or quota exhaustion | Rejected for this incident | No 429, quota-exhaustion, cooldown, or failover evidence |
-| Proxy or Tailscale availability failure | Rejected for this incident | Healthy endpoint, reachable backend, successful 200 response headers, and no correlated ingress error |
+| OAuth proxy authentication failure | Rejected for this incident | Healthy accounts, successful refreshes, no 401/403 series, and correlated `OK` proxy spans |
+| Rate limiting or quota exhaustion | Rejected for this incident | No 429, quota-exhaustion, cooldown, or failover evidence; timeout-wave proxy spans reached upstream headers |
+| Proxy or Tailscale availability failure | Rejected for this incident | Healthy endpoint, reachable backend, correlated request-to-header spans, and no correlated ingress error |
 | Phoenix or proxy CPU/memory saturation | Rejected for this incident | Resource headroom with no throttling or memory pressure |
 | Output length explains every timeout | Open | Strong for example 38 and consistent with one successful experiment run; failed streams for other examples are censored |
 | Provider-side queueing or generation variance | Open but not required to explain example 38 | Completed manual runs were stable; failed-stream TTFT and partial throughput were not retained |
@@ -222,7 +257,7 @@ These are follow-up candidates, not authorized or implemented changes.
 | Test a shorter deliverable contract without using a low output ceiling | Prompt/evaluation work | Open | Repeated manual and server-side runs finish below 120 seconds while retaining required evidence coverage |
 | Determine whether a supported Phoenix release exposes a configurable task timeout; otherwise propose an upstream configuration option | Phoenix deployment/upstream | Open | Exact chart and app source show a supported setting, and a bounded test completes beyond 120 seconds without a source fork |
 | Add stream-end, downstream-cancel, and shared request/trace identifiers to proxy telemetry | `tailnet-microservices` | Open, separate repository | One request can be correlated from Phoenix start through proxy headers to stream completion or cancellation |
-| Preserve partial timeout telemetry in Phoenix or raise an upstream issue | Phoenix upstream | Open | A timed-out attempt retains elapsed time and partial usage without being misclassified as success |
+| Preserve partial experiment timeout telemetry in Phoenix or raise an upstream issue | Phoenix upstream | Open | A timed-out attempt retains elapsed stream progress and partial usage without being misclassified as success |
 
 Do not use an approximately 8,000-token `max_tokens` cap as the primary fix.
 Anthropic defines `max_tokens` as an absolute generation ceiling and reports
@@ -235,13 +270,15 @@ the final evidence table. See Anthropic's
 
 1. A binary persisted outcome does not prove a binary transport outcome. Check
    caller deadlines and persistence paths before assigning a network cause.
-2. Missing spans and token counts are censored observations, not zero work,
-   zero latency, or transport refusal.
+2. Missing experiment output and token counts are censored observations, not
+   zero work, zero latency, or transport refusal. Search every telemetry
+   project before concluding that no span exists.
 3. Correlate source semantics with event timing. The repeated approximately
    120-second waves were more discriminating than the absence of result rows.
 4. Distinguish response-header success from complete stream success.
-5. Completed-run throughput can identify a leading cause, but it cannot rule
-   out variance in failed streams that were never measured.
+5. Completed-run throughput can identify a leading cause, but header-time
+   proxy spans cannot rule out variance later in failed streams whose
+   completion was never measured.
 6. Record diagnosis and remediation separately. This report does not close the
    recurrence risk or authorize a prompt, Phoenix, or proxy change.
 

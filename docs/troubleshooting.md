@@ -171,8 +171,10 @@ responses with short latency even when Phoenix later records a timeout.
 Do not infer an authentication or network refusal from the missing experiment
 output alone. Phoenix 20.4.0 applies a 120-second wall-clock deadline around the
 complete streamed response. Its timeout path retries the task but does not
-persist the partial span or token counts. The deployed Anthropic OAuth proxy's
-`request completed` log is also header-time, not stream-completion time.
+persist partial output or token usage in the experiment result. Proxy-emitted
+request spans stored in Phoenix can still retain request-to-upstream-header
+timing. The deployed Anthropic OAuth proxy's `request completed` log and span
+are both header-time, not stream-completion time.
 
 First, identify the Phoenix timeout cadence:
 
@@ -186,11 +188,18 @@ Approximately 120-second waves support the caller-deadline path. Immediate
 5xx responses, or a failing tailnet health check instead support transport,
 authentication, or provider hypotheses and must be investigated separately.
 
+In Phoenix, also inspect the `anthropic-oauth-proxy` project for
+`proxy_request` spans in the timeout windows. A matching batch with `OK` status
+shows that requests reached the proxy and received acceptable upstream response
+headers; it does not prove the streamed body completed. Correlate this surface
+with experiment results and Playground spans rather than treating any one of
+them as the complete evidence population.
+
 For completed comparison runs, inspect both wall-clock latency and completion
-tokens. Do not treat a timed-out run with no persisted span as zero duration or
-zero generated tokens. A manual span longer than 120 seconds can complete
-successfully because the Playground request is not under the server-side
-experiment deadline.
+tokens. Do not treat a timed-out experiment result with no partial output or
+usage as zero duration or zero generated tokens. A manual span longer than 120
+seconds can complete successfully because the Playground request is not under
+the server-side experiment deadline.
 
 Mitigation remains a reviewed choice: verify a client-side experiment path,
 shorten the requested deliverable and measure it, or adopt a supported
