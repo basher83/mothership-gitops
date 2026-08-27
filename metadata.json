@@ -1,0 +1,30 @@
+{
+  "cli_version": "0.10.0",
+  "checkpoint_id": "01M11SXRBCTH8677BEMR3M7M9J",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 11,
+  "files_touched": [
+    "AGENTS.md",
+    "README.md",
+    "docs/incidents/2026-08-27-phoenix-experiment-timeouts.md",
+    "docs/incidents/README.md",
+    "docs/troubleshooting.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "compact_transcript": "/0/transcript.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": "/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 3027391,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 79110144,
+    "output_tokens": 385279,
+    "api_call_count": 631
+  }
+}
