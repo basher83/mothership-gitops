@@ -5,7 +5,7 @@ helm = "4.3.0"
 kubeconform = "0.8.0"
 pre-commit = "4.6.2"
 ripgrep = "15.2.0"
-yq = "4.53.6"
+yq = "4.54.1"
 
 [tasks.hygiene]
 description = "Run repository hygiene and schema checks"
