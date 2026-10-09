@@ -1,5 +1,7 @@
 # Longhorn RecurringJobs for automated backups
 # Label volumes with: recurring-job-group.longhorn.io/<tier>=enabled
+# Keep <tier> for manual labels and backup-<tier> for StorageClass selectors.
+# Both groups select the same existing job; do not create duplicate jobs.
 #
 # Tiers:
 #   critical  - Every 4 hours, 42 backups (7 days)
@@ -19,6 +21,7 @@ spec:
   concurrency: 1
   groups:
     - critical
+    - backup-critical
   labels:
     tier: critical
 ---
@@ -35,6 +38,7 @@ spec:
   concurrency: 1
   groups:
     - important
+    - backup-important
   labels:
     tier: important
 ---
@@ -51,5 +55,6 @@ spec:
   concurrency: 1
   groups:
     - standard
+    - backup-standard
   labels:
     tier: standard
