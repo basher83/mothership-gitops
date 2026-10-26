@@ -62,7 +62,15 @@ kubectl label volumes.longhorn.io <volume-name> -n longhorn-system \
 
 ## StorageClasses for New Volumes
 
-Tiered StorageClasses auto-assign recurring jobs to new volumes:
+Tiered StorageClasses select recurring-job groups for new volumes. Each
+RecurringJob retains its short tier group (`critical`, `important`, `standard`)
+for manually labeled volumes and also declares the matching `backup-<tier>`
+group selected by the StorageClass. These are two group names on the same job,
+not additional schedules.
+
+The group aliases reconcile a source mismatch without changing immutable
+StorageClass parameters or replacing StorageClasses. Job names, schedules,
+retention counts and manual tier-label instructions are unchanged.
 
 | StorageClass | Backup Tier |
 |--------------|-------------|
@@ -77,6 +85,26 @@ Use in PVC spec:
 spec:
   storageClassName: longhorn-critical
 ```
+
+## Verification boundary for the group-alias correction
+
+The source correction is not proof of backup coverage. After separately approved
+publication and reconciliation, verify the deployed RecurringJob groups and the
+actual group labels on each Longhorn volume. Existing labels and default-class
+volumes are not changed by this patch; volumes without a matching label still
+need an explicit coverage decision. The mapping above does not cover Phoenix or
+the OAuth proxy credential volume.
+
+Confirm recent successful backups at the target and exercise a representative
+restore before claiming recoverability. Retention values are backup counts, not
+guaranteed calendar coverage. Do not force-replace StorageClasses, recreate PVCs,
+or relabel volumes merely to deploy this correction.
+
+The Longhorn application self-heals from Git. Publishing this change can enable
+scheduled backups for volumes already labeled `backup-<tier>`; publication is an
+operational step, not just documentation. Review target capacity and coverage
+first. Reverting the added aliases would remove that enrollment path again;
+it would not restore data or undo backups already taken.
 
 ## GitOps Files
 
