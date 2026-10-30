@@ -1,0 +1,9 @@
+review the repo and provide a summary of how phoenix gets updated and deployed to the cluster
+
+---
+
+Yeah, somethings off because: https://github.com/Arize-ai/phoenix/releases/tag/arize-phoenix-v21.0.0
+
+---
+
+1. delete it 2. yeah this is why I callled you here lol
