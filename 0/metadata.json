@@ -1,0 +1,42 @@
+{
+  "cli_version": "0.12.2",
+  "checkpoint_id": "01M65M5EBNBV3K42PSH4MSJNDW",
+  "session_id": "3c9b8f75-1145-453b-8325-0204ff0c7454",
+  "strategy": "manual-commit",
+  "created_at": "2026-10-30T05:22:50.861347Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "apps/phoenix/application.yaml"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-5-5",
+  "turn_id": "eed3706717ba",
+  "checkpoint_transcript_start": 163,
+  "transcript_lines_at_start": 163,
+  "compact_transcript_start": 21,
+  "token_usage": {
+    "input_tokens": 10,
+    "cache_creation_tokens": 3720,
+    "cache_read_tokens": 574694,
+    "output_tokens": 2781,
+    "api_call_count": 5
+  },
+  "redaction": {
+    "replacements": 44,
+    "layers": {
+      "betterleaks": 0,
+      "connection_string": 0,
+      "credential_key": 0,
+      "credential_value": 0,
+      "credentialed_uri": 0,
+      "entropy": 44,
+      "key_context": 0,
+      "provider_token": 0,
+      "shell_stdin": 0
+    }
+  },
+  "session_metrics": {
+    "turn_count": 3
+  }
+}
