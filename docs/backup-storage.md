@@ -78,6 +78,44 @@ spec:
   storageClassName: longhorn-critical
 ```
 
+## Pre-Upgrade Snapshots
+
+Take a manual Longhorn snapshot before any upgrade that migrates an app's
+on-disk schema (for example, a Phoenix major on its single SQLite database).
+Reverting the chart in Git does not undo a migration. Rollback means reverting
+the bump and restoring the volume from the snapshot. This matters most for
+volumes with no backup tier, such as `phoenix/phoenix-helm-data-pvc`, where
+the snapshot is the only copy.
+
+```bash
+VOL=$(kubectl -n <ns> get pvc <pvc> -o jsonpath='{.spec.volumeName}')
+cat <<EOF | kubectl apply -f -
+apiVersion: longhorn.io/v1beta2
+kind: Snapshot
+metadata:
+  name: <app>-pre-<version>-<yyyymmdd>
+  namespace: longhorn-system
+spec:
+  volume: ${VOL}
+  createSnapshot: true
+EOF
+kubectl -n longhorn-system get snapshots.longhorn.io <name> \
+  -o jsonpath='{.status.readyToUse}'
+```
+
+A snapshot taken while the pod runs is crash-consistent, which is acceptable
+for SQLite. These Snapshot objects are not managed by ArgoCD. Delete them once
+the upgraded version has run cleanly under normal load, and record outstanding
+ones below so they do not accumulate.
+
+| Snapshot | Volume | Created | Delete after |
+|----------|--------|---------|--------------|
+| `phoenix-pre-v21-20261030` | phoenix-helm-data-pvc | 2026-10-30 | Phoenix 21 stable (target 2026-11-13) |
+
+```bash
+kubectl -n longhorn-system delete snapshots.longhorn.io <name>
+```
+
 ## GitOps Files
 
 | File | Purpose |
