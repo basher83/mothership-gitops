@@ -9,7 +9,9 @@ For apps with supporting resources in this repo (ExternalSecrets, Ingress,
 extra manifests):
 
 1. Create `apps/<app-name>/` with `application.yaml` (Helm chart source +
-   values).
+   values). Set `targetRevision` to an exact chart version such as `1.2.3`,
+   not a range like `1.*`. `mise run validate:gitops` fails on ranges, and
+   Renovate's update rules in `renovate.json` only apply to exact pins.
 2. If the app has a web UI, add `ingress.yaml` with a Tailscale Ingress
    (required — see below).
 3. If the app needs secrets, follow [ExternalSecrets Integration](#externalsecrets-integration).

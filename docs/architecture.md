@@ -80,9 +80,11 @@ Kubernetes resources with kubeconform. The workflow runs on `renovate/**`
 branch pushes so the inherited `prCreation: not-pending` policy receives a
 repository-owned result before Renovate creates a PR. The render is
 cluster-independent: it does not prove CRD semantics, admission behavior,
-Argo reconciliation, or live runtime health. Floating chart revisions are
-intentionally reported and skipped because re-resolving them would make an
-unrelated pull request test a different desired version.
+Argo reconciliation, or live runtime health. A chart Application with a
+floating `targetRevision` fails the gate. A range would re-resolve on every
+render, so a pull request could test a different version than the one ArgoCD
+deploys, and it would upgrade without a Renovate PR. Pin new charts to an
+exact version, or to the live version when converting an existing range.
 
 `tailscale-operator`, `netdata`, `homarr`, and `argo-cd` floated on
 major-version wildcards until 2026-11-07. Renovate cannot bump a wildcard, so

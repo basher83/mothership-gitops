@@ -29,7 +29,7 @@ if [[ ${#yaml_files[@]} -eq 0 ]]; then
 fi
 
 rendered_count=0
-skipped_count=0
+unpinned_count=0
 
 while IFS= read -r application_json; do
   source_file="$(printf '%s\n' "${application_json}" | yq -p=json -r '.file')"
@@ -41,9 +41,9 @@ while IFS= read -r application_json; do
   namespace="$(printf '%s\n' "${application_json}" | yq -p=json -r '.application.spec.destination.namespace')"
 
   if [[ ! "${revision}" =~ ^v?[0-9]+\.[0-9]+\.[0-9]+([+-][0-9A-Za-z.-]+)?$ ]]; then
-    printf 'skip %-28s chart=%s revision=%s (not exact-pinned)\n' \
-      "${app_name}" "${chart}" "${revision}"
-    skipped_count=$((skipped_count + 1))
+    printf '%s: %s chart=%s revision=%s is not exact-pinned; pin it to the live version\n' \
+      "${source_file}" "${app_name}" "${chart}" "${revision}" >&2
+    unpinned_count=$((unpinned_count + 1))
     continue
   fi
 
@@ -103,10 +103,14 @@ done < <(
     "${yaml_files[@]}"
 )
 
+if [[ "${unpinned_count}" -ne 0 ]]; then
+  echo "${unpinned_count} chart Application(s) use a floating targetRevision" >&2
+  exit 1
+fi
+
 if [[ "${rendered_count}" -eq 0 ]]; then
   echo "No exact-pinned chart Applications were rendered" >&2
   exit 1
 fi
 
-printf 'Validated %d exact-pinned chart Application(s); skipped %d floating revision(s).\n' \
-  "${rendered_count}" "${skipped_count}"
+printf 'Validated %d exact-pinned chart Application(s).\n' "${rendered_count}"
