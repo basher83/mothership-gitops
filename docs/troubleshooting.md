@@ -94,6 +94,7 @@ argocd app sync longhorn-helm \
   --revision <matching-revision>
 ```
 
+CLI access and login are covered in [`argocd-cli.md`](argocd-cli.md).
 If an ArgoCD API session is unavailable, the Kubernetes-side equivalent is a
 one-time operation request. Keep `prune: false`, use the already-verified
 revision, and do not use this to force a downgrade:

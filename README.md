@@ -49,6 +49,8 @@ ServiceAccount the chart creates.
 
 - `kubectl` configured via Omni proxy
 - `helm` CLI
+- `argocd` CLI (Homebrew) for post-bootstrap inspection and manual sync
+  gates; see [ArgoCD CLI](docs/argocd-cli.md)
 - Infisical Universal Auth credentials (Machine Identity)
 
 ### Deploy
@@ -161,6 +163,8 @@ docs/
   egress-to-tailnet patterns
 - [Radar Deployment Specification](specs/radar-in-cluster.md) - Access,
   persistence, MCP, and validation contract
+- [ArgoCD CLI](docs/argocd-cli.md) - Core vs server mode, login, manual
+  sync gates, version skew
 - [Backup Storage](docs/backup-storage.md) - Longhorn backup tiers, MinIO S3
 - [Troubleshooting](docs/troubleshooting.md) - ArgoCD, ESO, Tailscale
   Ingress, SSA, and Helm chart gotchas
