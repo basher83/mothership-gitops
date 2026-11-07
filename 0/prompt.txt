@@ -1,0 +1,110 @@
+ah so more renovate problems? can you give me that summary real quick
+
+---
+
+my agent in ~/3I/lab/renovate-config took a look and:  I checked the agent's report against Git, the live cluster and a Renovate 44.222.0 dry
+ run. The facts all hold, but finding 1 was already known, part of fix 2 is aimed at an
+ app Renovate never updates, and nothing here needs a change in renovate-config.
+
+ What checked out
+
+ - Live state matches the table. Read-only kubectl against talos-prod-operator shows
+   argocd-ha-helm with spec 7.*, live 7.9.1, OutOfSync and manual sync, while Git says
+   10.*. Homarr (8.41.1), netdata (3.7.178) and tailscale-operator (1.104.4) are Synced
+   with auto-sync. The four exact-pinned charts are Synced and match Git.
+ - "With a range, Renovate only proposes majors" is true. In the dry run, the four ranged
+   charts got no updates at all. The exact pins did get minor updates (external-secrets →
+   2.14.0, longhorn → 1.13.0, radar → 1.20.0).
+ - These are local rules, not shared ones. The shared presets don't mention ArgoCD. All
+   the argocd-manager rules (patch automerge, Monday minors, major approval) live in
+   mothership-gitops/renovate.json. Commit 515852f says it added them because
+   kubernetes.json covers only helmv3/helm-values.
+
+ Corrections to the agent's report
+
+ 1. The ranged charts were a known, written-down gap. On 2026-07-20, ESO and longhorn were
+    pinned (09369cf, 6d16aee) because longhorn had drifted from 1.10 to 1.12 without a
+    commit. docs/architecture.md:73-75 still says the other four "upgrade unattended
+    within their major. Pin them to opt into PR-gated upgrades." What's actually new is
+    the argocd-ha drift.
+ 2. anthropic-oauth-proxy doesn't belong in fix 2. Its Application points at
+    tailnet-microservices.git on main, which Renovate skips as an invalid version, so
+    Renovate never opens a PR for that app. Its image changes now come only from
+    tailnet-microservices CI, since Renovate is disabled there. A needs-promotion label
+    would only ever apply to the apps/argocd/** files.
+
+ Recommendations (all in mothership-gitops)
+
+ 1. Let Renovate pin the ranges by adding {"matchManagers": ["argocd"], "rangeStrategy":
+    "pin"}. I tested this. Renovate proposes pin updates to exactly the live versions:
+    homarr 8.41.1, netdata 3.7.178 and tailscale-operator 1.104.4. The three auto-synced
+    apps wouldn't change in the cluster, and anyone adding a new range later gets it
+    re-pinned automatically. After that, the existing patch, minor and major rules apply
+    to them. Two caveats:
+     - Pin PRs aren't automerged by the patch rule, so you'd merge that one PR by hand.
+     - It would also pin argo-cd to 10.14.0. That doesn't deploy anything because the gate
+       is manual, but it makes the version you're promoting to explicit.
+
+    Update docs/architecture.md:73-75 in the same change.
+
+ 2. Label scope: match "matchFileNames": ["apps/argocd/**"] and add prBodyNotes saying a
+    merge needs a manual sync. It's cheap, but it wouldn't have prevented this drift. The
+    gate already showed OutOfSync for other reasons, so one more OutOfSync change went
+    unnoticed. The fix that would actually catch it is getting the gate back to Synced, so
+    a new OutOfSync stands out.
+
+ 3. The real outstanding work is promoting ArgoCD from 7.9.1 to 10.x. That jumps three
+    majors on the cluster's own control plane. It needs its own plan, not a Renovate rule.
+
+ For renovate-config
+
+ Nothing to change. Adding ArgoCD rules to kubernetes.json would have one consumer, which
+ is the same evidence problem as #135. If a second GitOps repo starts using the argocd
+ manager, the rules in mothership-gitops/renovate.json would be the starting point for a
+ shared version.
+
+ Test notes: Renovate 44 logged "Unsupported node environment detected" during the runs,
+ but the dependency results came out in full. Your mothership-gitops checkout is 2 commits
+ ahead of origin, presumably the other agent's unpushed work; I didn't touch it. All test
+ copies are under /tmp/rv-*.
+
+---
+
+and you merge it by hand - yeah but that's what I prefer to avoid if possible. whats my other options? Optional: the apps/argocd/** prBodyNotes rule - skip
+
+---
+
+1. Write the pins directly instead of merging a pin PR. I agree with this. One
+ adjustment: re-read the live versions right before committing. Auto-sync re-resolves a
+ range whenever a new chart is published, so 8.41.1, 3.7.178 and 1.104.4 could move before
+ the commit lands. Pin to whatever is live at that moment and the cluster doesn't change.
+
+ 2. Exclude argo-cd from automerge. This is the important one. Today 10.* gets no patch
+ PRs, so the existing patch automerge rule never touches argo-cd. Once it's pinned to
+ 10.14.0, the next 10.14.x patch will automerge into Git and never deploy, because the
+ gate is manual. That's the same "Git moved, cluster didn't" drift, now on a schedule. Add
+ argo-cd to the substrate no-automerge rule, the one that already exempts longhorn and
+ external-secrets.
+
+ 3. Prevent new ranges instead of auto-pinning them. The automerge-pin rule (option 2)
+ works: mothership-gitops automerges today, and Renovate merged the Phoenix patches
+ itself, gated by fast-gate → mise run ci → validate:gitops. After the pins are written by
+ hand, though, it only matters if someone adds a range later. It's simpler to make
+ validate:gitops fail on a range instead of skipping it, which also closes the gap the
+ agent reported where validate:gitops skips ranged charts. Keep rangeStrategy: "pin" as a
+ backstop, and skip the automerge-pin rule. - Automerge minors for homarr, netdata and tailscale-operator. Today these three take
+   minor upgrades with no review at all. Automerge keeps that hands-off, and adds a
+   commit, a PR and a render check to every upgrade. I'd include tailscale-operator:
+   keeping it on manual review would add work compared with today.
+ - Give them their own group, or none. A grouped PR only automerges if every update in it
+   is marked automerge (config.automerge = upgrades.every(...) in Renovate's branch code).
+   If they stay in ArgoCD Charts (Minor), minors for ESO, longhorn and radar (2.14.0,
+   1.13.0 and 1.20.0 are pending right now) would block every automerge.
+ - Consider minimumReleaseAge (e.g. 3 days, like the mise preset). It gives a buffer
+   against a bad release on day zero. First confirm with a dry run that each chart repo
+   publishes release timestamps. Renovate 4x holds updates that have no timestamp, and I
+   haven't checked the tailscale chart repo. Suggested shape: one commit containing the exact pins, the rangeStrategy: "pin" rule,
+ argo-cd added to the no-automerge rule, the minor-automerge rule for the three charts in
+ a separate group, and the architecture.md rewrite. Then a separate commit that makes
+ validate:gitops fail on ranges, and the #94 comment. Pushing them together with d531a3f
+ and 1e77fb4 is fine.
