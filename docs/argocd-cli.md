@@ -81,6 +81,14 @@ argocd context argocd.tailfb3ea.ts.net
 Sessions expire. An `Unauthenticated ... Token is expired` error means the
 saved context still exists but needs `argocd relogin`.
 
+The server's external URL (`argocd-cm` `url`) comes from the chart's
+`global.domain` value, which `apps/argocd/ha-upgrade.yaml` sets to the
+Tailscale hostname. Until that value is promoted through the `argocd-ha-helm`
+gate, the live value stays at the chart default, `https://argocd.example.com`.
+CLI login works either way. Links ArgoCD generates for itself, such as
+notification links and any future SSO redirect URIs, are only correct after
+promotion.
+
 The `radar` local account is API-key only with `applications, get`. It exists
 for Radar's Git-rendered diffs and is not an operator login; see
 [`../specs/radar-in-cluster.md`](../specs/radar-in-cluster.md).

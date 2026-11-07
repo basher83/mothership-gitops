@@ -19,6 +19,11 @@ spec:
     targetRevision: 10.*
     helm:
       valuesObject:
+        global:
+          # Tailscale Ingress hostname (apps/argocd-ingress). Renders the
+          # argocd-cm `url` and notifications `argocdUrl`; the chart default
+          # is argocd.example.com.
+          domain: argocd.tailfb3ea.ts.net
         server:
           replicas: 2
           extraArgs:
