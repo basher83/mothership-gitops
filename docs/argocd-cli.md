@@ -132,6 +132,6 @@ available. Skew matters most in core mode, where the client reads server-side
 ConfigMaps and CRDs directly.
 
 As of 2026-11-07 the Homebrew client is v3.6.1 and the live server is v2.14.11
-(chart `7.9.1`). Git pins `argo-cd` chart `10.*`, so the next `argocd-ha-helm`
+(chart `7.9.1`). Git pins `argo-cd` chart `10.14.0`, so the next `argocd-ha-helm`
 promotion is a major ArgoCD v2 → v3 upgrade, not a routine sync. Review the
 upstream upgrade notes before running it.

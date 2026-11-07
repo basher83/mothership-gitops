@@ -12,7 +12,7 @@ spec:
   source:
     repoURL: https://homarr-labs.github.io/charts/
     chart: homarr
-    targetRevision: 8.*
+    targetRevision: 8.41.1
     helm:
       valuesObject:
         # Recreate strategy avoids RWO volume scheduling conflicts on rolling updates

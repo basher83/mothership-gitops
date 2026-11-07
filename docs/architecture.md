@@ -48,15 +48,29 @@ plus `ServerSideApply=true`. Deviations are deliberate:
 
 ## Chart Versioning
 
-Substrate charts are exact-pinned: `longhorn-helm` and `external-secrets-helm`
-(everything else transitively depends on storage and secrets), plus `phoenix`
-(pinned after the 5.0.23 -> 9.0.3 upgrade churn) and `radar`. Version bumps for
-pinned charts arrive as Renovate PRs via the `argocd` manager
-(`renovate.json`): patches auto-merge except for the substrate pair and Radar,
-minors group for Monday review, and majors require dependency-dashboard
-approval. Radar never auto-merges at any update level because its chart couples
-the UI, MCP tool surface, generated ClusterRole, and SQLite storage behavior.
-Merging the PR is the promotion step.
+Every chart Application is exact-pinned. Version bumps arrive as Renovate PRs
+via the `argocd` manager (`renovate.json`), and `rangeStrategy: pin` re-pins
+any range that slips in. The update policy varies by chart:
+
+| Charts | Patch | Minor | Major |
+|--------|-------|-------|-------|
+| `homarr`, `netdata`, `tailscale-operator` | Auto-merge after 3 days | Auto-merge after 3 days, own group | Dashboard approval |
+| `phoenix` | Auto-merge | Monday review group | Dashboard approval |
+| `radar` | Review | Monday review group | Dashboard approval |
+| `longhorn`, `external-secrets` | Review | Monday review group | Dashboard approval |
+| `argo-cd` | Review | Monday review group | Dashboard approval |
+
+The substrate pair never auto-merges because everything else transitively
+depends on storage and secrets. Radar never auto-merges because its chart
+couples the UI, MCP tool surface, generated ClusterRole, and SQLite storage
+behavior. The three formerly floating charts auto-merge minors in a separate
+group because Renovate only auto-merges a grouped PR when every update in it is
+auto-mergeable, so a pending reviewed minor would otherwise block them.
+
+For auto-synced Applications, merging the PR is the promotion step. `argo-cd`
+is the exception: merging only updates Git, and the cluster changes when the
+manual `argocd-ha` and `argocd-ha-helm` gates are synced. It therefore never
+auto-merges, so Git cannot silently run ahead of the gate.
 
 Renovate automerge relies on the repository-owned `Fast Gate` workflow. Its
 `mise run ci` task preserves the pre-commit hygiene and YAML checks, validates
@@ -70,9 +84,12 @@ Argo reconciliation, or live runtime health. Floating chart revisions are
 intentionally reported and skipped because re-resolving them would make an
 unrelated pull request test a different desired version.
 
-Remaining charts (`tailscale-operator`, `netdata`, `homarr`, `argo-cd`) still
-float on major-version wildcards — Renovate cannot bump a wildcard, so they
-upgrade unattended within their major. Pin them to opt into PR-gated upgrades.
+`tailscale-operator`, `netdata`, `homarr`, and `argo-cd` floated on
+major-version wildcards until 2026-11-07. Renovate cannot bump a wildcard, so
+they upgraded unattended within their major. They were pinned to the versions
+live at commit time so the cluster did not change. Pinning below the live
+version would request a downgrade (see the Longhorn entry in
+`troubleshooting.md`).
 
 ## Network Exposure
 

@@ -9,6 +9,11 @@
   },
   "packageRules": [
     {
+      "description": "Backstop: pin any ArgoCD-managed chart range; validate:gitops rejects ranges",
+      "matchManagers": ["argocd"],
+      "rangeStrategy": "pin"
+    },
+    {
       "description": "Auto-merge ArgoCD-managed chart patch updates (PR merge)",
       "matchManagers": ["argocd"],
       "matchUpdateTypes": ["patch"],
@@ -28,15 +33,29 @@
       "schedule": ["before 5am on Monday"]
     },
     {
+      "description": "Formerly floating charts: auto-merge minors in their own group so pending reviewed minors cannot block automerge",
+      "matchManagers": ["argocd"],
+      "matchPackageNames": ["homarr", "netdata", "tailscale-operator"],
+      "matchUpdateTypes": ["minor"],
+      "groupName": "ArgoCD Charts (Minor, automerge)",
+      "automerge": true
+    },
+    {
+      "description": "Formerly floating charts: hold auto-merged updates for 3 days as a day-zero buffer",
+      "matchManagers": ["argocd"],
+      "matchPackageNames": ["homarr", "netdata", "tailscale-operator"],
+      "minimumReleaseAge": "3 days"
+    },
+    {
       "description": "Require approval for ArgoCD-managed chart major updates",
       "matchManagers": ["argocd"],
       "matchUpdateTypes": ["major"],
       "dependencyDashboardApproval": true
     },
     {
-      "description": "Substrate charts (storage, secrets): no automerge at any level",
+      "description": "Substrate charts (storage, secrets) and argo-cd (merge does not deploy past the manual argocd-ha gate): no automerge at any level",
       "matchManagers": ["argocd"],
-      "matchPackageNames": ["longhorn", "external-secrets"],
+      "matchPackageNames": ["longhorn", "external-secrets", "argo-cd"],
       "automerge": false
     },
     {
