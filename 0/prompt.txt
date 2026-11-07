@@ -1,0 +1,29 @@
+review the repo and see if argocd cli is documented with useage
+
+---
+
+yeah I was working on the proxy with an agent and we ran into this: The cluster is now running current code, and live:validate passes end to end with no drift warning.
+
+- ArgoCD: one sync took the app from OutOfSync to Synced. The only change was the Deployment image, sha-76c2c4a (2026-09-23) → sha-878f282. That brings in the Oct 4 otel 0.32 work and today's rustls/quinn-proto fixes.
+- New pod: anthropic-oauth-proxy-9b54d77df-6ncwn. claude-max-1794024529 loaded from the PVC as available. The pool reports healthy with 0 errors.
+- Requests: Pi returned live-proxy-ok. Phoenix shows a span from the new pod at 06:50:47Z: proxy_request, OK, HTTP 200.
+- Startup WARN: "[oauth] and [[headers]] both present — [oauth] takes precedence". The old pod logged the same line on startup, so it isn't new with this image. It's still a small config cleanup you could make.
+
+Pod logs: both snapshots of the old pod are in the scratchpad. The most complete is /private/tmp/claude-501/-Users-basher8383-3I-forge-tailnet-microservices/795e2dc2-0d47-447f-b0b5-65c6e6d8eaa5/scratchpad/proxy-logs-l4qmm-presync-20261107T0649Z.jsonl (1,243 lines covering the whole Nov 3–7 outage). Scratchpad is session-scoped, so say if you want it moved somewhere permanent.
+
+Getting the CLI to work: the argocd CLI's current context is kubernetes, which works directly through kubeconfig. That mode needs kubeconfig's namespace set to argocd, and yours isn't, which caused the argocd-cm not found error. I worked around it with a temporary kubeconfig copy in the scratchpad and didn't change yours. To skip this next time, either run argocd context argocd.tailfb3ea.ts.net to use the server login, or add a namespace to that kubeconfig context. I could add this to deployment.md too.
+
+---
+
+argocd is managed by homebrew currently and thats where it should be for system clis. a pin in this repos mise would counter that and needs a bigger decision point if that's a better way forward. docs/argocd-cli.md and add argocd to the README makes sense now though
+
+---
+
+The Omni context isn't tested and the doc says so - so why not test it then? There's no SSO in live argocd-cm, and the initial password is in
+   argocd-initial-admin-secret unless it was changed - thats an answer you can get. anthropic-oauth-proxy shows OutOfSync from main (2f79559) right now - that tracks some repo churn over there right now, expected. Live argocd-cm has url: https://argocd.example.com, which is a placeholder. Login
+   works without it, but links ArgoCD generates for itself will be wrong. That's a
+   separate fix - right but we are literally addressing argocd right now ...
+
+---
+
+it tool 11 secs because I had to do the browser oauth flow lol. two commits is good. then make sure an issue in the repo is open with the v2 → v3 upgrade need
