@@ -1,0 +1,218 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:b61f0e0a7382d6bc93e409e38de9fe06bccb5aecc71c79e7f75fab9cdb7239b4",
+  "claims": [
+    {
+      "id": "claim_378b282e097541f5bf68c032a0e13436",
+      "statement": "Repository policy requires every web UI to use Tailscale Ingress with no public exposure; Talos/Omni substrate and Cilium MTU guidance belong to Omni-Scale.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L35-L38",
+          "version": "repo-lines-v1:sha256:4f6690943b311dfaa5eb7a3c94a4be8053f8061eaf95beb1d540fa9bd9661884:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjdjZGYyYmI2ZjQxZjViODM2OTlkMTRiMjFiZmIxYjYwNzRiNTQ5Y2I5YWU3ODQzOTQ5YjI3ZjgwNGNkOGQzNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGZjNWY1MGQ2NTBlZDVhZDM5ZjRiZWFkNDM2NzY4ZGRiMTQwZGM4N2RhZWIwNTlkNDY5N2UxNjU3MzEyMmMxZiJ9"
+        },
+        {
+          "resource": "repo://AGENTS.md#L7-L16",
+          "version": "repo-lines-v1:sha256:b038a2268d105ab45ed2274cd1ae94caea49537ec6b8cd0ebcf2056cf4d6a776:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1ZGMwMTU0MDBjY2Q5NTkzOTI2NDVlM2MxZTZjNmFjMzAzN2E1ODE1MTk0OGU4NWQwNzQ1YzE0OGEyOTAxMGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUwYWY4NTVjMzUyMjBhM2ZmNTFmZGQ3MmJiMjBjZjQzYzA0NTA0ZTgzMTg2MmY4NDhiMDE4NjcyMTBjMGIyOGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFiYWIxNDhmZThkMTc3YjFhYzM4MGE3ZTdkZDA3N2I4OGIyNmE5ZDlkMmYxMDgyN2Y5NzgwYjU4Y2UzODczMTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_75401c8db378466a9a1ebadbb972b15b",
+      "statement": "The Tailscale operator Helm Application is pinned to 1.104.4, consumes operator-oauth credentials, configures talos-prod-operator and API server proxy mode, and reconciles with automated prune/self-heal and server-side apply.",
+      "evidence": [
+        {
+          "resource": "repo://apps/tailscale-operator/application.yaml",
+          "version": "repo-file-v1:sha256:dabfb590a9c5ada753c8d1e49498c07a23bb4311e7656cdde96f4a371fa58a17"
+        }
+      ]
+    },
+    {
+      "id": "claim_69c2aa1b722d481e9ce2e934354a196a",
+      "statement": "Tailscale proxy pods require privileged networking, and the operator namespace sets enforce, audit, and warn Pod Security labels to privileged.",
+      "evidence": [
+        {
+          "resource": "repo://apps/tailscale-operator/namespace.yaml",
+          "version": "repo-file-v1:sha256:f234f7807bc2c803f8d02be6f7d6475d688482d74434ac3e0ea32a298f1c4d19"
+        },
+        {
+          "resource": "repo://docs/troubleshooting.md#L293-L314",
+          "version": "repo-lines-v1:sha256:eacc71126cb1c9e2ab643ce26114f0907f3fa42d5109c0c224b40314f3f7778a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkNGFjZjlmMzk5MTA4NWI5MzE3MTBlYmU0OTNlNTJiMzY3NWY0ZWM4NDU3ZGJkMjhhYjljOGUxMjYwZTA1ODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdkZTc4NGEwOTVhOGE2ZDcwZTg5ZGZiY2Q5N2ZkYzYyOTMxYzgzMTE1ZGNhZjBlZjE2ZWRiZmU4OWNiNWFiOWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgwZDg0MmZjMmMyNmQ4MDhmYTI4MWM1MzA3NTQ0MmY1Yzc1ZjRmOGEwZDJkMjk1MDYzNTkxNzMwZWNhNTEyODYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ce5b95325ee2481da28034f08f5491c5",
+      "statement": "Tailscale Ingress exposes browser UIs on HTTPS 443 with automatic TLS while forwarding to the declared backend port; Homarr routes to homarr-helm:7575 and initial certificate provisioning may delay first access.",
+      "evidence": [
+        {
+          "resource": "repo://apps/homarr/ingress.yaml",
+          "version": "repo-file-v1:sha256:6fbc0a2138a750bfb1ad54f737e5acc9a13e6ec9a1b4fe1bedc5132caf396573"
+        },
+        {
+          "resource": "repo://docs/tailscale-networking.md#L6-L18",
+          "version": "repo-lines-v1:sha256:7bbffb5722a5f6881d1d80a2ed7d11ed01f044c286b128102b53951470f836c5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhmNWZlYzNkY2NjMWY5MzcwNzQyOTdmYzc4NmRjMDg1ZjUxNmI4NDhhNjcwY2Q0MDQ2M2Q5MjBlM2E5YzY5MDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkMzQ0YmY1NjFiOWNiNTU1MzFjYTE3ZmZkMTdmMzliMzljZjIyY2MxNDgxM2I0MWYzMGJjMTBhYmY2Yjg2YzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdmNmJkNjg4Nzk4OTBjNzE0ZWJlMzRhN2YyMjk3ZjJkYTNhODQzNzFhOTdlYzA1OWVlNzU1NDg4OGMzNjJlN2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVmMmJkNmIzZDU5ZjdhZTVmODFiNzE4OTY4ZGFmMWNiZTYxY2JmMjQ3OTA4NGI1MDNhNWQwNGMwMGU2N2NmM2IifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f69c711db50c4070a3df0dc4bae0d4b2",
+      "statement": "Service annotation exposure forwards the backend port rather than remapping it to HTTPS 443, and some Helm charts do not propagate Service annotations, so local Tailscale Ingress is preferred for UIs.",
+      "evidence": [
+        {
+          "resource": "repo://docs/troubleshooting.md#L316-L367",
+          "version": "repo-lines-v1:sha256:f2c03d7e0ecc5bcb89d432c3f9748ccef49f18df8577899ab6f3f326b30f5caa:eyJzZWxlY3RlZExpbmVDb3VudCI6NTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNkNzkyNGY4YzAxZDY2NDRmOTc5ZDY0ZTkyZmRjNTM5ZTYzYjMxMGU5YjEwNDUwODU0Y2M2MTVkNmZlYmQ1ODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0ZTViN2I4ZmU1YmQ0ZmI5NjVkYjc3MmNjMTVhY2Y3NjZmMTAwZTdmMjYyYmFjODVmMGY2NjJjMDg2NDlhZjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY0Nzc3MTdkYzMwNGI1ZDBiZTZjYWVjYmY2NzljYTM1NTdiYzg1MTYyMzkzOTVjZDNlYTIxYjI0MDJiZTZiNTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBjNTE2NTJmYTI1MmVkOWM5MGIxY2M5MzA5YTY5YTQxYmUxNGQ5ODM2ZDY4M2I3OTBmOWFjZWQ1OWIxNmE2ZGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_373a8a5e64e54343badf49f8731c02d5",
+      "statement": "Tailscale Ingress controls the tailnet path but does not itself stop ordinary cluster pods from calling backend ClusterIPs; applications relying on this user-access boundary need an ingress NetworkPolicy.",
+      "evidence": [
+        {
+          "resource": "repo://docs/tailscale-networking.md#L20-L25",
+          "version": "repo-lines-v1:sha256:800d4ae81f1d04b29b3632fb9366e5e264793493df1cabf0280ab4d68fa871ed:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWM1ZGQwOWU3YzVkOTIwNGEwODIxMDBmNzcxOGU4ZTc4MjJmN2ZiYzA3NTQ0NmEyZTNhNmJkZjI1YTBhOTU4MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjQ3OWY2YWFkZDg4ZDMzNTc1NGE5NmU0MWJmNDE4NWU3NmMxZmZhM2Y3MTA5OTVkMDExZTJkOTBlMDZlODMxMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWQyNmUzMzIzNGZkNTg4ZjNjOTI3MmM0ZTUwZDM3Y2FkNzIyMDJkMWNmNzBhOWFlMzQwOThiZDkzMmM5MGM1ZSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_231675f4f8bd46cda37b53b1cfc6ab61",
+      "statement": "Radar disables application authentication, enables MCP, and uses a ClusterIP Service on 9280 with a Tailscale Ingress serving both UI and MCP.",
+      "evidence": [
+        {
+          "resource": "repo://apps/radar/application.yaml#L19-L32",
+          "version": "repo-lines-v1:sha256:b03bccd85d57894799b163ffabc9119b42f7bf0baf11c62b39640f8a2b163228:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1OTJlMzhhZDU5ODM4ZWQ0ZGFlN2NmOGRmOTg3NDRkYzFmMzA2NTUwNGY0ZTgxZDI5MDRjZDIzYzM5NjNlMzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5MzYyZGJjMmYwNzVlZmQyYmUyZjliNWY2MzdhYzA3NzI4OGM5ZWMxMDllNDAwZDg1YWU4ZmY0NzgxYjFmM2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY4Nzg5NjcxZWMzNDkxYTZhZTM3NjkyYWZjZjM5MDE0MGZiYzI4YTQ1MmE5NmI0MmQ3MDYwOGY5NTYzYjMwNTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZlZjdkOWMwMjQ5Yjg2YjNhN2E2NjkyOTcxYjMxYmM2N2Q5ZWRmYjI2M2U4Y2UxYmQ1MGQ2ZGRiZjhjZTJjZGQifQ"
+        },
+        {
+          "resource": "repo://apps/radar/ingress.yaml",
+          "version": "repo-file-v1:sha256:3067839254b245b28f53b78755e6f59264c84852e53d4a77365d8d5d6283f997"
+        }
+      ]
+    },
+    {
+      "id": "claim_1ed2de79aca442f7aa5d2d00c32604be",
+      "statement": "Radar's ingress-only NetworkPolicy selects its name and instance labels and allows TCP 9280 from a single peer combining the tailscale-operator namespace selector with managed and Radar parent-resource proxy labels; these selectors are ANDed, not alternative sources.",
+      "evidence": [
+        {
+          "resource": "repo://apps/radar/networkpolicy.yaml",
+          "version": "repo-file-v1:sha256:f64d244c7ea3bee9376d514761d742a19a46468a49ba6503159476cf057d5416"
+        },
+        {
+          "resource": "repo://docs/tailscale-networking.md#L27-L46",
+          "version": "repo-lines-v1:sha256:a2865996c91b55c18e4574b2da51a2ebc638f024d0fd0fb0d90a40f772ce3246:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY3MTQwNjQxYTg3NTkxNjM5ZjQ3MzdkZWUwOWY3NDI2OTdkMzVlY2JhNzk0ZjNlOGRlZWFhMDM4MWQ4NWExZDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjczZTUyZTU5ODRjOTU3MWU5ZTBiZmUzNGQ2Y2U2ZDZhZTMwNWQ3ZDNlNGJhN2MyMzJhNDM5YzcwOGU1ZDU1Y2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNiOTVhOWE1YmRkZmIyM2I1NGYzMGNlY2I5NTRmYTQ5ODYzYjcxNjQyZDYyYzg2MzZkNzUzZWZhNDFhMzg0ODYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3d295fde8fcb47c39b0570899b5e556a",
+      "statement": "Operator-generated app UUIDs must not be committed as policy identities, and stable proxy parent labels must be revalidated live after operator upgrades before changing or copying the policy.",
+      "evidence": [
+        {
+          "resource": "repo://docs/tailscale-networking.md#L43-L46",
+          "version": "repo-lines-v1:sha256:598793d7f8e9331b3a41970c612a842f5a5795be52e1fb5b23c36dc623e92fd4:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDg1NTdiYTA4NGM0YTkyMzdmMTA4ODExODMxNDAwMWNiYzFkMmI5MzNjZDBiNDZlOTdkNmVkNTdlNTcwZjc0ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjcxNDA2NDFhODc1OTE2MzlmNDczN2RlZTA5Zjc0MjY5N2QzNWVjYmE3OTRmM2U4ZGVlYWEwMzgxZDg1YTFkOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjNkMmE0ZmQ1ZWU2ZTY1NGE3NDdjNWNlOTk1NTc3MDExMzk2NzFjYmZkMzI5MTU0MTllZTZmMWI4MzA1MDdmMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2I5NWE5YTViZGRmYjIzYjU0ZjMwY2VjYjk1NGZhNDk4NjNiNzE2NDJkNjJjODYzNmQ3NTNlZmE0MWEzODQ4NiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_326a08494faa4a88bef0d3a5dc307771",
+      "statement": "Homarr declares ExternalName egress Services for foxtrot, alpha, and lloyd, while Longhorn declares one for the TrueNAS MinIO S3 API; all use tailscale.com/tailnet-fqdn and an initial externalName placeholder.",
+      "evidence": [
+        {
+          "resource": "repo://apps/homarr/proxmox-egress.yaml",
+          "version": "repo-file-v1:sha256:aff976f627adf5782bfb1fb6afb4676af114105b4ae0495537f3322696195d48"
+        },
+        {
+          "resource": "repo://apps/longhorn/minio-egress.yaml",
+          "version": "repo-file-v1:sha256:3055478cfe7990dfb272e8bb3b245d7e1a53f28afa1d1c6738c7860cf28691c1"
+        }
+      ]
+    },
+    {
+      "id": "claim_600a3869ad804419bd68afb6a9b6816e",
+      "statement": "The operator rewrites egress externalName destinations; the directory Applications homarr and longhorn in apps/root.yaml own Service drift exceptions for /spec/externalName and enable RespectIgnoreDifferences rather than placing those exceptions on the Helm child Applications.",
+      "evidence": [
+        {
+          "resource": "repo://apps/root.yaml#L125-L166",
+          "version": "repo-lines-v1:sha256:5c219c6541670eec114fb4be2e8b71223bdb7b700cbb843b09b637b12fdc8116:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhMzNiNzE3ZmY5YjFiZWMxOGJiYmZjNjRiM2FlZjEwNmNlOTM5YjFlZGU1NWUzY2FiMjM5NTRhNmZkN2EzZTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ3MWZlOWJhMjRlNTc3ZWRhOGJkM2Y0NzcxZDg0NTQwOGNhZjMwZGY3NmM5ZTJhYWRkYzUwNmJhOTEyNTJhZDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIzOTQyOTYxYTZjMDBiN2NkNmI4MmJjMTJmYTgxNGEwODFlYmU4MzQ4YmZmOTY5OGVmZTA1MzY0YjE5NTBlMmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI4YmMwOWM3ZTIxZDdlM2MwODA5MWI1ZTBmOTZmNmQ3OGFjNTQ1YjI0NTg4ZTkyNzA5NGJjMTdjMGNjODEwMDEifQ"
+        },
+        {
+          "resource": "repo://apps/root.yaml#L248-L289",
+          "version": "repo-lines-v1:sha256:21f7cb063850cccc53dddd36695efb2d86a20d637ec0a45b8d47e4413a0d62a1:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZlZGQ2ZjNmYjFhYzFkYTljMTA5YTBjNTcyNzg4NDE0ZDNmMTMwMGI5OGM5NGRiMjUxOGMwYzY4Nzg2OTllNTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgzODE2ZDkxOTgzMDQ5ZTMwN2Y2NWQ5YmNiNjRhYjYzYWM0MzFjNzMwZGUyYjcyNzRkZTMxYTA5MjFhYTE0NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg1NWIxY2FhZmViMTQwYmI2YzU4MjA1MTVlNzA5YzgzMzM5YWZkZDcyMTFiM2IxMzQ2ZDhmMmU1YzE3ZDhiNzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY5ZGY2OTkyYmQ5MDFlYWZkNzhlZjhjZWFjNDlkMmUyNTIwZDNhYzg5N2IyZDlkNjNlODhhNTVjMzgwNmNiYWEifQ"
+        },
+        {
+          "resource": "repo://docs/tailscale-networking.md#L54-L75",
+          "version": "repo-lines-v1:sha256:9d0c21ea8dc27f27dcbce515301bc5c6347d13f97d7566083f5454d239fe0189:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNkMjU2MmMzNTBmOTBmOTE3NjkwNjAzNDQwOTBiZWU3MDNjMDFjZDgzNmU0MDY4NzM1NzA0MWVmY2I0NjUxMzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI0MjAzMTRiMjgxZTA5ZWM2ODA3NjU1ZGIzNTliNWU4MTU5YjE2N2M0NWRjZDVkNzA5NTQ3NmNmMmJlYTk3NjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUwNmE1OWQ0Njk5M2RhNGU2NjIwZjcwY2Q2OGY2ZDYwYjAzMzVlNTEyYjc0OWMxMGUxNzk3NDM0OWQ3MDgxZTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0180faa11ba8434e8b3dec4108d19700",
+      "statement": "The egress pattern uses the operator nameserver and CoreDNS forwarding to let pods connect through managed proxies using real tailnet FQDNs, preserving SNI for TLS with Tailscale Serve.",
+      "evidence": [
+        {
+          "resource": "repo://docs/tailscale-networking.md#L48-L105",
+          "version": "repo-lines-v1:sha256:4e5268fc6672ecd3567ccd064754d96983afa847dee5f204b9c111e3deb2ef39:eyJzZWxlY3RlZExpbmVDb3VudCI6NTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFiNDE5YjM3OTU4NjYxZWFhN2U3OTZmNTExOTUzNTcyNWJkYjRmZDNjNjllZmViYzg4ZjE3ODAwZTBkMWE4Y2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3N2VlNDk4MGNkYWQ1OWVlYTI5YTUyMzM3NTYzYzY0ODQ2Y2MxZmM5NTdkN2IxMzMzMjUxMDdmMTI2MTcyNGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNzY2YjNjOTNmZjY3Mzk4Mjc2MTI3YmFjNDVjN2E4NzdiZGI0Yzk5ZjE5ZjYxNTVmM2EyNzhkNzA4ZGNjNWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVlZWI1NzMwMThjOTQ4ZjUyZDJjNzRlY2U4M2MzZjM4NjIzNGViM2I1ODFlNDhiZjI1ODZlYmQ0NDczM2E5ZGIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e0e1ebcb23864f5c9ecfeaf69dbdcc5a",
+      "statement": "DNSConfig ts-dns declares tailscale/k8s-nameserver:unstable, and the CoreDNS ConfigMap forwards both ts.net and tailfb3ea.ts.net zones to 10.108.67.5 with cache 30 while retaining Kubernetes and default resolver forwarding.",
+      "evidence": [
+        {
+          "resource": "repo://apps/tailscale-operator/coredns/configmap.yaml",
+          "version": "repo-file-v1:sha256:2bd31f8713d0884e732769dbdc77528218e06777bdc8583e870da348d46900c6"
+        },
+        {
+          "resource": "repo://apps/tailscale-operator/dnsconfig.yaml",
+          "version": "repo-file-v1:sha256:10d068089642e31878e4ad45112cc0260c4c681ba3400ce5b70b224ee0f39f05"
+        }
+      ]
+    },
+    {
+      "id": "claim_915f6ec2aee44d39a4bb855a16bb429c",
+      "statement": "Recreating DNSConfig may change the nameserver ClusterIP, requiring live revalidation and correction of checked-in CoreDNS forwarding targets rather than assuming the current IP is immutable.",
+      "evidence": [
+        {
+          "resource": "repo://apps/tailscale-operator/coredns-patch.yaml#L1-L6",
+          "version": "repo-lines-v1:sha256:3e7f00940a533576c147d8bf7a981d751138f0a27cc107e0d8b160bdb85c6003:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWVlYWVkZjgxOTk3YjZmZDEzYjY3YmUwNzZlZTMzNmIyMWUyYTEzYjNjYWE2YjM4NTljNDNjM2UzN2E0MzM0OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjkxYWVmZjg1NzE2ZTU1Y2FmMzZjZThmNWQ4ZTBhYjk0ODQzNzJmY2M3ZWU5NmY3N2MwY2RiZjU3N2E5NDRhMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzJmMzA4NzZjMGQ3YzMyMTJlNGUwMWE0ZTgyZmYyZGFiOTljYjE1OWRlMTM2Y2U4YTI1MGFkYmVlMGU1OTNiOSJ9"
+        },
+        {
+          "resource": "repo://apps/tailscale-operator/coredns/configmap.yaml#L41-L49",
+          "version": "repo-lines-v1:sha256:f440af6e2692e9a5bfc630b881c9ea68f46c57ce14e54ab090df80b50f9cae59:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2Q2ODU0MThjMTk1NGNkZGEwYWI4MjY5OGVmN2E1NmJhYzc2NTJkMTlmYjc2NjdkZDllNmE5YjdhMWE4OWUyOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDg5M2Y0MGUzNzgxZWI4OTZjODJkMDQ2YTA4MDY3YTExZTM1Y2RmMmYxZGZhZjI2ZmVhOTBiOGRiNjY3NjQxMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzc2ZWE4YjhhYjJiY2U5ZjdmODgyZjM0MGEwOTNkOGI2MjUzOWQ4ZjBiMGI4YzZmMWYyM2NmZjdmYjg4NjVkMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://docs/tailscale-networking.md#L113-L121",
+          "version": "repo-lines-v1:sha256:9b45108efbf7487e4c895bd20f195d936b573b7751754000ef62d821c3059c15:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGE2MmE2MWRjNWUxZjdkZDU0ZjJiZDEwMDQ5YTdmYmZkODNhOTM2ODc0NTVmMjc1N2RjYjA5MzkxNGE1M2NmZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDdjMDZjNTYxZDVjMzI3MzQzNjg1MjY4YTQ2YjMzOTFmMzk5OGVlZTg5MGQyYmU1MWYwZDIxY2M0YTUzYWU2ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTM2NzE0ZjU1M2MyNzhiMWQ5MTQ3ZWE2N2RkZWFkNGVkYTEzM2ZkM2NhNDEyZTllYmI3MmEwMmRmOGZmNzM2MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_f4554c7fd13b4e9b988b37ff218ea396",
+      "statement": "coredns-tailscale manages the kube-system CoreDNS ConfigMap with server-side apply, self-heal enabled to restore Talos-overwritten configuration, and prune disabled to avoid ConfigMap deletion on application removal.",
+      "evidence": [
+        {
+          "resource": "repo://apps/tailscale-operator/coredns-patch.yaml",
+          "version": "repo-file-v1:sha256:90ec7dbb85b43adc67e252071e5127998051714383c9688166e0009662bc9196"
+        },
+        {
+          "resource": "repo://docs/tailscale-networking.md#L107-L112",
+          "version": "repo-lines-v1:sha256:ba0f7263d47e8ff7028e15727c0b4175023657099df4be11810cc944f3577ae7:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODhiNjg5ODljM2JjZGI5MTUwMmU0MWU2MTg1MTZjM2JkY2I4N2NiY2YwOGM4MDFjNTZiMWU1YTJlYmZmN2QwZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGJmZjJiOGVhN2NiODllNWM3ZWEyYTNjMzVkMjBiYmUzZjE4YTZmN2VjNjU4YzJiMzJhM2ViYjk4NTIxODE1YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTUzOWIzOWNmYjdhMWJkNjk0MjRhY2E5ZjRkMmRjZmM1OTY5NjE0MDliNmI4ZjM3OGM2MGUzMTg1M2M1MTZhNCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_df060973ce08457b904f5af46733a47f",
+      "statement": "The GitOps validator renders exact-pinned Helm Applications and schema-checks rendered manifests; it does not exercise live tailnet DNS, proxy labels, TLS, or NetworkPolicy connectivity.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/validate-gitops.sh",
+          "version": "repo-file-v1:sha256:13afc67f9eebbb472cd3882fa52993fe462b63c580d6d2ff9d169b6191911fe8"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-11T09:22:19.403Z"
+  }
+}

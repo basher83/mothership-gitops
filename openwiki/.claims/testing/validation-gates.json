@@ -1,0 +1,264 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:c275ec101ae63f281f9c581e194a77fa6cded83f20dfb5f713d47d1119b1815c",
+  "claims": [
+    {
+      "id": "claim_b79a841106c246728a2f3a6356e68058",
+      "statement": "Mise installs pinned Helm, kubeconform, pre-commit, ripgrep, and yq tools; ci depends on hygiene and validate:gitops, while validate:renovate is a focused schema-hook task.",
+      "evidence": [
+        {
+          "resource": "repo://mise.toml",
+          "version": "repo-file-v1:sha256:e6c3b92b3a6958211542214fdee793e6d1bcd0a22dd058cd012397cbd083c862"
+        }
+      ]
+    },
+    {
+      "id": "claim_a6570fcb8cc14d6481beb3da264d73f0",
+      "statement": "Repository hygiene runs pre-commit across all files, covering whitespace, EOF, conflict markers, large files, multi-document YAML parsing, private keys, relaxed yamllint, and Renovate and GitHub workflow schemas.",
+      "evidence": [
+        {
+          "resource": "repo://.pre-commit-config.yaml",
+          "version": "repo-file-v1:sha256:7dab88cecb3cc82b2d1a15ce85483cf7b1ff2a3a78eda19b9e3e2dd0499c787f"
+        },
+        {
+          "resource": "repo://mise.toml",
+          "version": "repo-file-v1:sha256:e6c3b92b3a6958211542214fdee793e6d1bcd0a22dd058cd012397cbd083c862"
+        }
+      ]
+    },
+    {
+      "id": "claim_98b31fa236d945ffbbb38ab2004dd332",
+      "statement": "Fast Gate runs mise run ci on pull requests and pushes to main and renovate/**, with read-only contents, a ten-minute Ubuntu job, Mise installation, and cancellation of superseded workflow/ref runs.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/fast-gate.yml",
+          "version": "repo-file-v1:sha256:9db8780afd4fdfdeec2c96885fc84d0f022644ef37a31f15e7edd9f6a2b26ea0"
+        }
+      ]
+    },
+    {
+      "id": "claim_1a291febb9a8421885fbc24caaaa0f9a",
+      "statement": "Renovate automerge relies on repository-owned Fast Gate results, and renovate branch pushes provide status before PR creation under inherited prCreation: not-pending.",
+      "evidence": [
+        {
+          "resource": "repo://docs/architecture.md#L75-L90",
+          "version": "repo-lines-v1:sha256:26b7f2bef21fd6d0786ea209ef2ae04f5c70852f4c7ee319704dced13961b3c0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU0YTJjNWQ4NmYxNWM3ODRiMDM3NTFiN2M4MmViZDdkMTc3NzBkM2NmNjk0ZjRlMjkyOTc0MDY3NWQ5NGEwMmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU1Y2Q3ZDMyYzU5Y2JhMWI5YjE0NGZlZjY1YzZhNjljZWJiYmEwYjdhYTg3YzBlY2EzYjA3MTJiMDAyZjVmZmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNDcyMzlmZTgwYTY2ZjNlOTRjODc0NzhhYmFjODE3MWIyYzRhOGM2NGJlNjNmMmRjMzg3ODRjNDI2OTdiNzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNhZWEzMDdjYjYxNTI5NWUxZWRlYjViNzg5MDQ2MWU0NTRiZTM3ODUzNGYyMjUwMTNmNWYzMzQ0MjEwMGI2ZjEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b741028ee5f54198a42b2ff24ce2f2bc",
+      "statement": "Renovate pins ArgoCD chart ranges and generally permits chart patch automerge, but Radar, Longhorn, external-secrets, and argo-cd disable automerge; Radar upgrades require manual rendered RBAC and values review.",
+      "evidence": [
+        {
+          "resource": "repo://renovate.json",
+          "version": "repo-file-v1:sha256:798bb58f3c65aa0ceac50086213b15dbe446d2e5d8ba0db4ff091462d12a844d"
+        },
+        {
+          "resource": "repo://specs/radar-in-cluster.md#L533-L541",
+          "version": "repo-lines-v1:sha256:c3fa68aca441e289617d7c34976b93d35ea0ba0f753a7c68dca193de850e276b:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTE2YTYyMzlmZTkyMTk5OTkzNzhkN2EzZWNlYzhlNzkzNTNhYzQ0ODVhMWZhMDI0YWM0YjZmMzcyZGE0OTQ5ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTdlNzg5N2ZlNDVlMWY5NzY2ZTIxOTAwNjQ5Y2Q5NWE0M2NiN2I4Y2JhYjVkZWNmOTAyOTRiOWU1YmYyOTE0ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzU0ZjQzYjFkZTUxMDQ1MDUzZTM1NGM4YjFjZjJkNmQ4MmYxNzdiNzgyYzUzNGZhZjczMDM2NjU3Yjc5NjZkOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzlmMDY3NmRlOWJlYjlhNjQxMTU5M2M3NzlmN2ViNmNlMzk3Nzg4MDFiNTdlZDY0MDhjMzZhZWQ4MzExYjZlNyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_2c81c6ebec434619b5c68f8f6ad69dab",
+      "statement": "GitOps validation discovers sorted apps/**/*.yaml documents whose kind is Application and spec.source.chart is non-null; it does not render external Git/Kustomize sources or multi-source spec.sources charts.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/validate-gitops.sh#L19-L29",
+          "version": "repo-lines-v1:sha256:a29e5a1118c244ec8e83ca6e08f2919d899c4d51d560a86a7712b487fa6ce6e9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhhM2JiM2E4NTUxNGJmOTBjNzAxMDRiMzg0ZjMxZTE5MTU4MDM3YWFlMGJmMTZlMTRlZGVlNzRhODMxYzU4MTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3NjlkMjM3Y2Q0MjBiOWQzOGI5ODFhMGE0ZjY3NzAxOTBhNGE4M2RjYTFmZTU2YzRmNWJhMWUyY2JjMGVmNzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRkZWQ0YzMxYTljOWUxYzYwM2JjZmU2MzRjYjYyY2M2ZmFmNTNlY2M0ZDRjMDE3ZDZkMmExOGQ3NDI0Nzk0ZTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVkOWNkNGI2MWMzMTZlNjFkYzExZDg3ZWIyYmNkZGQ5YTQxOGVhNjAzNzBlNTY0OTNmMmMxN2YyNWNiNjFkMDgifQ"
+        },
+        {
+          "resource": "repo://scripts/validate-gitops.sh#L99-L103",
+          "version": "repo-lines-v1:sha256:5324c94e506144aafecd3cd62e5727643443f99988bee0d69e44699795cef1bf:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmM4Yjg5MDY1YTQ3NDhjNzYzYTc2YTRjOWZmMDY4MTIzODY3ODA2MTJiZDg3MmE0NTVmYWQ1ZDU2M2NmMTlmNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDU0MWNiNWVhMGQxZWUxMzZjMjc2ZGFjN2M4ZjZhMWI5Y2VhYzgyODAwNTM3ZGE3MjYzNzU5MGI2ZTNjNWRhYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWM5OGEwNDc4YmE5ZGExZjEyZTY4M2IyY2Y3NGExMThhZTg2ZGYwNDYxZTJmNzkzN2M4NGQ2ODkzZWUxNTliNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDRjNWNlNmI5MWI2ZmE3M2JjMDZhYWIwY2VhMDNhOTc4YzQ2OWYyOWM1YzQ4MTMxZGZhNzVmYTQ1MDQwMmYwYyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_de0ef972d70d4e70b1774984b4200a03",
+      "statement": "GitOps validation accepts only revisions matching its optional-v exact three-part version pattern, counts and skips unpinned charts, and finally fails for any unpinned chart or zero rendered charts.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/validate-gitops.sh#L105-L116",
+          "version": "repo-lines-v1:sha256:e50a187c3b2581fab23c86d40ee594898eb6d5f995f6b5123b924e5d249c768e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc3YjZmYjZhMTE5NDhiNTIwNDNhNDhjZmFjZWI0OWYyNDY1NjRkM2Q3NDcxMGVhZmRiMWI3ZjIzM2Q5ODU5NDQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI5YmU1MzNhNDJjYWJlMWZjN2NhNmZmNWMwOWU4NWNhZWNlMGU0MWFjNmZjNzk3ZWIzMDZhMzgzMjMyZDcyYTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://scripts/validate-gitops.sh#L34-L48",
+          "version": "repo-lines-v1:sha256:86d1c892319ed821e722691196d338806e9cf4b1243ff01ca843c06eb2cf469e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhMjQ3MDgwNzRiZTU3YmFmMDk5NmE2YThmZDgxZDNjNTE3M2ZlYzFlZDY4ZGNhNzE5MjkzYjA1MTQyZGRkNDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM1ZmM5MGZmOGE0NDE0YzU0NDFkMGY2NzdjNWNiZmRhMzhiNDc0ZTUxYmZkNTU5YTU1NTlkZTBmODc3MDU1MjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgxNGEyZmMxZTViN2JkNjliMzI5OTBjNjgwZTY3MDcwMzEwMmQzNTE3ZDFmMjBlNWM1ZmRkZGQyNmM3NWU1NDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY3YTRhMjY3NDA3MDYxOThkZjQ5YjkzZDU0YjBmYjc1Mzc3NjcxNmJlOTJiNDk1NmIwNzZlYTg5YWY3OTMxZWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_cc9c60de6097402c848e8c1f7a896cfe",
+      "statement": "The render uses helm.releaseName or Application metadata.name, strips a leading v from the chart version, and passes namespace, Kubernetes version, include-crds, and skip-tests to Helm.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/validate-gitops.sh#L34-L41",
+          "version": "repo-lines-v1:sha256:23827b40310ffa15410a3fb184ae32ba7594aae3c8864f2fd729cf95438e5892:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmEyNDcwODA3NGJlNTdiYWYwOTk2YTZhOGZkODFkM2M1MTczZmVjMWVkNjhkY2E3MTkyOTNiMDUxNDJkZGQ0NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzlmMjhkMmU2ZTdlMGNkMzlkZmQxMTkxY2YwZjhjYTg0MDYzODI4NWFmNDQ4ZjViMjFhYWE3YzM1ODY5MzViYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODE0YTJmYzFlNWI3YmQ2OWIzMjk5MGM2ODBlNjcwNzAzMTAyZDM1MTdkMWYyMGU1YzVmZGRkZDI2Yzc1ZTU0NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWM5YWNiMWQ1MTBjNWNjNDExMTMyNTc2ZWQ0Zjg3YzdhM2Q4YjM0ZTI0ZDQwM2YyY2M2MTdjOGExNWU3YjFjYiJ9"
+        },
+        {
+          "resource": "repo://scripts/validate-gitops.sh#L65-L74",
+          "version": "repo-lines-v1:sha256:2cf563525f6617634e712ca71c2ef3ddf97841e6d64cabd476853bbf6388ee22:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhODUyYWVkYzg2YWJhNzQzMzc3ZDFmZWE0M2FmNWZkODkyZTkxZWM5ZDVjOTg1OWNiMzE3MTMyMGNjZDQzYmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MjY3OTM1ZmM2MzM0NjVkODQ4YjQwYTRlZDY5NjdlN2I3YTMyM2Y4MWNkNTNjMTEwYWUyMTAyOTY4N2FhMTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE5MmEyNjc2NGU5YTE2ZTFjNDZjZjNkMDRlM2JhZDQyNzZjNWZkZjAyOGQ5ODkyN2ZkNjNiNzQ0ZjdkMzAyYzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQzNjBjYWZhZGNiMThjZTg0MmJjMWM1MzBmYjExNjE1OGU5MmI1MWE5NzFlNzdiZTE2MTg4NzFhMjgzOGVkNzMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7c21463f7ab54e3680c45eb3ccf8a2eb",
+      "statement": "Nonempty Helm valueFiles or parameters cause validation failure; valuesObject is supplied first and nonempty inline values second, giving inline values precedence in the script.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/validate-gitops.sh#L50-L79",
+          "version": "repo-lines-v1:sha256:3a50b92d5d72906f629718bd777a08ef66289b3f60c030c551ab5be02234b77c:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjNTBjMjc1OWU5ZjQyOGM4NTFkMmEzYmFlMzhlMjc0YjQ4ZTg3ZDJiYjEyNDllYTRkZWQ1OGVjYTZlNWIwMjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM1ZmM5MGZmOGE0NDE0YzU0NDFkMGY2NzdjNWNiZmRhMzhiNDc0ZTUxYmZkNTU5YTU1NTlkZTBmODc3MDU1MjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImViNDgyMWFiMjE3MmY0ZDY3MmZhZDZmNWIxYTFjNjJjZDY3ZTY2Mzk5NDVlN2Y1OWI2NGE1MWFhZWNlNjc1MjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY3NDYwMGUxNmI4MTY0N2Y0NWI1ZTMxZjQ4Njc5MGVjMDdmMzIyOTY3MzlkZDY0MTlkYTkxMjA4MTViN2NlNzEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c62fc637748541f69511420017be231e",
+      "statement": "HTTP and HTTPS chart repositories render using --repo and chart name; other repository URLs are normalized into OCI chart references.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/validate-gitops.sh#L81-L89",
+          "version": "repo-lines-v1:sha256:fd291ad3fad1140e4c33680790a8162792c5f4cdc9fa9b5882cd7b783f61698d:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2E3ODk3MTY2MDg5ZTU1ZjM3ZWFjNDFkMmY2MmRhNTM5NDI5ZGJhNjg0NGI3ODc1OGU1MDk0MDNjZDhlOTc3ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTlkNDNkN2Q3MTYxNzhkZDE4OWU5NDJlNGQ2NDIwNGFlNDI5MDc4Yzg0MjA0ODQ5YWRmNTQ0MmI3ZDFlNGQxNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDAyNDcwNjEwMmVjM2Q3OGJlZDYyYmUzYTZlNDcwYWI2ZGZiMGE2NjMyMzMzNDBkZGMyZjFlYmQyN2U0NTdlYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTEyZjg2OTI2ZDVhZDAxZjhiZWM4MGVlODA4ZDBmNTk4Nzg3OTMzZDYxZWQzNTU5ZDYzZTZiYTNlMjA1NGM5YyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_b64b926000e943acb52e9c23585dcbc4",
+      "statement": "Validation defaults KUBERNETES_VERSION to 1.36.0, isolates Helm state and schema cache in a temporary workspace, and removes the workspace via an EXIT trap.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/validate-gitops.sh#L1-L19",
+          "version": "repo-lines-v1:sha256:0d3d46a9682e8f3ceff78c2140f7e291cead5404a48c75d3a2aa24266dcce9dd:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkOTVmYzA0YTgwYzk1MmY0OWNlNDE4ODYyN2M1M2IwZmJlOGM0NDA0MWI5NTJkNTkyYWNkMWRlOTk4NjE0NjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhhM2JiM2E4NTUxNGJmOTBjNzAxMDRiMzg0ZjMxZTE5MTU4MDM3YWFlMGJmMTZlMTRlZGVlNzRhODMxYzU4MTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBkNWU2ODM1MDZiMmZlYjRhYzIzOWZjNGU0YTlmZjkwMDU2YWJmYzdiZmEwNzZkODkzZjRjNGI1MmI3ZDgwOWMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e3467f8c4455467588762583aa5f58f7",
+      "statement": "Each rendered chart is validated with kubeconform strict and summary flags and ignore-missing-schemas; Helm tests are skipped, so included CRDs do not establish custom-resource semantics.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/validate-gitops.sh#L65-L96",
+          "version": "repo-lines-v1:sha256:974a8f8a9ea5b0c7abd7ba2e6cab9138db5f5b195d17f576244a2a1f83f76f66:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhODUyYWVkYzg2YWJhNzQzMzc3ZDFmZWE0M2FmNWZkODkyZTkxZWM5ZDVjOTg1OWNiMzE3MTMyMGNjZDQzYmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5NmJkNmNmYjI0YzNkY2IzNzBmZGM2MDI0NDE3ZTQ5ZjgwZmM2Mzk1MmJmOTRlOTNhMDhjYzg0ZjRjNTMzOWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE5MmEyNjc2NGU5YTE2ZTFjNDZjZjNkMDRlM2JhZDQyNzZjNWZkZjAyOGQ5ODkyN2ZkNjNiNzQ0ZjdkMzAyYzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEwNTZiNmRkNGQxOTQ5ODYwOGZiMzQ1MTU0OTZjNTVlOTM2ZTM1YzRlMDNhNjVmN2RjZGNlOWIyM2M2ZDllMWQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ef3cad7e31af45aeb4dfc2ec6cb7805b",
+      "statement": "The cluster-independent gate does not establish CRD semantics, admission behavior, Argo reconciliation, external Kustomize validity, or runtime health.",
+      "evidence": [
+        {
+          "resource": "repo://docs/architecture.md#L75-L90",
+          "version": "repo-lines-v1:sha256:26b7f2bef21fd6d0786ea209ef2ae04f5c70852f4c7ee319704dced13961b3c0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU0YTJjNWQ4NmYxNWM3ODRiMDM3NTFiN2M4MmViZDdkMTc3NzBkM2NmNjk0ZjRlMjkyOTc0MDY3NWQ5NGEwMmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU1Y2Q3ZDMyYzU5Y2JhMWI5YjE0NGZlZjY1YzZhNjljZWJiYmEwYjdhYTg3YzBlY2EzYjA3MTJiMDAyZjVmZmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNDcyMzlmZTgwYTY2ZjNlOTRjODc0NzhhYmFjODE3MWIyYzRhOGM2NGJlNjNmMmRjMzg3ODRjNDI2OTdiNzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNhZWEzMDdjYjYxNTI5NWUxZWRlYjViNzg5MDQ2MWU0NTRiZTM3ODUzNGYyMjUwMTNmNWYzMzQ0MjEwMGI2ZjEifQ"
+        },
+        {
+          "resource": "repo://scripts/validate-gitops.sh",
+          "version": "repo-file-v1:sha256:13afc67f9eebbb472cd3882fa52993fe462b63c580d6d2ff9d169b6191911fe8"
+        }
+      ]
+    },
+    {
+      "id": "claim_37b4d91b1b9e484090ec9601aa1b383e",
+      "statement": "Radar's child Application is radar-helm but explicitly uses Helm release radar so generated Service, PVC, and labels match local ingress and policy contracts.",
+      "evidence": [
+        {
+          "resource": "repo://apps/radar/application.yaml",
+          "version": "repo-file-v1:sha256:06f592dcd7d163133df6bcbc3a3feaafe5e42819e4febd34c84baf5b4fb3c23a"
+        },
+        {
+          "resource": "repo://specs/radar-in-cluster.md#L145-L150",
+          "version": "repo-lines-v1:sha256:7b9de5cd0a552f4d2ff023d7ba2fb1a1131b900a976f46b4dc519b85e63001d1:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODE5ZjcyZjA4M2YyMzVhNzI5YzM0MWQzMDNiYjgzZjkxYzdlNjhkZGFhOTY5YWQ1OTFhYjQ2MWExMWY3Y2E4NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2E0ODRiODg5M2RhM2YzNzIzNjA4NDJmMzM1ZTgwYjNjNGNiZmJlNGFjZjNkOGE5MzE5MjM3NmQ2MTkxMDAxYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDRjMGViZWI1ODZiMWRiZDkwMDEyMDIwODAyNWVlZTZhOTBmZjYwNzIxMWZhMjk1NmU5ZGI3ZjJmNWQ1NDk5MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDFlMGY1NDJkNTc2ZmYyZmE4NDk0ZGZlZGI1YmM1YjEzOGQ3NDllZjM2OWE1NmUwNGZlOGQyNTI3NDUxNmM1MCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_d1bc4529c8014c20b12bc4ad8cafb675",
+      "statement": "Radar's pre-publication acceptance contract requires inspecting rendered workload, storage, RBAC, NetworkPolicy selectors, Argo account policy, and Secret references in addition to client-side and server-side checks.",
+      "evidence": [
+        {
+          "resource": "repo://specs/radar-in-cluster.md#L402-L429",
+          "version": "repo-lines-v1:sha256:cef1b08311656f8c750bad527845ad88fdedfa07756fa1325286f591c6cfa691:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0MzQwNmJiNjQyMmYwNTAyNjJlNmQyZWZkODE0N2NmYmM5MjNjOTFmNjVjYTFjOTQ5MTk4NTY1OWQ2YzQ5NTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY3MWIyNDA2NzdlNzU1MDA4NzJiZDNjM2Q3Y2JlOWIwY2Q4OTgzYWNiODdiZDdiNGQ2YzdiODk2YTQyY2MyYjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA3ZTFlZDczOGYzY2Y1M2FlNTRiYjU0NjQ4YzQ3M2YzYmNmNTRmMGZmMDA2MzI2MjNmNTAzNmU4Mzg0YzJhZTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_94f4b865256445cab9d3935b2e4dba84",
+      "statement": "Radar acceptance requires positive tailnet UI and MCP tests together with negative ordinary-pod ClusterIP access tests and direct checks of allowed pod-log reads and denied Kubernetes mutation and sensitive permissions.",
+      "evidence": [
+        {
+          "resource": "repo://specs/radar-in-cluster.md#L431-L448",
+          "version": "repo-lines-v1:sha256:8a952ec4a86b8945a8856b6a913f33883495b57c30f20d49cd5f2570a3cc096c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyMWEyMWMyNTM1ZTM2ZjJhZmExNzM0Y2MyYzI4YjA5ZDQ1Y2I3ODhjMzQ4Mzk4NzM3ZjExYjM2NjY3Mzc4MTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBjZmQ2MGM3ODk3NmYyMzQ3NDMwNGY5Zjc5NmZmYjI1ZDdmYmMxOThjMTA5MWIwNzlkZDRiZjg0MTU2ODkyMmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJmOWJiZmYyNDliZTRkNTIwN2MyZmZhMWRhNGIxZTcxZWM5ZThkOThkYzk0NmY2MjIyMTQ5YTE0M2Q4MGRiMmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMyZjcxNWEzNGU5NDc4OGQ1ZmU0MGNiYWYwNzk4MmEyZjVmOGE1ZjcyYjFmMDMyOTE2YzFlNjk3N2FhNTAyZTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ae53620ba29f4f08953fbbe90d033767",
+      "statement": "Radar's dated runtime verification used a short-lived ServiceAccount token directly because impersonation checks through the Tailscale API proxy reflected the caller's broader authority and were invalid evidence for the pod identity.",
+      "evidence": [
+        {
+          "resource": "repo://specs/radar-in-cluster.md#L477-L483",
+          "version": "repo-lines-v1:sha256:bdc020225005e67b9dde2bc59ab37a35adde0e753148f0061a5550f66dac1593:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmVkMzRlZWE0NzM5NWExZDZjYjc2M2IyOGVkZTFhYjg4ZTk5MjZkMzlhMGI2ZWQ4NTEwMGJjZDY1MDkwNDNjYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTBiMjYxNWVlODZkOGM1NTIzN2JjZTE4YmRhNDRmNGY4ZDZhZWI0YjdjMjg0ZWRhOWI4MTU3Mzg2ODAyMDc2MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTAxYzhjYzU4ZTcyZTZhMDRiNjMyYTI2ZWVkMGFiZjRkMGY5NGM0ZmU2MDUyYTU0NDZiYTc1YzUwOTBjYmRmMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjlmZjA0OTQwNjlmOWVhODI5OWY5YjYwNDgxMjA1MTIyMGM4YjczYmZkMGNiYTc4NThiMmZiZjJhMjE5MmQyMCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_7a2f2eee5b12442d97430b1a52b6900a",
+      "statement": "Radar's ArgoCD token is a separate get-only authorization boundary from its Kubernetes ServiceAccount; acceptance verifies ESO/Secret metadata, connectivity, denied mutation authority, and canonical Argo API diff behavior without exposing token values.",
+      "evidence": [
+        {
+          "resource": "repo://specs/radar-in-cluster.md#L283-L320",
+          "version": "repo-lines-v1:sha256:87613a0a1eda0da73852824dc52f397d312dda7ba48050e859b46e1f3a0b7655:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjZDhjOWUyZGE0ODMxZGVjMzUzNDE2ODc0ZGI4MzVhMTc3ZTM5NmQ2Njg5NDBjMzE4Yzg5YTNkODkwNWZlY2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyMGYwOWIxYTQzNTVhNjlkZDBlNjkzNzRhZmY2MjE0NTk3ZGY4YzJiZDlkZGRhZGM4N2QwZTI2MzJhMTAyOTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY2MzQ5NzhkZjhmYmExNWI2ODE4ZmZjMWUxMjJjZTdjNmY1OWY2ZDQzMjYwYjlhM2M1NGIzOTk0MWYzNTUwZjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY4NDAxYjVhZjFjZTY5ZDZiY2VhZGU4YWM4ZTIyMTAxMjdkMGZhNzY3ZmFlNWRjYjg4ZWM2ODAwMmNlYTBiOTgifQ"
+        },
+        {
+          "resource": "repo://specs/radar-in-cluster.md#L449-L459",
+          "version": "repo-lines-v1:sha256:42157e37f2e00a4b3a7ea9e085bf6a8c12f21849a030a84be10d0b7b8543f25d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhMGU5YTI5ZDMwOTE4NzBkYTQ2Y2MwNGVjMTYyYjNlMGIzY2QxZjI4Yjc4NGU1N2MyZTA2ZGY2NzJkNTFkMGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYxMmUwZmZjMWQ1OWYxYTg5MGFiY2JkNjFjYzZjYWZkNDc1NWFjOWEzMGM4YzE4M2UyYTc2MTE2NWJiZTYyODMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM2ODlhMjE0NWM4NGI2M2I5NTQ1YWEzZWE3N2Q4MjRmZTIwY2IyZjIwMzI3NTA2NWZhNTViYzcwYTc2NzNmYjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZhYzYzODU0YmY1YjlmNTgzYzAyMmEwMmMyODlkM2Y2N2JmMmYwMzNiNDVhMzUyNjZiNjdkZjhlZWU0M2I2YjAifQ"
+        },
+        {
+          "resource": "repo://specs/radar-in-cluster.md#L509-L531",
+          "version": "repo-lines-v1:sha256:805bcfb1f81d4b8ffb4b395bffdbbb6011b1ead04568fffa0f9d2dd4c55ff33b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlMDcyODQ0ZjExZmRjNzM0ZGRmOGQ1NGRkNjU3ZTIzMWUyMTljYTExYzk2YTJmOGNjMmQyZDgyYjBjYWYzOWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNkMDFiMGM5MjhjODliNzU5MGJhOWExZDRlMDcwYjBhZTcxN2Y0NTQ5NmYzYjFiZjU4NGQxMjZlMDc5MjIwNjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBjMDAyOWQ2ZGNjYzZmZTRkNTMxM2UxOGQxMGI1NjAwYjhlM2Y3OWFhNGZmOWQyMTZhOTNmODBjNTNhZjE1MDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzYzAwOGZmZWI1OTc1N2M4YmE5ODljM2Y0NzYxYTU2ZjJiMDI1MzJiYTQ2Y2ExODMzYzA4NzU5NzFmMTBkOWYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5ad2b19c66484462ba82f12029e79102",
+      "statement": "Radar persistence acceptance requires pre-restart events to survive a normal pod replacement, not just a Bound PVC; the specification records cross-restart SQLite retention and access/security evidence dated 2026-08-16.",
+      "evidence": [
+        {
+          "resource": "repo://specs/radar-in-cluster.md#L431-L497",
+          "version": "repo-lines-v1:sha256:1287a799047bbab537719b29d84f57da16e7661298ff1edd1216c720d0a96d00:eyJzZWxlY3RlZExpbmVDb3VudCI6NjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyMWEyMWMyNTM1ZTM2ZjJhZmExNzM0Y2MyYzI4YjA5ZDQ1Y2I3ODhjMzQ4Mzk4NzM3ZjExYjM2NjY3Mzc4MTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFhYWRjMjFlOTJhZDliMDg1MmNiZTY0NTA3MGYyMDlhMmYwNzQ1ZmZkNDhjNmUxNjVmZTQ0OTlhMGZjNmI2NTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJmOWJiZmYyNDliZTRkNTIwN2MyZmZhMWRhNGIxZTcxZWM5ZThkOThkYzk0NmY2MjIyMTQ5YTE0M2Q4MGRiMmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEyNjhiNTc3MzI0N2U4OTkxZWY0OWM5M2Q1ZjQ3NzQwMzk1MTdhMDI3ZDhmNzY1ZWFmZDMwMmIzNjYzYTBmNDIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_dbd37c8caa244baf8ad7eeb063ba915d",
+      "statement": "OAuth proxy remediation remains planned: deterministic checks against admin Services and broad ingress are proposed rather than implemented by the specification or current Fast Gate.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/validate-gitops.sh",
+          "version": "repo-file-v1:sha256:13afc67f9eebbb472cd3882fa52993fe462b63c580d6d2ff9d169b6191911fe8"
+        },
+        {
+          "resource": "repo://specs/oauth-proxy-boundary-remediation.md#L1-L5",
+          "version": "repo-lines-v1:sha256:9107fdae5cd009303979e3fa0a8550a9563e6bfc61cca308d3d6af932c6d0488:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTcxMWQ5NzI5Yjc1YzMxMGMwNjhhOWQ0MjM4OWJmOTQ3ODQ4NDg1MjZlZDFiMjk4NjQzMzlhMGQzNzY0MjFhNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzYxNzE4ZDgxM2RjYTkzOTUyZDk1NDYxM2UxYjU2NTRhODc4MTI2M2NhNzQ1MDk2YjM4M2JmMGUzYzY0MDUyMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjlmZGZlNGI3NjQ5NzdjNWVlYzIxNWMyMTFhOTE2YmM3NjliMzFlZmQxZDYyZjc5ZDkyMGMwMmEyZjUzZDgzNyJ9"
+        },
+        {
+          "resource": "repo://specs/oauth-proxy-boundary-remediation.md#L57-L78",
+          "version": "repo-lines-v1:sha256:0c143605d9c7fd335df4e5178398c14c6eb2a5543e573682486abd536d4b4aab:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk5YjE5ODM1YzY4NWNiNzUxY2I3MTU3ODhhOTcwYzVlOWRmMTQwMWM1MWY5YWJiNzcwMWI3YzVjZjhlYzRkMTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk3ZGQyMGVlZjg5OWE3NDkyMGQyMWQxZWNhMjI1ZTJkNGMwYjdiNzE0ZTRkN2QyNDk4NzA2NzI3MjE0MWE2MzUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc3MTllMDc0NDg0ZWYxNTYyZjdhODcwNTY4MjMzNDRmNzg0MTNhZTQxODZlNzE5OGVlNThkODM1MzBhZTYyNTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImExMzU3NzQ4NGVmOTM0YzU4NjZjNDgwNGJlNWU3MGRlOGU1NDkzZTkwZjMyMWU5YmFmNWVlOTQ3YWIxMTAzZjkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ed524081370e41b6ad34d20d59406eab",
+      "statement": "OAuth proxy source manifests and render tests are owned by tailnet-microservices while mothership-gitops owns manual promotion and cluster validation; completion needs live positive and negative boundary tests and security-owner revalidation, not merely green Argo sync.",
+      "evidence": [
+        {
+          "resource": "repo://specs/oauth-proxy-boundary-remediation.md#L154-L221",
+          "version": "repo-lines-v1:sha256:199928a6f9ea4f9162e4ae58752768b7a40e018388a85b331d8853ebf4554835:eyJzZWxlY3RlZExpbmVDb3VudCI6NjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdkOTc4Y2E2MWQ3MjE1OTZkOTE5MGRjODNlYWEzZmQ0NmViMmNmN2FlMjc2ODYxMjc4NjQ2MzQ1NTJkYzFmMGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwYzc5MmYzYjQyYzJhNDVlZDliZDQ1YzIwMmQxM2RjM2E0YzNkMzMyN2QxZTVlMWNjZjNlZjEzNTI1MGQ0MjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI2OGQ0MjAwMDI5MmQ5MmE1NTExM2RhMjU3NTM4MzMyYmYyN2M5MWM4MThjOGM2ZTQzNzAzMjljZTA5YjgwODUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-11T09:22:19.403Z"
+  }
+}

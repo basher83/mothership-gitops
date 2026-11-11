@@ -1,0 +1,306 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:7f7b2bda58c40f4dfe026232b72afbaf1af47b9469e125c75d49dacee17a3047",
+  "claims": [
+    {
+      "id": "claim_555e2a30a8fb4e16bdfe35f8590d8b74",
+      "statement": "Radar is a single-operator in-cluster UI and MCP complement to kubectl, using Kubernetes reads for resource context and a separate ArgoCD credential for canonical rendered diffs.",
+      "evidence": [
+        {
+          "resource": "repo://specs/radar-in-cluster.md",
+          "version": "repo-file-v1:sha256:518d782ba22b004fc68b70db30966475a1377c56259aa230aa5f564b9dd84cad"
+        }
+      ]
+    },
+    {
+      "id": "claim_44e0f999e3544bceb688d731e92aba6d",
+      "statement": "UI and MCP use the same Tailscale HTTPS entrypoint with auth.mode none, shared pod authority, and no per-user Kubernetes impersonation; personal MCP configuration is outside the repository.",
+      "evidence": [
+        {
+          "resource": "repo://apps/radar/application.yaml",
+          "version": "repo-file-v1:sha256:06f592dcd7d163133df6bcbc3a3feaafe5e42819e4febd34c84baf5b4fb3c23a"
+        },
+        {
+          "resource": "repo://apps/radar/ingress.yaml",
+          "version": "repo-file-v1:sha256:3067839254b245b28f53b78755e6f59264c84852e53d4a77365d8d5d6283f997"
+        },
+        {
+          "resource": "repo://specs/radar-in-cluster.md",
+          "version": "repo-file-v1:sha256:518d782ba22b004fc68b70db30966475a1377c56259aa230aa5f564b9dd84cad"
+        }
+      ]
+    },
+    {
+      "id": "claim_eaf2fbae225645d7894245a5d2829e2f",
+      "statement": "Radar's ingress-only NetworkPolicy admits TCP 9280 only from the combined tailscale-operator namespace and four Radar ingress proxy labels, blocks ordinary ClusterIP bypass, and does not constrain egress.",
+      "evidence": [
+        {
+          "resource": "repo://apps/radar/networkpolicy.yaml",
+          "version": "repo-file-v1:sha256:f64d244c7ea3bee9376d514761d742a19a46468a49ba6503159476cf057d5416"
+        },
+        {
+          "resource": "repo://specs/radar-in-cluster.md",
+          "version": "repo-file-v1:sha256:518d782ba22b004fc68b70db30966475a1377c56259aa230aa5f564b9dd84cad"
+        }
+      ]
+    },
+    {
+      "id": "claim_ef54c9d9d1c448b08ae84a89b400e9c1",
+      "statement": "The proxy selector deliberately uses stable parent labels rather than generated UUIDs; mismatched selectors fail closed and broad ingress exceptions are not an approved repair.",
+      "evidence": [
+        {
+          "resource": "repo://specs/radar-in-cluster.md",
+          "version": "repo-file-v1:sha256:518d782ba22b004fc68b70db30966475a1377c56259aa230aa5f564b9dd84cad"
+        }
+      ]
+    },
+    {
+      "id": "claim_9019b39c12774279bbd93a25e2c7a078",
+      "statement": "Chart-managed read-only Kubernetes RBAC retains pod logs but disables Secrets, Helm, RBAC/webhook visibility, exec, port-forward, self-upgrade, traffic and metrics permissions; advertised write MCP tools confer no write authority and any expansion affects all callers.",
+      "evidence": [
+        {
+          "resource": "repo://apps/radar/application.yaml",
+          "version": "repo-file-v1:sha256:06f592dcd7d163133df6bcbc3a3feaafe5e42819e4febd34c84baf5b4fb3c23a"
+        },
+        {
+          "resource": "repo://specs/radar-in-cluster.md",
+          "version": "repo-file-v1:sha256:518d782ba22b004fc68b70db30966475a1377c56259aa230aa5f564b9dd84cad"
+        }
+      ]
+    },
+    {
+      "id": "claim_6f34b091ca83446b909239f596730f6f",
+      "statement": "ArgoCD's radar account has only apiKey capability and Application get policy, with no sync, update, delete, action or override authority, independently of the Kubernetes ServiceAccount.",
+      "evidence": [
+        {
+          "resource": "repo://apps/argocd/ha-upgrade.yaml",
+          "version": "repo-file-v1:sha256:8b4b133f71d93c1efe3ec520af3b5e61af54c63448715e1b6e8b96d81efc2b24"
+        },
+        {
+          "resource": "repo://specs/radar-in-cluster.md",
+          "version": "repo-file-v1:sha256:518d782ba22b004fc68b70db30966475a1377c56259aa230aa5f564b9dd84cad"
+        }
+      ]
+    },
+    {
+      "id": "claim_90aa1c95c8644bceab523b40f395a9b2",
+      "statement": "Radar pins its ArgoCD integration to the internal HTTP Service endpoint with insecureTls false, matching ArgoCD server insecure mode rather than using tailnet ingress.",
+      "evidence": [
+        {
+          "resource": "repo://apps/argocd/ha-upgrade.yaml",
+          "version": "repo-file-v1:sha256:8b4b133f71d93c1efe3ec520af3b5e61af54c63448715e1b6e8b96d81efc2b24"
+        },
+        {
+          "resource": "repo://apps/radar/application.yaml",
+          "version": "repo-file-v1:sha256:06f592dcd7d163133df6bcbc3a3feaafe5e42819e4febd34c84baf5b4fb3c23a"
+        }
+      ]
+    },
+    {
+      "id": "claim_269ca295dc174f679ba4d64d7ceb5821",
+      "statement": "Infisical prod /radar/ARGOCD_TOKEN in mothership-s0-ew flows through infisical-radar and an hourly owner-managed ExternalSecret to radar/radar-argocd-token key token, referenced by Helm without embedding its value.",
+      "evidence": [
+        {
+          "resource": "repo://apps/external-secrets/clustersecretstore.yaml#L134-L157",
+          "version": "repo-lines-v1:sha256:eab55ebff2d5908b61f5a8bf459566f952304f62e2814c0d7e54c4a243a4220f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVjYTlhZjRjMDU1ZTJiZjE5YzY0YWNmMjMyZWQzZDEzODc2NzY2Y2NjOTliNDQzMzc5N2Y3OWNkNjNhYmExZTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRhOTY3MmI0ZTE2N2UyNjc4OTI1MmZiY2FhZGQxYjZhOWQxYTUxZGI4NThjOGNiYzEwMDJhY2IzMjllOGI2NjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYxMmQ2NzJjOGViYTUyNGE1NzNmZThlOTUwMjMyNDg2Mjg4ZTkzZmVkMzQ3MWY4YzA3MzExZmVjOGNkODYxYWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://apps/radar/application.yaml",
+          "version": "repo-file-v1:sha256:06f592dcd7d163133df6bcbc3a3feaafe5e42819e4febd34c84baf5b4fb3c23a"
+        },
+        {
+          "resource": "repo://apps/radar/externalsecret.yaml",
+          "version": "repo-file-v1:sha256:165cd2890218dac6640b01c72bf58075c2af080e35676495e368bca7ffbdee69"
+        },
+        {
+          "resource": "repo://specs/radar-in-cluster.md",
+          "version": "repo-file-v1:sha256:518d782ba22b004fc68b70db30966475a1377c56259aa230aa5f564b9dd84cad"
+        }
+      ]
+    },
+    {
+      "id": "claim_4926b8aa718d47e89df3319bab8bf52b",
+      "statement": "Environment-managed ArgoCD settings are startup-read and read-only in Settings; token rotation requires ESO refresh and a Radar rollout, verifying the replacement before revoking the old token.",
+      "evidence": [
+        {
+          "resource": "repo://specs/radar-in-cluster.md",
+          "version": "repo-file-v1:sha256:518d782ba22b004fc68b70db30966475a1377c56259aa230aa5f564b9dd84cad"
+        }
+      ]
+    },
+    {
+      "id": "claim_38b0bfcc5f734185ac2d14d59c1e285c",
+      "statement": "Parent Radar uses root wave 6 and automated prune/self-heal; local policy and ExternalSecret precede child chart wave 1 and ingress wave 2, and explicit releaseName radar maintains Service/PVC/label compatibility.",
+      "evidence": [
+        {
+          "resource": "repo://apps/radar/application.yaml",
+          "version": "repo-file-v1:sha256:06f592dcd7d163133df6bcbc3a3feaafe5e42819e4febd34c84baf5b4fb3c23a"
+        },
+        {
+          "resource": "repo://apps/radar/externalsecret.yaml",
+          "version": "repo-file-v1:sha256:165cd2890218dac6640b01c72bf58075c2af080e35676495e368bca7ffbdee69"
+        },
+        {
+          "resource": "repo://apps/radar/ingress.yaml",
+          "version": "repo-file-v1:sha256:3067839254b245b28f53b78755e6f59264c84852e53d4a77365d8d5d6283f997"
+        },
+        {
+          "resource": "repo://apps/radar/networkpolicy.yaml",
+          "version": "repo-file-v1:sha256:f64d244c7ea3bee9376d514761d742a19a46468a49ba6503159476cf057d5416"
+        },
+        {
+          "resource": "repo://apps/root.yaml#L207-L249",
+          "version": "repo-lines-v1:sha256:ac02a82b03ec85354050b83f92aa2ffa30ebc312a1b534ba1294829022db0fb1:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhMzNiNzE3ZmY5YjFiZWMxOGJiYmZjNjRiM2FlZjEwNmNlOTM5YjFlZGU1NWUzY2FiMjM5NTRhNmZkN2EzZTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk1ZjMxOTJjNjVhY2Y0OGZhMzY5YmQzODcxYzcyMTViZmYyYWY5OGUyMzhlNTUxZDBlNjEyOTM4NTI3MWViZDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjcyYWNjNGUwNzZkNzdiNzg1OTE1ODljYzgwMGMwNmI2YmEzMDZjOGU5YjBmZGU1NWFmNTU2NWNmODU4NmEyMDIifQ"
+        },
+        {
+          "resource": "repo://specs/radar-in-cluster.md",
+          "version": "repo-file-v1:sha256:518d782ba22b004fc68b70db30966475a1377c56259aa230aa5f564b9dd84cad"
+        }
+      ]
+    },
+    {
+      "id": "claim_187a604adabb4ca2b79853cbfd6efa3f",
+      "statement": "Radar's parent ignores ESO remote-reference default fields with RespectIgnoreDifferences to avoid reconciliation churn.",
+      "evidence": [
+        {
+          "resource": "repo://apps/root.yaml#L225-L249",
+          "version": "repo-lines-v1:sha256:023224862ec7beaf68b784711142418b384943c15c6f49fccc6ff4cf23c7506d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQzZDNiY2E2ZjExOWNjYjc2NWJmMTc5NzAzMjg1NWU2Zjg5NTJmY2I0NjMyYTcyMDZkNTgxNTAwYjg3MGRkMmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhMzNiNzE3ZmY5YjFiZWMxOGJiYmZjNjRiM2FlZjEwNmNlOTM5YjFlZGU1NWUzY2FiMjM5NTRhNmZkN2EzZTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNhNjcxYzQxMWU2MzRmZTkyMTM4OGQyYzdmZGMwNmI1ZjVlNDVjZDQ4YTE2YmUzN2ZjZTA1ZGFmYTZmODI5YWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjcyYWNjNGUwNzZkNzdiNzg1OTE1ODljYzgwMGMwNmI2YmEzMDZjOGU5YjBmZGU1NWFmNTU2NWNmODU4NmEyMDIifQ"
+        },
+        {
+          "resource": "repo://docs/troubleshooting.md",
+          "version": "repo-file-v1:sha256:82f399fbe214a4c1b190f9dfcdf2afd3775fbeac2a591deabe44969af3d4992a"
+        }
+      ]
+    },
+    {
+      "id": "claim_dda02d46cf534d72b20ae5c7fc6b868f",
+      "statement": "The Radar chart is exactly pinned to 1.10.0 and Renovate disables automerge for all Radar updates because tool surface, RBAC and storage changes require review.",
+      "evidence": [
+        {
+          "resource": "repo://apps/radar/application.yaml",
+          "version": "repo-file-v1:sha256:06f592dcd7d163133df6bcbc3a3feaafe5e42819e4febd34c84baf5b4fb3c23a"
+        },
+        {
+          "resource": "repo://renovate.json#L22-L27",
+          "version": "repo-lines-v1:sha256:748fc478db4875de8dabbad8983cac5e0de02b67179fb2f9a07a61bd2389686c:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjljYTg5MWJmZjdhYzFmN2NlYWFlNDBlZjA1MTA2NmJlOWVmZTQ3YjRlNDI4MWU4NmMzMTliZTJjNTVlYmNlNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzZlNzYxYWZkZDdhOGIwMGUyY2Y5YTg4MzgwZTJkYWUzNDRlZjBmYWM5ZDFkNzBjODUyMGMxNWM0Mjg0ZmU1NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDEwNmYzN2IyNWVjZjIwY2UyMjQ0ZWQ2MTg4MTUxNWY5NzkzZWZhOTRkNDlmNWRiYzk1ZDE5ZWY4NWVjZTg2NSJ9"
+        },
+        {
+          "resource": "repo://specs/radar-in-cluster.md",
+          "version": "repo-file-v1:sha256:518d782ba22b004fc68b70db30966475a1377c56259aa230aa5f564b9dd84cad"
+        }
+      ]
+    },
+    {
+      "id": "claim_50822368ddda4211a61f6f32dbe105f1",
+      "statement": "ArgoCD account policy promotion is manually gated at both argocd-ha and argocd-ha-helm, preceding token creation and separately published automatically reconciled Radar Secret configuration; unrelated HA drift must be inspected rather than blindly synced.",
+      "evidence": [
+        {
+          "resource": "repo://apps/argocd/ha-upgrade.yaml",
+          "version": "repo-file-v1:sha256:8b4b133f71d93c1efe3ec520af3b5e61af54c63448715e1b6e8b96d81efc2b24"
+        },
+        {
+          "resource": "repo://apps/root.yaml#L330-L353",
+          "version": "repo-lines-v1:sha256:1942a8656cc45b674a869bf1608db32e9bdb3692bd8b3fa44ea1ca6efbfcb795:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ3MWZlOWJhMjRlNTc3ZWRhOGJkM2Y0NzcxZDg0NTQwOGNhZjMwZGY3NmM5ZTJhYWRkYzUwNmJhOTEyNTJhZDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgzODE2ZDkxOTgzMDQ5ZTMwN2Y2NWQ5YmNiNjRhYjYzYWM0MzFjNzMwZGUyYjcyNzRkZTMxYTA5MjFhYTE0NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQyYWJhZTJkNzQyNzYxMDNkYTgxODJmYjgwYzhiYTlhOTc4YThkZjg4NmM0OTllMGE1MTQ3NzVlY2EyNmFhM2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://specs/radar-in-cluster.md",
+          "version": "repo-file-v1:sha256:518d782ba22b004fc68b70db30966475a1377c56259aa230aa5f564b9dd84cad"
+        }
+      ]
+    },
+    {
+      "id": "claim_598903b04a224dc68e1be34f76df3ec7",
+      "statement": "The spec's ArgoCD 7.9.1 observation is dated historical evidence rather than the current repository pin, which is 10.14.0.",
+      "evidence": [
+        {
+          "resource": "repo://apps/argocd/ha-upgrade.yaml#L17-L19",
+          "version": "repo-lines-v1:sha256:00676db8cff4a0e13ced728965ca00924f7920b71907ae4697fce6501489c58b:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTg4MjEwODEzYjQzOGE3OGYwNjM2NjY1MzNkYzY3OGRjYzFhMWE5MjE5Njg5MmM4N2M0N2E2NjkyY2VmMmM5NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTNmZWZkMjViNGI2ZDE3YThiYjhhYjEzZjVmZmYzZDUzZTVlOTNmYjIxOTAxNzBhMDM5NGI1MTViNjA3NDY4NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmMyNTI0MjM1NGI4YmUxM2U0YTY3YTBiZmYzMDUyNmYyZGNlOWY4MGUxZGNhNTJmMGU5MTc0ZjgyNGZmYjI4MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjhmNWEzNGRiZjYzZTJiYTYwMWJkNzczNDI3OGNlYTcwZjJlMGYzZDkxZmQyMmNiMTk4NzEyMTAyMDliNDQwZiJ9"
+        },
+        {
+          "resource": "repo://specs/radar-in-cluster.md",
+          "version": "repo-file-v1:sha256:518d782ba22b004fc68b70db30966475a1377c56259aa230aa5f564b9dd84cad"
+        }
+      ]
+    },
+    {
+      "id": "claim_c3893f762ff44c6380e40da2826b3b46",
+      "statement": "Radar persists SQLite history for a size-bounded 168h target with an 800Mi cap on a 1Gi ReadWriteOnce longhorn-standard PVC; chart 1.10.0 uses Recreate and disallows multiple replicas for this configuration.",
+      "evidence": [
+        {
+          "resource": "repo://apps/radar/application.yaml",
+          "version": "repo-file-v1:sha256:06f592dcd7d163133df6bcbc3a3feaafe5e42819e4febd34c84baf5b4fb3c23a"
+        },
+        {
+          "resource": "repo://specs/radar-in-cluster.md",
+          "version": "repo-file-v1:sha256:518d782ba22b004fc68b70db30966475a1377c56259aa230aa5f564b9dd84cad"
+        }
+      ]
+    },
+    {
+      "id": "claim_acd8832a102242939ae53fe2dd8dfce8",
+      "statement": "The replaceable timeline uses the weekly four-week backup tier; SQLite failures should not silently fall back to memory, and whole-application prune can remove its PVC whereas chart-version rollback preserves persistence configuration.",
+      "evidence": [
+        {
+          "resource": "repo://specs/radar-in-cluster.md",
+          "version": "repo-file-v1:sha256:518d782ba22b004fc68b70db30966475a1377c56259aa230aa5f564b9dd84cad"
+        }
+      ]
+    },
+    {
+      "id": "claim_7d9973cf87e34529a5d1af6b8fa02aee",
+      "statement": "Scheduling capacity uses allocatable resources and pod requests, independently of Metrics API actual usage and Prometheus-compatible PromQL telemetry; Netdata does not automatically provide either integration and missing usage is unknown rather than zero.",
+      "evidence": [
+        {
+          "resource": "repo://docs/troubleshooting.md#L114-L145",
+          "version": "repo-lines-v1:sha256:68f101947babb854e7c2c3671377226398555f6ed7caeedd1436db0c8ebe5020:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiMDU2NWUzNmFkNjY4YWRjMGNiMzk3Y2M1ODQ5MmRlOGU1ZTY1YTZkZTRlOWU3ODk1ZTgxM2Q4NTI2MGQ2NjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4ZDgwM2Y3ZDQ5ZTBkNDA0ZWFlNjk5MzYwMzg0YzU0MGNkYmM1ZDBjYWFhMjlmY2JiMGQ3ODlmMWNiMDM4ZmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhZDUyNDBmZWMwNTNkZjAzZTQ0YzIyZGU3YzZmYTE5YzBkZDEwNjFjMTdjZDkwNmRjOWI4MzY4MGE4ZDUzMDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFkYTVlYzkyNmZlZjNlYWE4OWE5NDFkMTIxNjQ4ZDk3OGI5ZGY0YmY3Njg1MzJiMmUwNjI4YTVjYjQxNzEyZGIifQ"
+        },
+        {
+          "resource": "repo://specs/radar-in-cluster.md",
+          "version": "repo-file-v1:sha256:518d782ba22b004fc68b70db30966475a1377c56259aa230aa5f564b9dd84cad"
+        }
+      ]
+    },
+    {
+      "id": "claim_c4df22e637da413ab002eb60cf3f20de",
+      "statement": "Radar intentionally adds no metrics-server, Prometheus, VictoriaMetrics, OpenCost or Hubble Relay dependency; live CPU/memory needs both a validated Metrics API and reviewed metrics RBAC, while cost and traffic require separate integrations.",
+      "evidence": [
+        {
+          "resource": "repo://apps/radar/application.yaml",
+          "version": "repo-file-v1:sha256:06f592dcd7d163133df6bcbc3a3feaafe5e42819e4febd34c84baf5b4fb3c23a"
+        },
+        {
+          "resource": "repo://docs/troubleshooting.md#L128-L145",
+          "version": "repo-lines-v1:sha256:b59d1b5d67c1fa82980a6567eb633a3ff64121435d57f0bbabfd428ae8f0ebdb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRhNGZiN2QwZGJjMmMzYmI2M2E4OTEyNTQ4MjgwYTQ2OWM3ZTNiMDJjZWNmNjIwNDBkYjY1YzQ2YTMwMTQ4MDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4ZDgwM2Y3ZDQ5ZTBkNDA0ZWFlNjk5MzYwMzg0YzU0MGNkYmM1ZDBjYWFhMjlmY2JiMGQ3ODlmMWNiMDM4ZmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhMTQ0MTk3NmQ1NTRmMDEzZjIxODI3Yjc3NDRmYmZhMjA4ZDk1OTFkNWE5NDRiYjE5MWM3MDEyN2VkOWE5NzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFkYTVlYzkyNmZlZjNlYWE4OWE5NDFkMTIxNjQ4ZDk3OGI5ZGY0YmY3Njg1MzJiMmUwNjI4YTVjYjQxNzEyZGIifQ"
+        },
+        {
+          "resource": "repo://specs/radar-in-cluster.md",
+          "version": "repo-file-v1:sha256:518d782ba22b004fc68b70db30966475a1377c56259aa230aa5f564b9dd84cad"
+        }
+      ]
+    },
+    {
+      "id": "claim_4835ab94a5044722a319ceb89abe5178",
+      "statement": "Radar validation requires chart/RBAC/Secret-reference rendering and schema gates plus separate runtime proof of tailnet access, blocked cluster bypass, real ServiceAccount permissions, MCP reads, canonical get-only ArgoCD diffs and retained timeline history; ArgoCD health alone is insufficient.",
+      "evidence": [
+        {
+          "resource": "repo://specs/radar-in-cluster.md",
+          "version": "repo-file-v1:sha256:518d782ba22b004fc68b70db30966475a1377c56259aa230aa5f564b9dd84cad"
+        }
+      ]
+    },
+    {
+      "id": "claim_0eba764be0ed48bc85a48b1c6c92ecf0",
+      "statement": "Historical 2026-08-16 validation recorded successful UI/MCP reads, denied ordinary-pod bypass, canonical argocd-api diffs, unavailable metrics with healthy core functions, and 42 retained pre-replacement changes after a normal rollout; Tailscale-proxied impersonation checks were rejected in favor of direct ServiceAccount-token checks.",
+      "evidence": [
+        {
+          "resource": "repo://specs/radar-in-cluster.md#L448-L525",
+          "version": "repo-lines-v1:sha256:78e83dea70b5f327717f289e549b3fde361254f1a70339fa60dc5eab2c2b8042:eyJzZWxlY3RlZExpbmVDb3VudCI6NzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBjZmQ2MGM3ODk3NmYyMzQ3NDMwNGY5Zjc5NmZmYjI1ZDdmYmMxOThjMTA5MWIwNzlkZDRiZjg0MTU2ODkyMmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhlYjgxZDMzMDgyMzhiYWI2M2Q3NWZlNjNmNDhmNTU1Zjk5YjU5YzhlMmMxZDEwNjQ2MzBmY2JiMzIwODQxMDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQzMDcxMmRhODNlNjc3MDhjZjAzZWI3YTA1YTY3MDFlNWYyNDdlNjU1ZjYyZDcwMjViMDFhMWRlZjAwZGFkYWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdmZDFmYWQ5Mjg4NzRkZDIxNDc5MGM3MDFjMmFhOTA3NTM5ZjMzYWZhYWZmMTk3MGIyMTE3NDJhZTYwNDg1ZTAifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-11T09:22:19.403Z"
+  }
+}

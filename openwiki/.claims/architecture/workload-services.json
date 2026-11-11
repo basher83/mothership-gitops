@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:a87fb2fd21305c08a9ec08c7ebbfe693c39a29e199fbc8668956535dcf4eed00",
+  "claims": [
+    {
+      "id": "claim_0f3838bdb25b47fb9ec7b54fddeb7d77",
+      "statement": "Homarr uses a 1Gi Longhorn RWO database under persistence.homarrDatabase and Recreate to avoid volume scheduling conflicts.",
+      "evidence": [
+        {
+          "resource": "repo://apps/homarr/application.yaml",
+          "version": "repo-file-v1:sha256:c60feaf6c0a7b451c1720d17f9b01c1d9e86d7b75b289dd5bbf686c91de5ec95"
+        },
+        {
+          "resource": "repo://docs/troubleshooting.md#L396-L410",
+          "version": "repo-lines-v1:sha256:5a6aea46459e25a8960fa93ded46e4ef09e5956983e21abc71b1b4762c2946d1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4ZGRjMDllNTA1NDQ2ZGVmMzgwYTQ5NGZkNTk0YTllNjBiMzIyN2JlNTBmNjcwY2M5MDNkM2YyNjhjN2EyY2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRiMzIzZTY0NzRhNjlkNmRkYzgzYjVjOWJhMWY0Zjk3YmVkOTM4ZGY1NWQ4ZjNiYTBjNjgzZDFhMTlmYzE4MTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFmMjM2MTY5OTJjNzc1YTMzMzZhMTljODhhOGVmOTc4ODM3NzdlMzk3MjljYTg1OTYyZDNiNjA1YTQzMWVjY2EifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_fb594f51106243c3ad27b69bf5cec4e8",
+      "statement": "Homarr's hourly wave-0 ExternalSecret maps HOMARR_DB_KEY to db-encryption/db-encryption-key, while its Helm Application ignores ESO-owned Secret data and metadata with RespectIgnoreDifferences.",
+      "evidence": [
+        {
+          "resource": "repo://apps/homarr/application.yaml",
+          "version": "repo-file-v1:sha256:c60feaf6c0a7b451c1720d17f9b01c1d9e86d7b75b289dd5bbf686c91de5ec95"
+        },
+        {
+          "resource": "repo://apps/homarr/externalsecret.yaml",
+          "version": "repo-file-v1:sha256:ed359eb264d2b19647c3dce42fb4b9a8e6e2f44c48c0551a214ec9f3f7360d18"
+        }
+      ]
+    },
+    {
+      "id": "claim_8bb9831c187346c7831e29a02508cf31",
+      "statement": "Homarr's three Proxmox ExternalName placeholder Services declare Tailscale egress targets for foxtrot, alpha, and lloyd rather than declaring API credentials or saved integration settings.",
+      "evidence": [
+        {
+          "resource": "repo://apps/homarr/proxmox-egress.yaml",
+          "version": "repo-file-v1:sha256:aff976f627adf5782bfb1fb6afb4676af114105b4ae0495537f3322696195d48"
+        }
+      ]
+    },
+    {
+      "id": "claim_3cfc8c3bc7fe476da366017f88fcabf2",
+      "statement": "Netdata parent and child enable claiming with empty chart token/rooms and envFrom netdata-claiming; the hourly ExternalSecret maps CLAIMING_TOKEN and CLAIMING_ROOM to NETDATA_CLAIM_TOKEN and NETDATA_CLAIM_ROOMS.",
+      "evidence": [
+        {
+          "resource": "repo://apps/netdata/application.yaml",
+          "version": "repo-file-v1:sha256:c3d3a85b93b1e53cec213cfb8d5c9bc8976eed8df60dea7e3ff5f987a709768c"
+        },
+        {
+          "resource": "repo://apps/netdata/externalsecret.yaml",
+          "version": "repo-file-v1:sha256:c6e67534f92cb05ff2c5a47ecd09cc3c6da55183c3dd3c97a8d7ad8a0f61fe1a"
+        }
+      ]
+    },
+    {
+      "id": "claim_4ce34a8c77c7459a97e4c2ecc65bdd81",
+      "statement": "Netdata k8sState disables default Go collectors, enables k8s_state and coredns, and scrapes CoreDNS at kube-dns.kube-system.svc.cluster.local:9153/metrics; its image tag is stable.",
+      "evidence": [
+        {
+          "resource": "repo://apps/netdata/application.yaml",
+          "version": "repo-file-v1:sha256:c3d3a85b93b1e53cec213cfb8d5c9bc8976eed8df60dea7e3ff5f987a709768c"
+        }
+      ]
+    },
+    {
+      "id": "claim_8e59e17765574be89d90cadf794921aa",
+      "statement": "Netdata collection does not supply Radar usage automatically: Radar requires the Metrics API plus RBAC for live usage and separate Prometheus integration for PromQL; the 2026-08-16 check found neither backend and metrics RBAC disabled.",
+      "evidence": [
+        {
+          "resource": "repo://docs/troubleshooting.md#L119-L152",
+          "version": "repo-lines-v1:sha256:ba1a0937a820fae68a900b605a6bddf8b76875faf1da9a09443667d58aaef076:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3MjE0Yzg5MzU1MzE0NTA5ZmE2OGFjNmRlMzY2NzdkMzg3MDQ0NTkxN2Q1ZWI3ZmU4ZmQ5NzQyMTkwMjE1ZWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ0NWFjZGU5Mjg5NGI2YjE1MThiOGEwZmNjM2E3NWE1MDAyYmEyMzMwNTEwZDAxMDE1MjgyZTUwZTg4M2IxNTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY0ZmM0ZjkzMzZmYzdkNzljZjMwODViODA0ZWRmYzllMWNlMWY3NWUwYTc0NTAxZDkyYjA4OGQ4YzVjOWZiNTAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_61797c8f921a4142a25b26e53bbb1e45",
+      "statement": "Phoenix disables PostgreSQL, uses SQLite on 10Gi Longhorn RWO storage, and sets Recreate with rollingUpdate null to avoid RWO conflicts and stale SSA strategy fields.",
+      "evidence": [
+        {
+          "resource": "repo://apps/phoenix/application.yaml",
+          "version": "repo-file-v1:sha256:f0da32e7091e9ed559a62d65dedc205aa36fa800da99b86cceceb700fbc1f3b6"
+        },
+        {
+          "resource": "repo://docs/troubleshooting.md#L368-L394",
+          "version": "repo-lines-v1:sha256:27c51927b0aa6a8a366154d3404773df3f201c6c16d64dd7f4057b0077612b8c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFhYzYyY2M2ZDJmZWRiOTZhOGE4MGJlMzU5NDc0NWY5M2E4ZGExYjU2ODJlODgzZjMyM2M5NzFkMzA5Yzg3MGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ3MWIzOTllMmIyOThhNGFmNGQ4OTFmOWM2OGZhYjE3MjlmNTFlZTI4YjM4ZmNjNjljOGY1MTgyMTcxMjZlNDQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7b17bb8f38cc494db4ff9bb989edf4ae",
+      "statement": "Phoenix disables auth explicitly, exposes a ClusterIP via local Tailscale Ingresses on backend ports 6006 and 4317, and disables chart ingress; these declarations do not prove internal network isolation.",
+      "evidence": [
+        {
+          "resource": "repo://apps/phoenix/application.yaml",
+          "version": "repo-file-v1:sha256:f0da32e7091e9ed559a62d65dedc205aa36fa800da99b86cceceb700fbc1f3b6"
+        },
+        {
+          "resource": "repo://apps/phoenix/ingress.yaml",
+          "version": "repo-file-v1:sha256:54b6a55c5b7d7846e36ba29957e29c874f444e0bb35d7e09395910afd604eea5"
+        }
+      ]
+    },
+    {
+      "id": "claim_4cd5cc8e761742499a9c5023b4b01351",
+      "statement": "Phoenix must disable chart Secret generation and restrict auth.secret injection to PHOENIX_SECRET and PHOENIX_ADMIN_SECRET supplied hourly by ESO; missing default unused keys cause CreateContainerConfigError.",
+      "evidence": [
+        {
+          "resource": "repo://apps/phoenix/application.yaml",
+          "version": "repo-file-v1:sha256:f0da32e7091e9ed559a62d65dedc205aa36fa800da99b86cceceb700fbc1f3b6"
+        },
+        {
+          "resource": "repo://apps/phoenix/externalsecret.yaml",
+          "version": "repo-file-v1:sha256:1bcdf0ec7896b6ab7576bf3cbe7ab5ff8a1d43cb56bf7cdeb25a0edeff95b633"
+        }
+      ]
+    },
+    {
+      "id": "claim_53bca03c113b4e3eb8731e8d3c11c2aa",
+      "statement": "PHOENIX_SECRET encrypts stored provider configuration independently of login auth; chart-generated key rotation during the 5.x to 9.x upgrade made PXI configuration undecryptable.",
+      "evidence": [
+        {
+          "resource": "repo://apps/phoenix/externalsecret.yaml",
+          "version": "repo-file-v1:sha256:1bcdf0ec7896b6ab7576bf3cbe7ab5ff8a1d43cb56bf7cdeb25a0edeff95b633"
+        }
+      ]
+    },
+    {
+      "id": "claim_a29260b9a7474fc49837045c205f24e6",
+      "statement": "Phoenix leaves PXI enabled using stored provider configuration pointing to the in-cluster OAuth proxy rather than a locally declared provider endpoint, and leaves allowExternalResources at default true; comments record healthy egress on 2026-06-12.",
+      "evidence": [
+        {
+          "resource": "repo://apps/phoenix/application.yaml",
+          "version": "repo-file-v1:sha256:f0da32e7091e9ed559a62d65dedc205aa36fa800da99b86cceceb700fbc1f3b6"
+        }
+      ]
+    },
+    {
+      "id": "claim_2758dbf2cadb447fbc4a6354d9c581f2",
+      "statement": "Phoenix schema migration rollback requires both chart reversion and volume snapshot restore; its documented data PVC has no backup tier and plain longhorn assigns no automatic backups.",
+      "evidence": [
+        {
+          "resource": "repo://docs/backup-storage.md#L64-L89",
+          "version": "repo-lines-v1:sha256:884a77b6e28911cac7c5cde69fd7dcad3836a5db5325e8219f241c663b44e9e8:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEzODc4ZWMzMjBiNDM5MjcyOTQwOWQxMTUzYzhkNjY2MTY2OGRmNmY5NzNmZGE4ZjQ0YmNlZGIzYmRjZjUyMzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMyZGM0MGZkNWEwYjk0MjI2YjFmNjIzYjY3NTI0ZTA0NGY3MTExZDg1MTdjNWQ1MjI4ZGYyOTk5OGQzODk4NjYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d0c61190289245dfaa40a0ab1edb9d3e",
+      "statement": "The storage procedure accepts running-pod snapshots as crash-consistent for SQLite, requires readiness verification, and treats snapshot lifecycle as outside ArgoCD.",
+      "evidence": [
+        {
+          "resource": "repo://docs/backup-storage.md#L81-L113",
+          "version": "repo-lines-v1:sha256:cf74dd668f86bdcff3c9508e56ff45e143c3c39e68994b88fa36b830d12931b6:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkzY2E3ZDE3MDMwYWM2YWJlNDQ1NTBkYzcyOGQyNmJkZDcyMDcxZDM5ODM2N2JlNWUwMWQ5ZDdmZjRkNjBkNTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhMTc0MGNlY2FjNmNjNTQ4Y2NiOWQ0MThmOGRiZmQxZTY3MjcxMTY5YjhlMTU3ODQ4YzkxYTEwMGYzOWI3ODYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkwNWNiN2U4ZTJmYzVkMTZiNmJmMWMwZTczZmQyM2MyZTlkZTg2ZDNkYTNkMGQwMjZlZjlmZjAxOWI3ZmZmYjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVlYjZmODJjZTAwZjBhM2U5NTM2N2I0MWI0OWM5ZmFlNzZiOGIzMDJhZjI1OGI1OGEwNWRjOTdjODVjMjEzMDIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8220664e517841b99a2f0c93a0c17427",
+      "statement": "The OAuth proxy Application tracks tailnet-microservices main at k8s with manual sync because external CI does not gate manifest validity; local ownership is promotion and validation rather than duplicated source manifests.",
+      "evidence": [
+        {
+          "resource": "repo://apps/anthropic-oauth-proxy.yaml",
+          "version": "repo-file-v1:sha256:29d21a855ca7bf45d234b6cd8209061e2ca07ea5d191be9fdf1d92e32ae7b185"
+        },
+        {
+          "resource": "repo://specs/oauth-proxy-boundary-remediation.md#L155-L171",
+          "version": "repo-lines-v1:sha256:6a3cd84c48760f2d74a234bebd1b3507ce257768491b38b0c053bd8aa0150840:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM2M2I0NzE3Mjg4OTFhMzYxODhkNDY3MTdjNGQxYjRjZWNhMjI2OTQ1ZjIwOTUyNDFiNzllYWIzYTk3YmZlZTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ3MTE4YzRkNDQ5MWNkZjZmYWExNjhmYzEzYmVmM2UzNTIyODkyMjc4MGUwYWMwNzQ4NjhhMDFjZTU4ZDE4MmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg4MzI0ZGZkYzQzMzQ5MDE4MmJhZDcyMDExNTYxZWIzNDdjN2Q4OWJhODJmMDRlYzM1NDE1NDU4ODcwZjlmZmQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3b2020ab07414f3eb0400413eadfbd7a",
+      "statement": "The planned OAuth boundary specification distinguishes source findings of unauthenticated Service-exposed main/admin surfaces from assessment live observations of wildcard tailnet grants, shared tags and pod reachability; neither establishes newly verified present cluster state.",
+      "evidence": [
+        {
+          "resource": "repo://specs/oauth-proxy-boundary-remediation.md#L1-L85",
+          "version": "repo-lines-v1:sha256:7d7eb793b61962493c0c979d74840f27b1db95be89af4d78905a79875331ba13:eyJzZWxlY3RlZExpbmVDb3VudCI6ODUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3MTFkOTcyOWI3NWMzMTBjMDY4YTlkNDIzODliZjk0Nzg0ODQ4NTI2ZWQxYjI5ODY0MzM5YTBkMzc2NDIxYTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxMDdmZjA0OTg0NjIzOWU5MjcwMmQzYTFiMTU1YjQxMzhmZGVkNTM1NjFhNmI5NmEyNGMzZWY2M2IwZDgyOWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFlOGU2Mzc2YzVkYWNiYWNkODRmMmE2Nzk0ZmU1ZmM5MTlhYmUyNzI0NGI1NDViNjVkNWIzNGY0MzBhMWJkZmUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_91c574c8d1ff402b94e558158adf49d5",
+      "statement": "The selected, not yet implemented proxy design authorizes tailnet clients on main and RBAC port-forward operators on admin, removes the admin Service with tested loopback binding, and restricts main port 8080 to actual ingress proxy identity and required probes.",
+      "evidence": [
+        {
+          "resource": "repo://specs/oauth-proxy-boundary-remediation.md#L108-L153",
+          "version": "repo-lines-v1:sha256:9b2a3689161f801d2a16c3fdf5c7eb75fd75b5a430314f50a62c2438a7af8fb2:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcxMTNjNGIzZmNlNjUxNTA5NTZiOTUxMDNiNTM3ODg1NDcwZmNjNDViNDlkNzJlMzI4OGY1M2I0ZTg1YWJhMWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk4MmJiMWFkZGQ0NzA0NmQxOTk5NDNiM2FiZDBiNDA0YTljNTQwOTQ0MWM4YzM1NjViYmE5ZTg0YmIyMDk4YjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFhODVmOTkyYWRjMzYyZGNlNTNhNzRmYjcwNDVmZjE2MjhmNWRmMTE4Zjc5Mjg3NjQ2YzdiYjFlYzFhNTRjOTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9596ad24b83742f8bb2d352a7f6ef8c8",
+      "statement": "Phoenix's documented in-cluster provider route must be reconciled before promoting the proposed policy that denies ordinary pod access; the specification does not grant Phoenix an exception.",
+      "evidence": [
+        {
+          "resource": "repo://apps/phoenix/application.yaml#L18-L20",
+          "version": "repo-lines-v1:sha256:0d095ab5af912da0a13201a48f972474db250fe1feca246da05a405a3dd6c876:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDI4OWIzNTM4ZTIwNDE5YmI4YTBhZGZkZjMxODE5YTRhMGNlOGMxYjI2NWQwODU1OTcwYzk5NTEzMGFmNWRiNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjBmNWM2ODlkOTJiNmU0MGE3ZjdmODFjZmEyMjc2YmMwYjgwOGU5MDcyZTlmZWRlMTJjYmIyYzRlMzRhMDI5OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODc1OGM2YTMxYjYxOWFhYzhkMjQxY2IzOWI5YzhiZTJhYmQ1NWViNTNmZWIxZmZiMTg1NGJhNDc0ZjcwODNiZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWM5NmFhN2UwNTgzZjk4Mjk5NmM2ODBiM2M2NGNjNGI3ZmMzMDVmMzI4OGYxMDVkNzQ4ZDdmMzg5ZmMzY2FiNSJ9"
+        },
+        {
+          "resource": "repo://specs/oauth-proxy-boundary-remediation.md#L108-L144",
+          "version": "repo-lines-v1:sha256:49e72ae1d8cacc2f341c706ac82ee7d9b0759be88d50142cabc5453a9ea50cbc:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcxMTNjNGIzZmNlNjUxNTA5NTZiOTUxMDNiNTM3ODg1NDcwZmNjNDViNDlkNzJlMzI4OGY1M2I0ZTg1YWJhMWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhNDZhODY0OTk4YmJlNmE4NGNhMTQ0YTZiMjliYTgwOTgzYmVkYmY0MjM1NWM0Mjg4M2NlMDE0YzdhOGMxMzQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk4MmJiMWFkZGQ0NzA0NmQxOTk5NDNiM2FiZDBiNDA0YTljNTQwOTQ0MWM4YzM1NjViYmE5ZTg0YmIyMDk4YjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNhZjg3MWE5M2JmMzU3OTVlMjk5YTQwZjNiOGE3Y2I4NWM1NjM0Mzk1NjMzMTRjNWZiNjhmYzJlMWMzYmMxMjcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_86073c80dfee44109cc639caf4501346",
+      "statement": "Proxy remediation requires source assertions, positive tailnet and authorized port-forward tests, negative ordinary-pod tests, no admin exposure and healthy probes; green ArgoCD sync cannot close findings and rollback reopens them.",
+      "evidence": [
+        {
+          "resource": "repo://specs/oauth-proxy-boundary-remediation.md#L173-L210",
+          "version": "repo-lines-v1:sha256:4e8b0a3940454d9a6a4a9e09d0e73e8b4ee576697f7b800239bc4f24d69eefdf:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFiMDRjNTZiZGM2MjgwMDQwYmM3ZDExMTY0Nzc0NzExZWQxZWI4OGVhZjNhNjI5MjVkNjkwN2U2MjkyNzg1YjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZDQxNzAwMzMwMGNjMmUyM2RkYzAzNDAzN2RmNTM0MzEwZjAyMTY3Yzc2MzQ4YzlhMzJhZmNjODA2MGY4ZGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJmNDkyMjI1MTBhNTc4NWU3ZjczNGMyOWNkNDJkZTk2OTViNGJhNGFkYTExYzQ4MjhjZTcxNjEzMGNkNjhjNGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUyYzIyYmFhYzQ5Mzk1MWIwMjkyZTIwYzQ1YzRhYWYzM2ZjNDgzZDdhY2ZjYWU5MGI5YTZjNjRmYTJmNWVlZWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_92da9748288c4dada050c3b40a3321ba",
+      "statement": "The 2026-08-27 incident found Phoenix 20.4.0 server experiments enforced a 120-second complete-stream deadline with three retries and terminal results lacking partial output/usage, while Playground could complete beyond that deadline.",
+      "evidence": [
+        {
+          "resource": "repo://docs/incidents/2026-08-27-phoenix-experiment-timeouts.md",
+          "version": "repo-file-v1:sha256:2fcc0f42e06e55e2469d130033b40a45bcadf9f1cc02b7b0170076100b1a1eb6"
+        },
+        {
+          "resource": "repo://docs/troubleshooting.md#L171-L222",
+          "version": "repo-lines-v1:sha256:dd2aebddd55f85bf8afcb0961fdfaddd20a7f2f2d2f5a99f6bd9efa25be9dc47:eyJzZWxlY3RlZExpbmVDb3VudCI6NTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVkZTJmNTMyOGVlNmU4MDUwZThhYWZkOGRjODY5YTA2OWNkOTU4NGVkYWFmNTRmZTU4OWQ3M2MzYjdkY2Q3OTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYzY2ViYTk1YTBiYmY0NjBmM2MwZGMxZjMzZGI4YWMxNzBmZGE0MjFkMjlkZTllYjhmOGZkMWU5NDBkNTIyMDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFlY2VkM2Y2M2Y2NmJlZDU3NWFkNDM3ZWI0OWQwYjc2ZWMzNmUyOTkxNGJmMjczYjEyNzAxMzc5NzRlODcyNjEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a1ebbd6d499a4ccfa569eb98a756813a",
+      "statement": "In that incident the deployed proxy logs and spans measured response-header arrival, not completed streaming output; experiment results, proxy spans and Playground spans must be correlated and missing output is not zero work.",
+      "evidence": [
+        {
+          "resource": "repo://docs/incidents/2026-08-27-phoenix-experiment-timeouts.md#L101-L152",
+          "version": "repo-lines-v1:sha256:2d6f3008428b765c7b40510eba32c4f85f0d609e3160aad6ce34ac8cfed3d6aa:eyJzZWxlY3RlZExpbmVDb3VudCI6NTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNjNGEwNDM1MGRhZTAwMDA1Mjk2MWVhZDNiMzRjY2Y3ODVlZWUyNGQxNjhkNWJhOTA2ZjdlNmZmOTYzZjVjOWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFjYjgzNmE2MDUyZGEwMjdlODI3MTllNDlkYmZmMmM1ODliZmQxZjdiYjgyNzg2YWI0Njc2OWIwMGVlMTA2YjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxYWIzZGFkY2NlZTQ3OWNkNDgxYjhiMDFlNjdiYmFhYjgxMjY3ZjQ0NjJmNDVkMzFjMmNlNzllNjQxZjIwYTEifQ"
+        },
+        {
+          "resource": "repo://docs/troubleshooting.md#L171-L222",
+          "version": "repo-lines-v1:sha256:dd2aebddd55f85bf8afcb0961fdfaddd20a7f2f2d2f5a99f6bd9efa25be9dc47:eyJzZWxlY3RlZExpbmVDb3VudCI6NTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVkZTJmNTMyOGVlNmU4MDUwZThhYWZkOGRjODY5YTA2OWNkOTU4NGVkYWFmNTRmZTU4OWQ3M2MzYjdkY2Q3OTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYzY2ViYTk1YTBiYmY0NjBmM2MwZGMxZjMzZGI4YWMxNzBmZGE0MjFkMjlkZTllYjhmOGZkMWU5NDBkNTIyMDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFlY2VkM2Y2M2Y2NmJlZDU3NWFkNDM3ZWI0OWQwYjc2ZWMzNmUyOTkxNGJmMjczYjEyNzAxMzc5NzRlODcyNjEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ebd5c845d0164c498ae79ff92a2ff828",
+      "statement": "The timeout incident rejected transport/authentication and local saturation for the observed window, demonstrated output-length effects for only one example, and left client-side execution, prompt shortening and supported timeout configuration as open mitigations rather than low-token truncation.",
+      "evidence": [
+        {
+          "resource": "repo://docs/incidents/2026-08-27-phoenix-experiment-timeouts.md#L218-L270",
+          "version": "repo-lines-v1:sha256:787f2bef62e963250eb0b0a881afa562cc4779d513002fa6f18fccd7bef87571:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3Y2NlZGVjMjk2Y2VjMGZkODhkZTRjZWE2YTY4MWIzNjRmZGE5M2ZkOTZlNTNkNGIwNjliYTZhZWRmZTZjN2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVmYTZjYzJlNDk4ZmQwYzE3MjIxNjM2ZDc4NDJjMTkxNjU4NWYzYmQzNGI4NjRkOTdjNjIxNDU3ODA2OWFhODAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRkNTUzZTk4NjY0ZjgxMWVlOWE3MTJiZTZhYThjYWU4Y2YzNGU5YzNkMTY0YWQzYTFhY2VhMmVhZTgwMWExODYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_203236c28c344282823256107a59a227",
+      "statement": "The local validator renders exact-pinned chart Applications with committed values, skips Helm tests and missing schemas, and validates built-in schemas rather than external proxy Kustomize or runtime secret/network/stream behavior.",
+      "evidence": [
+        {
+          "resource": "repo://docs/architecture.md#L79-L94",
+          "version": "repo-lines-v1:sha256:c1ae0898360db8fafe219302af096dab83d696a1ca327d8ed59e29e6539a0970:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3YmEwMjQzMmUwYzgxODU0ZTVkY2EzMTQ3ZTgxOGE1NTE5NWM2ZTc0MGViZWI0ZDlmNzZmZTVmZGIyMGUzNjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyM2M4N2Q3MzVjMWZkOGI2NzA0YzVlYTQ1NDVmZTIzYTliYzVjNTNmZGFhYWMyOTk4MjU3NGJkNGVkZDM1Y2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEzYjZkNzM4MjBkMDcyYjA4MTQ1NWU4ZGQzMjk3ZDEyOTRiOGZjMDViYjA0MjllZjhhYTAyMDMyYjRmODJlODQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhiNjNjMTBiMTg1MGYxYjY1YWU2NTYwNzdjYjk4NmQ5NjcxZTIxZjU2NjA2OTNhODE2NTAwZDczNzI3ZTU2OWQifQ"
+        },
+        {
+          "resource": "repo://scripts/validate-gitops.sh",
+          "version": "repo-file-v1:sha256:13afc67f9eebbb472cd3882fa52993fe462b63c580d6d2ff9d169b6191911fe8"
+        }
+      ]
+    },
+    {
+      "id": "claim_97e13704a89747e79d24cbaa9b1553fc",
+      "statement": "Homarr, Netdata and Phoenix enable automated prune/self-heal while OAuth proxy promotion remains manual.",
+      "evidence": [
+        {
+          "resource": "repo://apps/anthropic-oauth-proxy.yaml",
+          "version": "repo-file-v1:sha256:29d21a855ca7bf45d234b6cd8209061e2ca07ea5d191be9fdf1d92e32ae7b185"
+        },
+        {
+          "resource": "repo://apps/homarr/application.yaml",
+          "version": "repo-file-v1:sha256:c60feaf6c0a7b451c1720d17f9b01c1d9e86d7b75b289dd5bbf686c91de5ec95"
+        },
+        {
+          "resource": "repo://apps/netdata/application.yaml",
+          "version": "repo-file-v1:sha256:c3d3a85b93b1e53cec213cfb8d5c9bc8976eed8df60dea7e3ff5f987a709768c"
+        },
+        {
+          "resource": "repo://apps/phoenix/application.yaml",
+          "version": "repo-file-v1:sha256:f0da32e7091e9ed559a62d65dedc205aa36fa800da99b86cceceb700fbc1f3b6"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-11T09:22:19.403Z"
+  }
+}

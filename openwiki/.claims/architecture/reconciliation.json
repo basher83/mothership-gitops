@@ -1,0 +1,358 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:4f0fc9631968ebe1dd28a42407a3822cad20448b0fbb85d0f0102cf6c0cdf958",
+  "claims": [
+    {
+      "id": "claim_b325b483778a4d16b64f7877bff199e1",
+      "statement": "Bootstrap requires Helm-installed Cilium, ESO, Longhorn and non-HA ArgoCD before applying the root Application; these prerequisites break scheduling, CRD and chart-hook cycles.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L43-L126",
+          "version": "repo-lines-v1:sha256:f5af0fc2468a5d0e61ceeba02f0f4096886b131a95a2c529d10730da7655571d:eyJzZWxlY3RlZExpbmVDb3VudCI6ODQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFmNWYyMGRkYTViMjM5NWFiNTEyOWIyNjdlZWZmYTU0YmIyNTUyNDQ0OWYyMGQ5MTBjMTAwYzg1OGIwNjFhMTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhiMTdjOWUxODdjY2IzYzhlYzg2ZGE1YjdmNTM3OGM3MzI0N2ZlNjBiZjVkMWFhMDU2YmIyYzE4Mjc5ZmYyYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFkYmI2ZDUyOTMwYTdhZDY0ZjFkYTliMTRiZjNhZWY1N2E1NjE2YzZkNmFlNjIwYTY3NzZjYWU0M2EzMTdlZDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ2NjUzYmFiYmNlNWVkMWU2M2NlYmYxZmM0M2U5YmRkMjJiOWY4Zjk1NzdmNDczMzEyMDBhOGZiYjFlYjUzYmIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6d2fc6dfd03240fd9a4d77cd0ceef4ba",
+      "statement": "bootstrap/bootstrap.yaml declares root tracking this repository main at apps/ with automated prune and self-heal; apps/root.yaml declares directory-backed parents while the standalone proxy Application is another root-discovered entry.",
+      "evidence": [
+        {
+          "resource": "repo://apps/root.yaml",
+          "version": "repo-file-v1:sha256:608d9e35f41b568c079859c0538de53d859381aa2b863f66e7ee276966db56cb"
+        },
+        {
+          "resource": "repo://bootstrap/bootstrap.yaml",
+          "version": "repo-file-v1:sha256:68f4f2166ec7b4deea017a2df69c3942db42647502861ff9fa135146884fefa7"
+        },
+        {
+          "resource": "repo://docs/architecture.md#L6-L11",
+          "version": "repo-lines-v1:sha256:026a53958ab3e94b50e349585b8b757087252e356fc1ebca1805e0bbfbeab0ed:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzBmMmFmMDlhYjZjNGU1YzRiZTMwNDk1YWI5ZWRmMWFhODI4MGQ5Y2ZhNmE3NzlkZDdjODNlMmFlYjgxMGM1NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGFlOTY0NDNiZjE3MzIwY2U5N2M2ODc3NjM3ZTk5MWNmOGRlOWYwNTQzMGJkMGY5MmRlOWZkMTY1NjA2MGUyMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTU3YmY1ZDlhNmI5N2I1YmUzYzRiYTIwMzQzYWUzNGQxMzExYjc1N2Y3ZGRmZTExYmY3Mjg5MjlkMjg3MTRmOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjk1ZTk1OWQ4YTZiOGVmMDIyMWVmNTczZjdjZDViMjUxYTQwNTQ0NWUzMTc2NGY3Y2U1YTdhYjNlZDgyNmY2NyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_38d42c51213f44aca27d75207a50d4b4",
+      "statement": "Directory-backed parent Applications reconcile local resources and nested chart Applications in separate scopes; the proxy instead tracks tailnet-microservices main at k8s.",
+      "evidence": [
+        {
+          "resource": "repo://apps/anthropic-oauth-proxy.yaml",
+          "version": "repo-file-v1:sha256:29d21a855ca7bf45d234b6cd8209061e2ca07ea5d191be9fdf1d92e32ae7b185"
+        },
+        {
+          "resource": "repo://apps/external-secrets/application.yaml",
+          "version": "repo-file-v1:sha256:2b713ffe48991da56baab81c4d92f23803dc305ea7791633882726a3b84c0f03"
+        },
+        {
+          "resource": "repo://apps/root.yaml",
+          "version": "repo-file-v1:sha256:608d9e35f41b568c079859c0538de53d859381aa2b863f66e7ee276966db56cb"
+        },
+        {
+          "resource": "repo://apps/tailscale-operator/application.yaml",
+          "version": "repo-file-v1:sha256:dabfb590a9c5ada753c8d1e49498c07a23bb4311e7656cdde96f4a371fa58a17"
+        }
+      ]
+    },
+    {
+      "id": "claim_04f2099bd60d453eb3d95a16c391a413",
+      "statement": "The documented outer waves are ESO 2, Tailscale and ArgoCD Ingress 4, Longhorn 5, Netdata and Radar 6, Homarr 7, proxy 8, Phoenix 9, and manual ArgoCD HA 99.",
+      "evidence": [
+        {
+          "resource": "repo://apps/anthropic-oauth-proxy.yaml",
+          "version": "repo-file-v1:sha256:29d21a855ca7bf45d234b6cd8209061e2ca07ea5d191be9fdf1d92e32ae7b185"
+        },
+        {
+          "resource": "repo://apps/root.yaml",
+          "version": "repo-file-v1:sha256:608d9e35f41b568c079859c0538de53d859381aa2b863f66e7ee276966db56cb"
+        },
+        {
+          "resource": "repo://docs/architecture.md#L13-L34",
+          "version": "repo-lines-v1:sha256:4b392f54d05e3078c650be64adcf86b84e5e78c5f88dfb870613be7ecb6a1a1a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRiNTVmZGVlZjFmNWY5YmEwYmI1OGI4MjNiNGVkYjRjNWQ5OWJkM2RlZTVhMjJkYzM1YWFlYTYwOWJiZjAwYmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIxNzQwNmYxZmFlOGYyNjZjMjYzYmU1OWZjYjg0Y2U2ZGZmOGJkMWQ4NDM0MzM5YzZjNjc4MjlmOGNhMmViMTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhNjZjNzI3MDhkNGUxNGMwODliZDhlZTM4NTIyNTY2OWYwY2JiNTYwMjMzZDQ5NmMzMWQ5YTZmMjljY2ZkNjEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a0be17b116404779ba2fff2919f1b7a4",
+      "statement": "ESO's parent orders its chart Application at wave 1 and ClusterSecretStores at wave 2; Tailscale's parent has default-wave DNSConfig and wave-0 ExternalSecret before its wave-1 chart and wave-5 CoreDNS Application.",
+      "evidence": [
+        {
+          "resource": "repo://apps/external-secrets/application.yaml",
+          "version": "repo-file-v1:sha256:2b713ffe48991da56baab81c4d92f23803dc305ea7791633882726a3b84c0f03"
+        },
+        {
+          "resource": "repo://apps/external-secrets/clustersecretstore.yaml",
+          "version": "repo-file-v1:sha256:af2ac94aa2dc83782ad20eb6d5ac363293383c37f721b2a8980a1d4791c06a72"
+        },
+        {
+          "resource": "repo://apps/tailscale-operator/application.yaml",
+          "version": "repo-file-v1:sha256:dabfb590a9c5ada753c8d1e49498c07a23bb4311e7656cdde96f4a371fa58a17"
+        },
+        {
+          "resource": "repo://apps/tailscale-operator/coredns-patch.yaml",
+          "version": "repo-file-v1:sha256:90ec7dbb85b43adc67e252071e5127998051714383c9688166e0009662bc9196"
+        },
+        {
+          "resource": "repo://apps/tailscale-operator/dnsconfig.yaml",
+          "version": "repo-file-v1:sha256:10d068089642e31878e4ad45112cc0260c4c681ba3400ce5b70b224ee0f39f05"
+        },
+        {
+          "resource": "repo://apps/tailscale-operator/externalsecret.yaml",
+          "version": "repo-file-v1:sha256:ae8ab1ec4efe5bc7af39a19035aba1fa4dbffeb2802664af6c98c318786b7851"
+        }
+      ]
+    },
+    {
+      "id": "claim_3e84f60efdaf44858888d9015ece999f",
+      "statement": "Wave annotations order resources within their owning Application, not a verified end-to-end readiness graph; Tailscale and ArgoCD Ingress share wave 4 and the HA gate explicitly requires live Longhorn provisioning readiness.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L43-L126",
+          "version": "repo-lines-v1:sha256:f5af0fc2468a5d0e61ceeba02f0f4096886b131a95a2c529d10730da7655571d:eyJzZWxlY3RlZExpbmVDb3VudCI6ODQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFmNWYyMGRkYTViMjM5NWFiNTEyOWIyNjdlZWZmYTU0YmIyNTUyNDQ0OWYyMGQ5MTBjMTAwYzg1OGIwNjFhMTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhiMTdjOWUxODdjY2IzYzhlYzg2ZGE1YjdmNTM3OGM3MzI0N2ZlNjBiZjVkMWFhMDU2YmIyYzE4Mjc5ZmYyYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFkYmI2ZDUyOTMwYTdhZDY0ZjFkYTliMTRiZjNhZWY1N2E1NjE2YzZkNmFlNjIwYTY3NzZjYWU0M2EzMTdlZDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ2NjUzYmFiYmNlNWVkMWU2M2NlYmYxZmM0M2U5YmRkMjJiOWY4Zjk1NzdmNDczMzEyMDBhOGZiYjFlYjUzYmIifQ"
+        },
+        {
+          "resource": "repo://apps/argocd/ha-upgrade.yaml",
+          "version": "repo-file-v1:sha256:8b4b133f71d93c1efe3ec520af3b5e61af54c63448715e1b6e8b96d81efc2b24"
+        },
+        {
+          "resource": "repo://apps/root.yaml",
+          "version": "repo-file-v1:sha256:608d9e35f41b568c079859c0538de53d859381aa2b863f66e7ee276966db56cb"
+        },
+        {
+          "resource": "repo://docs/architecture.md#L13-L45",
+          "version": "repo-lines-v1:sha256:4eaaed46e8178884e112020d5df40c1bb1ec05e4b38008b5d597cc9291dda182:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRiNTVmZGVlZjFmNWY5YmEwYmI1OGI4MjNiNGVkYjRjNWQ5OWJkM2RlZTVhMjJkYzM1YWFlYTYwOWJiZjAwYmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJjZmU0M2NjMmUzZmU3NTI3YjNhMmIyZmYzNmU4NjUzYjM5ODJjNTg3NmFiNDQ3ZTE5ZDQyOGExOTY5ZDY5MTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIxNzQwNmYxZmFlOGYyNjZjMjYzYmU1OWZjYjg0Y2U2ZGZmOGJkMWQ4NDM0MzM5YzZjNjc4MjlmOGNhMmViMTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVhMTRlZTI2MWJlYjRhZWU3YzU2NTI2OWIwNjg1NzNmNDE3YWExZmU1NGMxYzk5YzM0OWE1MjIwOWY4NzZkOWIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bf1b747be2bb4e5d94ea111f61f39f09",
+      "statement": "The authoritative default sync policy is automated prune and self-heal plus SSA; many directory parents have five retries with 5s initial backoff, factor 2 and 3m cap, whereas bootstrap root does not explicitly enable SSA.",
+      "evidence": [
+        {
+          "resource": "repo://apps/root.yaml",
+          "version": "repo-file-v1:sha256:608d9e35f41b568c079859c0538de53d859381aa2b863f66e7ee276966db56cb"
+        },
+        {
+          "resource": "repo://bootstrap/bootstrap.yaml",
+          "version": "repo-file-v1:sha256:68f4f2166ec7b4deea017a2df69c3942db42647502861ff9fa135146884fefa7"
+        },
+        {
+          "resource": "repo://docs/architecture.md#L36-L47",
+          "version": "repo-lines-v1:sha256:a397068acfc9e734d6a25b0966989bc1b1bb5f45aa4198e97821bea9049d03ec:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxZGM1MzgxOTI4ZGRlMzhjMGJhMDlkYjZmNTA4Mzc1NjllN2NmNWQ4YWUwN2NkYzNhYTM1OTVlMDRlZjczMjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI4YjU4ZGJjMDVlYWE5NjNjY2QwOTdmYjMzNTYwYTQwNmVlYzVlOTk3YWNlNmQyOGU2ZmU5NjE0N2VkOTAwZGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImExY2NhNTVlNmU2YWY3Mzg4NjExODc1YjUwNGRjM2Y1MTc1ZDFiYjE0MDJiMWFjOWY4NzFkODk1ODlhNjI3NDEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4e6d14896684451ea0b21b7fa5fd89fa",
+      "statement": "Both longhorn and longhorn-helm intentionally disable automated pruning while retaining self-heal; nested no-prune protects chart-owned CRDs whose deletion would remove stored CRs and threaten the storage control plane.",
+      "evidence": [
+        {
+          "resource": "repo://apps/longhorn/application.yaml",
+          "version": "repo-file-v1:sha256:9e0f8e90f0cffb448428a1688433469a3860f9cb1f46fcec6477bbfc8c9dcbe8"
+        },
+        {
+          "resource": "repo://apps/root.yaml#L129-L178",
+          "version": "repo-lines-v1:sha256:bc3db44feb7c1b35d22385717473ba622a1417d53497589586113eb05f062595:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhZDIwMWZiMmQ2NzQzNmMxMDE0NmRhNmIwYjNiMmVlNDdhM2U0MWQwNmJlMjIzNzI4YjU1YjA4ZjhjYjYyNzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliYzQ3ZDQxYjUyMWIwZmZjOWU4ZWU2ZjY5MTNiZWFmYmU1OWY3YjZjMjg1ZGVkZTUxZDlmODhlMmJlNzZiMzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIwNjM3ZjQzN2E1MGY5ZTRlNGU2YjBjMGI4NzVjYmI2OWFjNzUzYWE2Mzk2ZmJhODUyNzk2NWU4MmNjOTNkZjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJkNDM3ZGM3ZmI5MWUxNTZlZWMzOGNjNzhjOTBjZGE4OTM2NjIwNGIyMDQxNDUyMTA4MTFhZGU3Y2JiMWEyYTMifQ"
+        },
+        {
+          "resource": "repo://docs/architecture.md#L36-L47",
+          "version": "repo-lines-v1:sha256:a397068acfc9e734d6a25b0966989bc1b1bb5f45aa4198e97821bea9049d03ec:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxZGM1MzgxOTI4ZGRlMzhjMGJhMDlkYjZmNTA4Mzc1NjllN2NmNWQ4YWUwN2NkYzNhYTM1OTVlMDRlZjczMjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI4YjU4ZGJjMDVlYWE5NjNjY2QwOTdmYjMzNTYwYTQwNmVlYzVlOTk3YWNlNmQyOGU2ZmU5NjE0N2VkOTAwZGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImExY2NhNTVlNmU2YWY3Mzg4NjExODc1YjUwNGRjM2Y1MTc1ZDFiYjE0MDJiMWFjOWY4NzFkODk1ODlhNjI3NDEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_06d3f9784fa94eb1b28b0d9c7825fb11",
+      "statement": "ArgoCD HA has two independent manual gates: syncing argocd-ha promotes the nested Application specification, and syncing argocd-ha-helm promotes the chart; the chart uses Redis HA persistent Longhorn storage.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L119-L126",
+          "version": "repo-lines-v1:sha256:bd4947aba09ffa3b9cc015386a342252d898a3f5cd14d50bb2d7c082e3235cae:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDdjMDZjNTYxZDVjMzI3MzQzNjg1MjY4YTQ2YjMzOTFmMzk5OGVlZTg5MGQyYmU1MWYwZDIxY2M0YTUzYWU2ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGIxN2M5ZTE4N2NjYjNjOGVjODZkYTViN2Y1Mzc4YzczMjQ3ZmU2MGJmNWQxYWEwNTZiYjJjMTgyNzlmZjJjOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjc3YzhhNDU5ZTQxODIyN2FlNjZlMTM1MTdhMzQyMTUyNzU1ZWQ3YTRjODg5ZWMxNzBjZmY5ZjdjMDAyMzBjNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDY2NTNiYWJiY2U1ZWQxZTYzY2ViZjFmYzQzZTliZGQyMmI5ZjhmOTU3N2Y0NzMzMTIwMGE4ZmJiMWViNTNiYiJ9"
+        },
+        {
+          "resource": "repo://apps/argocd/ha-upgrade.yaml",
+          "version": "repo-file-v1:sha256:8b4b133f71d93c1efe3ec520af3b5e61af54c63448715e1b6e8b96d81efc2b24"
+        },
+        {
+          "resource": "repo://apps/root.yaml#L327-L353",
+          "version": "repo-lines-v1:sha256:c1e7575ab12eb402e4667283b157a400a86e22d70e817283efdda3cc8bafcc2e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlNGFjZGE2YTA0MGZmNmI4NTZkMmI4ZWUwY2IyZTA4OTgwZTI4NWM0NmJiYzM5N2E1ZDg4MGMwMzI4YjE1ZDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgzODE2ZDkxOTgzMDQ5ZTMwN2Y2NWQ5YmNiNjRhYjYzYWM0MzFjNzMwZGUyYjcyNzRkZTMxYTA5MjFhYTE0NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVlNTk2OGRlMzQ4ODY5ZTEyNDMxOTVmZTc1MmU0ZjM4ZTY5MGVjOGI1MzdlM2IyMDg2M2Y3ZGRiYWE1YWE0YTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://docs/architecture.md#L38-L43",
+          "version": "repo-lines-v1:sha256:46b6d2037a0f34c34e3dfceb9f2c06bbaf34c1f1188fb06fe8fa24d2185f773c:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjc3ZjhjMjc0NjIxM2I0ZThlNmRiMGYzYjMxMWNjNTkyMGJlZWM0NmUxODJmODcwMGVlNWZiYWFmNGFlYmI0MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTZlZjg0ZTBhNTUwMWViZmUxMjA2ZTJkZDBhZTcxYmQ3M2I2OWUwNjNlMTgzOTExZWRlMGExMTEzYzBmN2ZjNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmE2NmM3MjcwOGQ0ZTE0YzA4OWJkOGVlMzg1MjI1NjY5ZjBjYmI1NjAyMzNkNDk2YzMxZDlhNmYyOWNjZmQ2MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzVhOTI0MTc2ZmJhOTBkYThkYjRhMDcxODliZDliNGI3NWY2YWUzZmU4ZGI2NTY1YWFkZDFkN2Q4OTVhNmZkYiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_745dcd642f46498397b73b4518fb7ad2",
+      "statement": "The external proxy deliberately has no automated sync because its moving upstream main is not gated by manifest-validity CI, including skip-ci bot tag bumps; manual sync is the cross-repository promotion boundary.",
+      "evidence": [
+        {
+          "resource": "repo://apps/anthropic-oauth-proxy.yaml",
+          "version": "repo-file-v1:sha256:29d21a855ca7bf45d234b6cd8209061e2ca07ea5d191be9fdf1d92e32ae7b185"
+        },
+        {
+          "resource": "repo://docs/architecture.md#L38-L47",
+          "version": "repo-lines-v1:sha256:a05c7ebc85084901945aeaca3643a255311454b33228d7a4cfd286aabe12a1d1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3N2Y4YzI3NDYyMTNiNGU4ZTZkYjBmM2IzMTFjYzU5MjBiZWVjNDZlMTgyZjg3MDBlZTVmYmFhZjRhZWJiNDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxZGM1MzgxOTI4ZGRlMzhjMGJhMDlkYjZmNTA4Mzc1NjllN2NmNWQ4YWUwN2NkYzNhYTM1OTVlMDRlZjczMjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZhNjZjNzI3MDhkNGUxNGMwODliZDhlZTM4NTIyNTY2OWYwY2JiNTYwMjMzZDQ5NmMzMWQ5YTZmMjljY2ZkNjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImExY2NhNTVlNmU2YWY3Mzg4NjExODc1YjUwNGRjM2Y1MTc1ZDFiYjE0MDJiMWFjOWY4NzFkODk1ODlhNjI3NDEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6466a32b98bb4ea5a4a5a76d3901fc8c",
+      "statement": "Exact-pinned chart changes normally promote on merge for auto-synced Applications, while argo-cd changes are never auto-merged and still require both manual HA gates after merge.",
+      "evidence": [
+        {
+          "resource": "repo://docs/architecture.md#L49-L74",
+          "version": "repo-lines-v1:sha256:5239dacfa70b9f8e079baac7920c02fb29d4da11cca66dfd486502fa8566b152:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU0NTdhM2Y2NTUxNzIxNmY2Zjc0Zjc4NTVhYTBhMjE3YjMwNGFmMTYxN2U2NWY4Njk4YmUzMmZlMmUzYWE1Y2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVhMTRlZTI2MWJlYjRhZWU3YzU2NTI2OWIwNjg1NzNmNDE3YWExZmU1NGMxYzk5YzM0OWE1MjIwOWY4NzZkOWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxNmVhZWM0Zjc0NWFjZWM3NjEwNzEyYTlkY2YwYjAwOGY4YWYwNTQ3ZmM0NTE1MTBhZGQwY2U4ZTJkZTA4YmQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_fc059c6c2cd64f4a8084c0c1d548d813",
+      "statement": "Radar's read-only applications-get ArgoCD account and policy are configured in the HA chart and inherit both manual promotion gates.",
+      "evidence": [
+        {
+          "resource": "repo://apps/argocd/ha-upgrade.yaml#L46-L75",
+          "version": "repo-lines-v1:sha256:c5c747dbf0628981394da00ab8f27943edb2c5e29c274441ed4d1a53a697c602:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc3ODZhN2M0NDk3NzY1MGEwNmE3YzlhN2IxNTJiM2EzOWY0NDI1ZWI0OWExM2I5OWFmOTJjM2I1ODdhY2VhM2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgzODE2ZDkxOTgzMDQ5ZTMwN2Y2NWQ5YmNiNjRhYjYzYWM0MzFjNzMwZGUyYjcyNzRkZTMxYTA5MjFhYTE0NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcwMzM4ZWE3NzAwNzVhMDM2M2FiY2Q4YjJlOTM4YzYwYzBlMTYxMDQ2NGM5Mzc2ZTI1ZWJkNzFhYTkzMDEyNTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://docs/architecture.md#L108-L114",
+          "version": "repo-lines-v1:sha256:2f4e1f6275d26545dee13132b2db36aa17d11343d5143b7ab0646996b36ebdd9:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWVkYzU4OWZhNDVlODI1MWU4YWIxOWRiNWNhMTUyMTAwY2Q5MjZhZDhlOGE0NjQ5MzhhNDZiMGE3MDc2NGNiYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzY1ZDA3ODUwY2EzZWZlYTc0MGExNTc5Y2Q2OWU1NmRiYzg4ZmU2YTQxYzgxMWIzMjczMjkwMjE2MjZmYzE1OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjJhN2E3YmY2OWJiYTMwNTI5NWI0ZGQzNGQyYzJiYzdlN2NmZmY0NTZiMzU1NzlhNmY5MzgxNDJlNDE1MGY2MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWIwNzI2ZjNhYjE1NDAxOGE1NzJlN2JjNzA2Zjc4YmMwNDEwNDA3OTE3MTY0MWIzNWU3ZmFhMTdlYmI0ODYxNSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_10ac923227b94fa79f77e641e94b3e58",
+      "statement": "Selected directory parents ignore ESO-added remoteRef conversionStrategy, decodingStrategy and metadataPolicy across all data entries with RespectIgnoreDifferences, while Tailscale's nested chart ignores data, annotations and labels on the ESO-managed operator-oauth Secret.",
+      "evidence": [
+        {
+          "resource": "repo://apps/root.yaml",
+          "version": "repo-file-v1:sha256:608d9e35f41b568c079859c0538de53d859381aa2b863f66e7ee276966db56cb"
+        },
+        {
+          "resource": "repo://apps/tailscale-operator/application.yaml",
+          "version": "repo-file-v1:sha256:dabfb590a9c5ada753c8d1e49498c07a23bb4311e7656cdde96f4a371fa58a17"
+        },
+        {
+          "resource": "repo://apps/tailscale-operator/externalsecret.yaml",
+          "version": "repo-file-v1:sha256:ae8ab1ec4efe5bc7af39a19035aba1fa4dbffeb2802664af6c98c318786b7851"
+        },
+        {
+          "resource": "repo://docs/troubleshooting.md#L240-L293",
+          "version": "repo-lines-v1:sha256:a3c01df640cc1f2b3a2a74e0a962d8bee62b6ba359f01f001c9023dffc915009:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc1ODUzMjJhYTc1NjE0NTMwMGIxZTZmNWFhNjUwOTFmZjhkYjM4N2I1YTZkMDY2NWE5M2JiY2NiNzMyM2UyZTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkNGFjZjlmMzk5MTA4NWI5MzE3MTBlYmU0OTNlNTJiMzY3NWY0ZWM4NDU3ZGJkMjhhYjljOGUxMjYwZTA1ODEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQzMzU4OWE0MjM3MTM4NzExYTBlYTc1Zjg1ZjdjNDkyMjkzNDVkZTNhMDExZjJkNTQ4ZGY4ZmVhMjc2MTM3MTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk0NWVjY2IzOTZlODg2YjQ3YWYyNjQxYzliN2EyYTBiZTZjYTM1NjM4ZmJhYmE3NWFmNzhkYzdmMGRmNjgwZDkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bed3d8b22fff453496f7ffc5196cfac5",
+      "statement": "Selected parents ignore Service externalName and the HA chart configures terminatingReplicas status ignores for Deployments, StatefulSets, ReplicaSets and DaemonSets.",
+      "evidence": [
+        {
+          "resource": "repo://apps/argocd/ha-upgrade.yaml#L46-L65",
+          "version": "repo-lines-v1:sha256:eb9c32ac98e883f1491747883be895da4bda04e1a0cff6d79881972bf92e34cf:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc3ODZhN2M0NDk3NzY1MGEwNmE3YzlhN2IxNTJiM2EzOWY0NDI1ZWI0OWExM2I5OWFmOTJjM2I1ODdhY2VhM2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkMjk4MTVhZDU4OGY0OTg4Mzk3ZDc3ZDI3MDgyZWVjM2M1MWRmYmQxMjVjNzEzNWUxMGQxNzJlMzYzMjM0OGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcwMzM4ZWE3NzAwNzVhMDM2M2FiY2Q4YjJlOTM4YzYwYzBlMTYxMDQ2NGM5Mzc2ZTI1ZWJkNzFhYTkzMDEyNTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIxOGMyZjQ2MGI2MzVmZGI4N2M2MGE5Mzg4ZDdjNmFhYzc2YWRmOGJhNmRiMTUwYTJhMDA3NGZiOTRjMTEwZjAifQ"
+        },
+        {
+          "resource": "repo://apps/root.yaml",
+          "version": "repo-file-v1:sha256:608d9e35f41b568c079859c0538de53d859381aa2b863f66e7ee276966db56cb"
+        }
+      ]
+    },
+    {
+      "id": "claim_8a0a6f3102724d9a9d8a59751a89ae7c",
+      "statement": "coredns-tailscale uses SSA, automated self-heal and no automated prune to preserve CoreDNS configuration and restore forwarding after Talos overwrites; its committed forwarding IP is 10.108.67.5 and must be checked if DNSConfig is recreated.",
+      "evidence": [
+        {
+          "resource": "repo://apps/tailscale-operator/coredns-patch.yaml",
+          "version": "repo-file-v1:sha256:90ec7dbb85b43adc67e252071e5127998051714383c9688166e0009662bc9196"
+        },
+        {
+          "resource": "repo://apps/tailscale-operator/coredns/configmap.yaml",
+          "version": "repo-file-v1:sha256:2bd31f8713d0884e732769dbdc77528218e06777bdc8583e870da348d46900c6"
+        },
+        {
+          "resource": "repo://docs/architecture.md#L38-L47",
+          "version": "repo-lines-v1:sha256:a05c7ebc85084901945aeaca3643a255311454b33228d7a4cfd286aabe12a1d1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3N2Y4YzI3NDYyMTNiNGU4ZTZkYjBmM2IzMTFjYzU5MjBiZWVjNDZlMTgyZjg3MDBlZTVmYmFhZjRhZWJiNDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxZGM1MzgxOTI4ZGRlMzhjMGJhMDlkYjZmNTA4Mzc1NjllN2NmNWQ4YWUwN2NkYzNhYTM1OTVlMDRlZjczMjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZhNjZjNzI3MDhkNGUxNGMwODliZDhlZTM4NTIyNTY2OWYwY2JiNTYwMjMzZDQ5NmMzMWQ5YTZmMjljY2ZkNjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImExY2NhNTVlNmU2YWY3Mzg4NjExODc1YjUwNGRjM2Y1MTc1ZDFiYjE0MDJiMWFjOWY4NzFkODk1ODlhNjI3NDEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6448d147328944449e5d1bf3739132a0",
+      "statement": "Root pruning, parent resource pruning, child chart pruning and Application-finalizer deletion are distinct safety boundaries: root and directory parents plus the proxy declare resource finalizers, while the inspected nested Longhorn, CoreDNS and HA Applications do not declare them; child no-prune does not disable ancestor pruning or provide universal deletion protection.",
+      "evidence": [
+        {
+          "resource": "repo://apps/anthropic-oauth-proxy.yaml",
+          "version": "repo-file-v1:sha256:29d21a855ca7bf45d234b6cd8209061e2ca07ea5d191be9fdf1d92e32ae7b185"
+        },
+        {
+          "resource": "repo://apps/argocd/ha-upgrade.yaml",
+          "version": "repo-file-v1:sha256:8b4b133f71d93c1efe3ec520af3b5e61af54c63448715e1b6e8b96d81efc2b24"
+        },
+        {
+          "resource": "repo://apps/longhorn/application.yaml",
+          "version": "repo-file-v1:sha256:9e0f8e90f0cffb448428a1688433469a3860f9cb1f46fcec6477bbfc8c9dcbe8"
+        },
+        {
+          "resource": "repo://apps/root.yaml",
+          "version": "repo-file-v1:sha256:608d9e35f41b568c079859c0538de53d859381aa2b863f66e7ee276966db56cb"
+        },
+        {
+          "resource": "repo://apps/tailscale-operator/coredns-patch.yaml",
+          "version": "repo-file-v1:sha256:90ec7dbb85b43adc67e252071e5127998051714383c9688166e0009662bc9196"
+        },
+        {
+          "resource": "repo://bootstrap/bootstrap.yaml",
+          "version": "repo-file-v1:sha256:68f4f2166ec7b4deea017a2df69c3942db42647502861ff9fa135146884fefa7"
+        }
+      ]
+    },
+    {
+      "id": "claim_d9f1699434ec48058f4e3610bb9be492",
+      "statement": "The custom longhorn-critical, longhorn-important and longhorn-standard StorageClasses use Delete reclaim policy, so protecting Longhorn Applications from automated pruning is not equivalent to protecting backing data when consuming PVCs are deleted.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L129-L137",
+          "version": "repo-lines-v1:sha256:0ab14af5facdf1105749cf40d68f34622ce49432fbef69c89b625cdedc87b48e:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTU0MWExYjc0ZWJhZTM5NTlkNGRhM2IwOThhNzI0N2Y3MTZhNjc3MWY0YzhiOThhZWEyMWM4Y2RkZmU5ODAyOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDcyNWNkMDZhOTU2MzE4MWUyZWE3YzQ4M2I3ZjRlZDMzMDFkNDJlMmJjMzk3ZTliNjRmNjIzYTdkZDE1ZTAxZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmNjMWE5ODFhMjU3NWJjMDA0ZGFlMzdlOGU4NjJkYzY3NjNmYjMzNmY5MTcxZmRkZDVmMWY2NDZjYjhjZWUzMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmM0NDQ4OWQ2NTZiZWZhNTM4NWI3NDc4MjQyZTZjNDAzM2QyN2IyZGViYWQ3MmNhNGVmYzY0NWY2YTZhMzIxYiJ9"
+        },
+        {
+          "resource": "repo://apps/longhorn/storageclasses.yaml",
+          "version": "repo-file-v1:sha256:79fd545bba563201d0f50068eb277ec4b721507b3d5e667d8a51a12b82aab245"
+        }
+      ]
+    },
+    {
+      "id": "claim_9d0d5cd47532490f91f8bf28f503e6b4",
+      "statement": "SSA can leave obsolete rollingUpdate fields during a Deployment transition to Recreate, causing rejected applies; desired chart values should clear stale fields rather than masking the problem with ignores.",
+      "evidence": [
+        {
+          "resource": "repo://docs/troubleshooting.md#L372-L399",
+          "version": "repo-lines-v1:sha256:cc52b54108bbb768a3e3cd08e2128d8e109f6d46b6f89bb5e1a22afd313318c6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAyZjYzYmQ3Mzg0OGM2OWVjZDFmNGUzNzhhMDMzNjQ2ZTRiYmZhMDc1YTQ4NmQyMThiNDMwYWY0YTI2MjlkYTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjczZmNlYWU0ZTc5ZWIzY2M4ZmIzYzVjYmM5ZTQzNWY1NGExOGJmOGE5MTBiNzk0OTc5YTBmOWIyZmIyN2JlYjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE4YjZhYmRkNGRjMzMwOTU0ZmM3YTQxZmI2YzY4Mzk4ZmU1ODQ0ZmYyYWZlN2QxZmY3N2NkYmUyMGFkMmU4MTQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b4b8f9cbe55f405aa40ba89f172f10ac",
+      "statement": "Fast Gate runs mise run ci and validates exact-pinned chart renders with committed values and kubeconform; the validator rejects floating revisions and unsupported valueFiles or parameters and ignores missing schemas, so it does not prove live Argo reconciliation, CRD semantics, admission or runtime health.",
+      "evidence": [
+        {
+          "resource": "repo://docs/architecture.md#L76-L90",
+          "version": "repo-lines-v1:sha256:a56fbd8c671c48bf8768da5ce16324e78527d7ba8676c7bcbb4eb9a9a6f5d193:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYyMjE2MTRlZjgzNjU0YWNiNGQ1MWY0OGRjMTA3NGQwYWI3YjMwOTdiODlhMjQ0NjVlYTBlOTM0NWM4ZTU0NTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU1Y2Q3ZDMyYzU5Y2JhMWI5YjE0NGZlZjY1YzZhNjljZWJiYmEwYjdhYTg3YzBlY2EzYjA3MTJiMDAyZjVmZmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIyZGI2Mzg0N2MwOTk4ZjUwMGZjNTNkMzJjNGU1NWRkNjEwYTk5OWIwYTNkMTA4M2NiMDgxMmYyNjcwMGQ3ZjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNhZWEzMDdjYjYxNTI5NWUxZWRlYjViNzg5MDQ2MWU0NTRiZTM3ODUzNGYyMjUwMTNmNWYzMzQ0MjEwMGI2ZjEifQ"
+        },
+        {
+          "resource": "repo://scripts/validate-gitops.sh",
+          "version": "repo-file-v1:sha256:13afc67f9eebbb472cd3882fa52993fe462b63c580d6d2ff9d169b6191911fe8"
+        }
+      ]
+    },
+    {
+      "id": "claim_48fcc46a11a7437287e63fb316b41e1c",
+      "statement": "Application sync, health and last operation result are distinct signals: the documented Longhorn recovery can converge to Synced and Healthy while a historical Failed operation persists, and operators should verify revision agreement rather than force a downgrade or enable pruning to clear it.",
+      "evidence": [
+        {
+          "resource": "repo://docs/troubleshooting.md#L50-L114",
+          "version": "repo-lines-v1:sha256:21e03ea2f3a54b36b0832510696beb788ff14091ac7538e276ebde1e87859e0c:eyJzZWxlY3RlZExpbmVDb3VudCI6NjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4Y2VkM2VlMWZiNDIyY2UwZjEwNGIzYjk3YzcyZDMxNDI0OTNlZGYzMmE0MWQ3ZWQ1MTVlMTc1NzljMGFmYzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiMDU2NWUzNmFkNjY4YWRjMGNiMzk3Y2M1ODQ5MmRlOGU1ZTY1YTZkZTRlOWU3ODk1ZTgxM2Q4NTI2MGQ2NjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdkZjY4NjA0ZDYzY2VhZTdiYTJlNzMzMzc2Mjg5NjNiODk0YTE3YmI2OGM3ZmE4N2RlZmExZTRjYjMzZWUyNTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVhMjEwNTYwNTYwYTI2ODMwNWI2NTJmOWQwODJlMWU5NGRjYTQwMTJkYWFhYTU0N2QzMDU1ZTYwMDc5MWEwY2EifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-11T09:22:19.403Z"
+  }
+}

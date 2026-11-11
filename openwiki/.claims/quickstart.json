@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:6f27c1cdccdc7f0e088a59b0ba9b633c93d45db2780503a67d59bc896cf99f78",
+  "claims": [
+    {
+      "id": "claim_ca0b979edb4d47f5a953f0241c66d293",
+      "statement": "Mothership GitOps owns ArgoCD-reconciled applications, ingress, secrets wiring, storage configuration, monitoring, and dashboards on talos-prod-01; Omni-Scale owns the Talos/Omni substrate, and substrate capacity, taint, or machine-class fixes must not be worked around with manifest hacks here.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L9-L18",
+          "version": "repo-lines-v1:sha256:6a9e870306f41f204b465004546f13f9247feb363ca67222cb057269ba176ff2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5YmQ5MGFiNmFmOTA4MDdiYjU0NDM0YmQ4NGYzZDEzZTBhMzFmYzExNzk4NDU5YWViZjBjNjdiODYxOGE2NjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExMjg5NWUxYzE3OWQxYjA3MWQyZThlN2E2OWI3MTE1YmNjOGIxMmVmYTM3MmI2MWY4ZDg2YTRiMGMwMGIxYmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEifQ"
+        },
+        {
+          "resource": "repo://README.md#L5-L21",
+          "version": "repo-lines-v1:sha256:3e5f913ba81a8fb2bc4553a3b022bf2cd67626c1be248ddc46b233f3485dcf3e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI0ZDcxOTRjODJhYzA3Y2NlNzVlZjlkY2NjNDYyMmIwZWVmYjQ5NmM5MmQ4YTBmODAzNDJhM2QzY2IwNzcxYjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwNTJkNmMwMjJkNjQ0YTFlYzgxNDMwYTg1MDczZjM0MjBiN2UxYTkxMDQzNTcwM2NkNzM2OTJjMTFiODJjMjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUyN2RhOTQxMjhiYjJjODNhN2VmYWQ5YzUyMDFmYjM5ZTA0ODdjNzhlNzk4MWMwZTYyZTM3M2IyZjE3MWJiZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE3YTc1Nzk5NzNmYjA2ZGRhM2Y3MGMyMjM4YzQyMWExZTAwZGYxNjIxMGRlMzI2N2RiYWE4MmQ0YWU2ZjYyZGEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_66dc7ef03feb4c0a9f0757d3665d686f",
+      "statement": "AGENTS.md governs repository work and takes precedence over conflicting documents; durable operational knowledge belongs in matching docs, while README.md is the authoritative bootstrap and recovery command source.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L22-L35",
+          "version": "repo-lines-v1:sha256:14f864dd3379f18e59a5afdb6eafd5eb11ddf8a58340f34590775723140c621d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkOWZhY2M5ODFlNWE2Yjg2NGYzYzc0YjYwNDRkYTM2YjMzODczYjVjZjI2ZjM5YzYzNjAxNWYxYzFkZjYwYzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBmMWJkYTNkMTM1MzNiMGJmMzkwZTg3YzQwYmEyZTI2YjBmN2RjMGQyMmIwNDZkNjI3NWQ1OTBhMzVhNDA0ZTgifQ"
+        },
+        {
+          "resource": "repo://AGENTS.md#L87-L93",
+          "version": "repo-lines-v1:sha256:b33e18ece3844654c23e249efebc94bd22e1ff5ec0f683f148b1e60df09a7628:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWMzMDRkOGUyYjNlMmQ0YmVjOWNiNzQ1ZmJlMDFkOGVlMGFjMjE4NGRiNjliMTFiZDM2ZWE4NzMwNWEzZjNiZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDAxZjJlYzE3NTkzYzEwNTRlYjQ2MzY3ZDg0NTNlZjI0YTE3M2NlOTZiNzExN2Q5MWY5YTY4ZDQ0ZmVmOGIwMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmUwZWNhZTM4NzQ4YzY1ZTQzYjk0MDJiODU2ZGRmNGQxNWI4NjYwNmM3YTA1NzRhNmVmNGRlYTkyNzVhNDY0ZSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_2af439d68f9945bcaa2ec1bf787b6acd",
+      "statement": "Bootstrap requires prerequisite CNI, ESO, Longhorn, and non-HA ArgoCD installation before applying the root Application; the bootstrap manifest alone is not the complete installation procedure.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L43-L48",
+          "version": "repo-lines-v1:sha256:5e9adf47848afdc0ecedce008f235ae6cc66160aee60d4e88b921ab201b9c7ae:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWY1ZjIwZGRhNWIyMzk1YWI1MTI5YjI2N2VlZmZhNTRiYjI1NTI0NDQ5ZjIwZDkxMGMxMDBjODU4YjA2MWExOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODZjNzVkMGU0Y2NjZjE0ZTgxMDFiOWIyNWYzZWFmZDAxZmFhNjgyMDFiMDM3N2Q1NGI0YzYyN2U5YjIxZjRlNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWRiYjZkNTI5MzBhN2FkNjRmMWRhOWIxNGJmM2FlZjU3YTU2MTZjNmQ2YWU2MjBhNjc3NmNhZTQzYTMxN2VkMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWMzNmRhMWM5ZDQzMGE1NGFkNzk5ZDcwZTVmMjY1N2VlMmZlNDVmZmFlNGNlMWU1ZjVjZWUyZTEzY2NjY2M0YSJ9"
+        },
+        {
+          "resource": "repo://README.md#L58-L125",
+          "version": "repo-lines-v1:sha256:8c2872e465b7898bc73adcef642068e7ee7d3cd0aa3d7454a2753d5e3d65bf88:eyJzZWxlY3RlZExpbmVDb3VudCI6NjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVkZTJmNTMyOGVlNmU4MDUwZThhYWZkOGRjODY5YTA2OWNkOTU4NGVkYWFmNTRmZTU4OWQ3M2MzYjdkY2Q3OTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM4ZjA3MTczNjYwYTY3ODJlMmJhNmRkZDJlMDE5ODE5NTBlZmU5NGYxY2JmZGIyZDhiMWU5NmU5NzMwOTQ1MmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBjYmZiZjg1MmVjYWQ0NjY2NTI1NDc3MTg2ZDYwMDJmNDYzOWFhYWYwODc0ZmQ1MTY0MjEyZTMwMzhmM2MxMzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZjYzFhOTgxYTI1NzViYzAwNGRhZTM3ZThlODYyZGM2NzYzZmIzMzZmOTE3MWZkZGQ1ZjFmNjQ2Y2I4Y2VlMzAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ba9a8a7ee0b7497d90d10af1d33eb647",
+      "statement": "bootstrap/bootstrap.yaml creates the root ArgoCD Application tracking this repository's main branch at apps/; apps/root.yaml declares wave-ordered platform Applications, and standalone Applications in apps/ are discovered without an entry in root.yaml.",
+      "evidence": [
+        {
+          "resource": "repo://apps/root.yaml#L1-L45",
+          "version": "repo-lines-v1:sha256:bc3964e5c28e32933a8ce3855490215910f236b862dde8cdc626370615916aac:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MjdlYWE0N2YwNzllODg2MzI5YWFhM2U2OGJmMTM4NzE0Y2M4YzE4MDAzNjk3NzU0MzJmY2ZkN2NiZDM2ZjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZlNDVmMDkxYjA0MzczZDNmNWQ4YWNlMTE1MzEzMGVhMTA1ZDA2NjUzNjEyMmNjODIxZWEzZGU4Njc1ODFlMzciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVlNTk2OGRlMzQ4ODY5ZTEyNDMxOTVmZTc1MmU0ZjM4ZTY5MGVjOGI1MzdlM2IyMDg2M2Y3ZGRiYWE1YWE0YTkifQ"
+        },
+        {
+          "resource": "repo://bootstrap/bootstrap.yaml#L10-L39",
+          "version": "repo-lines-v1:sha256:af989f8e44021a26d40ec82fb0cf5d266a287741bacb90095509dd6f66a6a4ad:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE0ODU2YjE3MTViZDdkYmVhZmEyOGVmMTkzYmIwMTJhOTgyODZlMGY4MGUwY2VmY2MyZjYwOGVlMzJiMmIyZGIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIwMjhiZmExMWI5ZDQ3YWVlNTE1YmFjY2I4ZTcxODE2MDI5NGQwM2JmMWU3NjRkNzQxNzE2MDAyYmE1NTVjMTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://docs/adding-applications.md#L23-L33",
+          "version": "repo-lines-v1:sha256:b92944c10bebc1cd7310b90deb358433106510072c6ea44ef83286a61316aea0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJhY2UxZjc1ZDMwYjg5YjgxZmJjMzVjNDUxZTdkNTA5ZjI2ZmM5ZWJlMDIwNTZiYWQ2ZWYxM2UwZGEwNmVlZTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY3ODAyZDgzZmFiNDc5YzMyZTA4MWFmZTJkY2U3ZWRmYmU2ZmRhZWQ5OGFlOGFhMTJiNmM5M2EwM2QxODljNTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ4OGYxMGRkZWZiNmMwY2EyNWViNjkyYWUwODYyOWNiYmUxMzAxYzFkODQ3YTUyMGMyYzNhNzFhMDhmMDYxMDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI4YjRkYjhlYzc0MWI1NzU5ZjE5OTMyMDA3N2RkMWIyMjIwMmNkODgzNTY4YWNmMjc2Mjg5NmJlNmUzMjE0NjIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_27bb4bd3a62846a198b880254954df8e",
+      "statement": "mise.toml pins validation tools and exposes hygiene, validate:gitops, and combined ci tasks; the operator argocd CLI is separately installed and upgraded through Homebrew.",
+      "evidence": [
+        {
+          "resource": "repo://docs/argocd-cli.md#L1-L6",
+          "version": "repo-lines-v1:sha256:b1ea962e9063b230b999bb8bdadc35cd9168a193cc70fdeba41a77a879017d5a:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzI2NTEwZjYwN2JmZGI5YzhlY2E2M2ZlYzAxM2E1Yzg5MWRkOTEyNDlmYWIwMmE3YzI4ZWQ3ZDlkODVhMzY0ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTcwOTA3Yjg4M2U5Zjg3OTZhNDkyN2JhNTM1YWFkNTdmZmYyNzg2MzAwYzNjM2JkMjMyMjhiNDQyMDgyNGNkMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTQ5ZTYzMzIzNDQ4NjM5YjRmZDA3OGVhNTlmYWU3MzAyNjg3NjE3NDNiZmVkZmZjMTYwNjMwZjAxZmE4NDczNCJ9"
+        },
+        {
+          "resource": "repo://mise.toml",
+          "version": "repo-file-v1:sha256:e6c3b92b3a6958211542214fdee793e6d1bcd0a22dd058cd012397cbd083c862"
+        }
+      ]
+    },
+    {
+      "id": "claim_7c480ece6db54a51989bc3b2e7855fc3",
+      "statement": "ArgoCD CLI core mode uses Kubernetes identity and bypasses ArgoCD API RBAC, while server mode authenticates to ArgoCD and is subject to its accounts and policy.csv.",
+      "evidence": [
+        {
+          "resource": "repo://docs/argocd-cli.md#L8-L22",
+          "version": "repo-lines-v1:sha256:c7cc046303d9736cc16bee4d7266dd46180e55ac1e7f0d1a8e3bf19330f5208c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyNzc3MTQyMTljNmZlZDY3OTA5NGU2MGM0ODZhZGZkOWYyMGEzZTU5ZGMwNmNkMjlhYThlZWI4NzRkODczNWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2MWE5MmI5OGVjZjFkNzVkM2EzMzk1MWRmNTM3ZTNlYmMyMzIwZGNhZjIwMTE1NDdmZWFhNTI3Y2VkNDU0MGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE4YzMxYzEwYjg1MWY5ZTBhODY5MTk0ZjBjMTYzNjliMTZiOTk5ZjI2Y2VmMjYxYzJlNDg1OWRhNWEzNzk0NjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEwNDgzZTlkMjI0MmU0ZjQyYjVhMGExNzVmYTc2YzRlZDBiODk2ZDZhMDc0NTM4NDFjOTFkNjc4Zjk2NjMyNzUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5c40b1a5a94f40959df5417309c39417",
+      "statement": "Automated sync with prune and self-heal is the default, but both ArgoCD HA Applications and anthropic-oauth-proxy must remain manually gated, and prune must remain disabled for longhorn, longhorn-helm, and coredns-tailscale.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L51-L63",
+          "version": "repo-lines-v1:sha256:31e66af51dacb58370a24478f6b3ec9b120f439417297fe19b6524d3a0c9f7ca:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjNTNkOGQ3YjA2ODg5NTFiNDQzMjkzMjc2ZGIyM2Y1MTUxMDNlODMxNjM4ZTE0ODIzNmNlY2Y5MzQwYTIzMWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgxOGIxYzExZjk0ODViYTFkYjk5Y2Q0NzI0MzZmYWZhMmVmZjQyMGQ1ZGRkNmM2NjVmZmI0ZjBkNTg5NjRlMWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEifQ"
+        },
+        {
+          "resource": "repo://docs/architecture.md#L36-L47",
+          "version": "repo-lines-v1:sha256:a397068acfc9e734d6a25b0966989bc1b1bb5f45aa4198e97821bea9049d03ec:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxZGM1MzgxOTI4ZGRlMzhjMGJhMDlkYjZmNTA4Mzc1NjllN2NmNWQ4YWUwN2NkYzNhYTM1OTVlMDRlZjczMjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI4YjU4ZGJjMDVlYWE5NjNjY2QwOTdmYjMzNTYwYTQwNmVlYzVlOTk3YWNlNmQyOGU2ZmU5NjE0N2VkOTAwZGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImExY2NhNTVlNmU2YWY3Mzg4NjExODc1YjUwNGRjM2Y1MTc1ZDFiYjE0MDJiMWFjOWY4NzFkODk1ODlhNjI3NDEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_34d0a48cc8d34e228bea2f1ea05d8e26",
+      "statement": "New applications must follow the application checklist and document sync waves; Helm charts require exact version pins and value keys verified against the actual chart values.yaml.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L39-L47",
+          "version": "repo-lines-v1:sha256:1e5394b401579c50f7d7bf3d702c8467825c1bdddaea6370684b291e905c94ad:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWM5ZjEwNzcxNGE3OGNmMGI4OGU3MzFjMDFhYjdkNDBkYjZjNTdkYTNkMGQ1MjgxNzFhNGNjMTA2ZmYxMDA2MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmNjNTliOGI5OGNmNGQ0MmU5NDQxMDRmYmY1MTExZjZhYTJmNTI1MWI1MTQ2MDU2M2EwOGYxZjZmZTk0N2IyZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGYxYmRhM2QxMzUzM2IwYmYzOTBlODdjNDBiYTJlMjZiMGY3ZGMwZDIyYjA0NmQ2Mjc1ZDU5MGEzNWE0MDRlOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODE4YjFjMTFmOTQ4NWJhMWRiOTljZDQ3MjQzNmZhZmEyZWZmNDIwZDVkZGQ2YzY2NWZmYjRmMGQ1ODk2NGUxYyJ9"
+        },
+        {
+          "resource": "repo://docs/adding-applications.md#L119-L124",
+          "version": "repo-lines-v1:sha256:a500b982c96d21aedd820fa04adaffb8ae991e9b14b9fe5126db77c3ccf42555:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmRkMDJkZTlmMjQwMTkwZDE5NTUwY2ZiMDRiOWFiZjYwMzY4ZWIwYjVmYjc5OWFkYTMzYmM1MGU5YzNjYzQ3OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTA2ZDllZTEwNzE3ZWI3ZTkzZmZjZTU0ODhiMzg1YmI5NDgzNWZjMTIyN2JmNjBhM2M5YTQ5M2UwMTY5OGMzMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjNmZmRhOGNiNjRmMTgzZDRiMDFmNjQyYjI4NTlmYTliYTE3NDVkYWE0ZjViM2QyYmM0MDdiMzVkYWMyMzdkNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://docs/adding-applications.md#L5-L20",
+          "version": "repo-lines-v1:sha256:9a3cc7678895d25cc00052a3de2c2ef174f4f88f9cf2d21af98f283297f37486:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2NTY5NTQ4ZDFiNzBhYzhhODBlN2IwMTc3ZGFmOTE3MDNiOTA3MDQ5YjVlYmI0MWRhNjhlODA5MTFlYzQ2YmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc5NzBmNjBmMTk4YmY2ZjU0ODczYzAzOWIwZTA4ZWNiMmNhMGU5OGFlODYzNDFjZGEwNzk5YjZjNWM3MzkzZWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ4YmZhZTkwYjFjZTFlMGQxZTdlNjJkMjA3YzdhNjFhOWIwMTdjYzZlOTEzNDhkZjI0ZWIwN2Y5YmI4MWRmNTkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9c06e743b40649988061de9f507354e0",
+      "statement": "Web UIs must use Tailscale Ingress without public exposure; secrets must flow from Infisical through ESO into Kubernetes Secrets without committed secret values, with the ESO bootstrap credential the only manual secret.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L39-L47",
+          "version": "repo-lines-v1:sha256:1e5394b401579c50f7d7bf3d702c8467825c1bdddaea6370684b291e905c94ad:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWM5ZjEwNzcxNGE3OGNmMGI4OGU3MzFjMDFhYjdkNDBkYjZjNTdkYTNkMGQ1MjgxNzFhNGNjMTA2ZmYxMDA2MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmNjNTliOGI5OGNmNGQ0MmU5NDQxMDRmYmY1MTExZjZhYTJmNTI1MWI1MTQ2MDU2M2EwOGYxZjZmZTk0N2IyZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGYxYmRhM2QxMzUzM2IwYmYzOTBlODdjNDBiYTJlMjZiMGY3ZGMwZDIyYjA0NmQ2Mjc1ZDU5MGEzNWE0MDRlOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODE4YjFjMTFmOTQ4NWJhMWRiOTljZDQ3MjQzNmZhZmEyZWZmNDIwZDVkZGQ2YzY2NWZmYjRmMGQ1ODk2NGUxYyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_f2c9f41be98f416eb0218a7ba00d89b8",
+      "statement": "Changes should prefer Git over live mutations; documented break-glass actions must leave Git convergent, commits should contain one concern, operational knowledge must update matching docs, and pre-commit checks on changed files are required before committing.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L67-L83",
+          "version": "repo-lines-v1:sha256:8dc31fc2fe41e051b5c7f843d01e665261ae6b73f9c348e565d57e203eca6350:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyZTUxYjRlNzU4Yzc1ZDgxY2E5MzNkNDU2NDcyN2Y2MjYwMzc2N2RmYjg1MTMyNjVlNjhhY2JlMmRlYTE0ZDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3ZWI4OTUzMzU5NTY2YjcwNTIzNzVlYTU0NzRmNDMwYjE1ZTM4MjNkYjU1NDBiYjI4MmFkMmU2MWU3NzBkODQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_96a67d89ad684f8a9b2357baada645d5",
+      "statement": "The GitOps validation task renders exact-pinned Helm Applications and validates rendered Kubernetes resources, while the combined CI task also runs hygiene; passing these cluster-independent checks does not prove CRD semantics, admission, reconciliation, or runtime health.",
+      "evidence": [
+        {
+          "resource": "repo://docs/architecture.md#L77-L89",
+          "version": "repo-lines-v1:sha256:44852ecf44bc85ce9c5c3ca621c1641539a5ee81db88ec5eeb4373ae0b03e061:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImViMjI3ZTFmZDAwOTZkMmQzNjg3NWVkNDcwMjYyN2I2YzdmMGE5Y2Y1NDc0ZGMyOTU3NjU4N2Y1YzY2YTNhOTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlOGIzYzlhY2VmOThlZTczYjQ4ZTU3NGQ4ZmFlOTJkYjU2MTIzOGE5ZTU5YjExZjFlYmE3MWEzYTg3MjhkNWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM2YTgwMzkyYmUzNWI3NjRlNGU1YzNiMTdiNmQyOTRkYWU4YWYwNWQ4NTJhNzNkYjFlNTUyY2ZmM2EwNDY1YmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJmZjRjYjQyOTkyNjMwOWJlOThhNjA1ZmQwMzkyZDRhMmYzNzYwNzhlY2I1MTA4MzE4NWFiNWVlZGNkMGUyNGMifQ"
+        },
+        {
+          "resource": "repo://mise.toml#L10-L25",
+          "version": "repo-lines-v1:sha256:329126ea6b499b5f5e4ed91459f0b14c3835b8b59657d7c206e40c640feccee5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1YmE5ZTcwMTJjMWFmYmY3NmIyNGM1MzJlZTllZGM5OTE0ZTAzYWVjMGE1Y2ZmNTU5MDQ3YWNmYWFhMDJkNTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3YzBmZDU4MDhkYmI4MzYxNjNmNmNkYWM4NGY1ODlhYzk0ZmVkYTIzY2E4ZTU0ODdjOGRkNjJiNmMzMDU1YzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMwNTI5MWYyZTc1M2JiN2Q2YTVjOGFlYjc0MDM2MzdkNDc4MjQwMzUwNWNkODM5YmM2MDEzN2IxNGI2NDY3OWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZiNTc4ODQxYmJiYmUzOTJhMzVmOTg0ZGFhODFiYWFhNjNiNDE1ZjQ5ZGJhMDA0NmRjMGExMGUyYjBkMGEyMjcifQ"
+        },
+        {
+          "resource": "repo://scripts/validate-gitops.sh",
+          "version": "repo-file-v1:sha256:13afc67f9eebbb472cd3882fa52993fe462b63c580d6d2ff9d169b6191911fe8"
+        }
+      ]
+    },
+    {
+      "id": "claim_ee504e2cd49248b1be5fc7fdf1f41466",
+      "statement": "Merging is promotion for automatically synced Applications, whereas ArgoCD HA and the externally sourced anthropic-oauth-proxy retain manual promotion boundaries.",
+      "evidence": [
+        {
+          "resource": "repo://docs/architecture.md#L40-L47",
+          "version": "repo-lines-v1:sha256:1d71a203d86a21ff41905471d667582eff29bb7345b36f32a3fe889e7abe3f08:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2FlNGQ2ZTU3MTIwOWYzMTFjZWMxYWQwODhkMTQ0YjAzYjcxNzVmNzcyNjE5ZWZkMTgyNzY0M2FlN2FhYjhlNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjFkYzUzODE5MjhkZGUzOGMwYmEwOWRiNmY1MDgzNzU2OWU3Y2Y1ZDhhZTA3Y2RjM2FhMzU5NWUwNGVmNzMyNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZThiYmRmOTcwODg4MGI4NmY5NjQ3YWFlN2U3MDkwNjcxNDRhYjlkM2E0NzA1MjkyMDc4ZWQ4YzQyMWYyMmUyOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTFjY2E1NWU2ZTZhZjczODg2MTE4NzViNTA0ZGMzZjUxNzVkMWJiMTQwMmIxYWM5Zjg3MWQ4OTU4OWE2Mjc0MSJ9"
+        },
+        {
+          "resource": "repo://docs/architecture.md#L72-L75",
+          "version": "repo-lines-v1:sha256:7fc7c5ef6c54e3a994c7cb780997afad392a64b33d69b39ef8dd677db300743e:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2I3OWI1YWZiOGQ4MzUzNjFmNDU3MWE2YjUwNjQxOGVhYTlhZWNmOWJiZDJlZjk5NmQ0ZGMwZWZmMWM2MzVkMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTRhMmM1ZDg2ZjE1Yzc4NGIwMzc1MWI3YzgyZWJkN2QxNzc3MGQzY2Y2OTRmNGUyOTI5NzQwNjc1ZDk0YTAyZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzFjZWQ4MDRlNTNjODdiZmRiNDUzOGVkNzRmNTJjNTllNTA3YzhjZjU1ZjFjY2JmNzUwNjg1NGFlMzI2ODA5MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTNiNmQ3MzgyMGQwNzJiMDgxNDU1ZThkZDMyOTdkMTI5NGI4ZmMwNWJiMDQyOWVmOGFhMDIwMzJiNGY4MmU4NCJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-11T09:22:19.403Z"
+  }
+}

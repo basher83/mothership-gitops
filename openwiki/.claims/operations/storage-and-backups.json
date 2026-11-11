@@ -1,0 +1,252 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:1bd375eb677f35ede1c8558a4c806cf162838b0076b9914fc3d867aa29d2cb8a",
+  "claims": [
+    {
+      "id": "claim_cade4825239540cda6406c43657fe53b",
+      "statement": "The parent longhorn Application reconciles apps/longhorn at wave 5, while nested longhorn-helm installs chart 1.12.1 in longhorn-system with self-healing and the pre-upgrade checker Job disabled.",
+      "evidence": [
+        {
+          "resource": "repo://apps/longhorn/application.yaml",
+          "version": "repo-file-v1:sha256:9e0f8e90f0cffb448428a1688433469a3860f9cb1f46fcec6477bbfc8c9dcbe8"
+        },
+        {
+          "resource": "repo://apps/root.yaml#L124-L166",
+          "version": "repo-lines-v1:sha256:7b785cbc2d02a0e35b6bb5d54f1a7cc17c123b5533802f4728f14e0a75ed8afc:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZlZGQ2ZjNmYjFhYzFkYTljMTA5YTBjNTcyNzg4NDE0ZDNmMTMwMGI5OGM5NGRiMjUxOGMwYzY4Nzg2OTllNTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ3MWZlOWJhMjRlNTc3ZWRhOGJkM2Y0NzcxZDg0NTQwOGNhZjMwZGY3NmM5ZTJhYWRkYzUwNmJhOTEyNTJhZDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRjZTVlYjE2NjFkNTQ3MzUxZjg4YzEwZjllNTIwOTFmYzFiYjdkYzQwMDVjZDhkYmI1YjAwNTE1MTQzNDEwY2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI4YmMwOWM3ZTIxZDdlM2MwODA5MWI1ZTBmOTZmNmQ3OGFjNTQ1YjI0NTg4ZTkyNzA5NGJjMTdjMGNjODEwMDEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3060fc3f54fa401f947f371e3538dd55",
+      "statement": "Longhorn desired defaults specify two replicas, /var/lib/longhorn storage, 10 percent minimum available storage, default disk creation on labeled nodes, and a default StorageClass with two replicas.",
+      "evidence": [
+        {
+          "resource": "repo://apps/longhorn/application.yaml#L20-L29",
+          "version": "repo-lines-v1:sha256:ed76b39b658aae16e9699bec53e53582d5b9b1f63b4c25deabe89f18a5dd2948:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcxNmJkZTZkMjAwNzM4NDVhM2MwMGM0ZmZlNjU0ZGY2ZTQ5NTc5YWJhN2Y1YjAwYzgyMmIwMDQ3OTVmNjcyYmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzYTg1NDkxNGEyNmY0YTY3YzE4ZTZhMmU0ZDk1ZTU1ODkyNTQ5NzY3ZjhlNjlkY2E3ZGRlMGY3YjU4ZDM4ZGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY3YzY5ZDIwNzI4OGU4MTM2NDRjNTg2ODYwMDdmMzQyNTAxNWM2NDUwODI3YzUwMWJmMWU3ZTMzYTk0ODcxMzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE4MzE5ODFmNjQ1ODJlZGQ4OTc0ZmY5YmMxM2IyOWYxOGEwMjI2ZTkzMjE1YjdhN2FhMWJhZDk1Nzg1M2I0MTAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ac6aa90f47aa44778a25f4851488af32",
+      "statement": "All three tiered StorageClasses use driver.longhorn.io with two replicas, ext4, staleReplicaTimeout 2880, empty fromBackup, immediate binding, expansion enabled, and Delete reclaim policy.",
+      "evidence": [
+        {
+          "resource": "repo://apps/longhorn/storageclasses.yaml",
+          "version": "repo-file-v1:sha256:79fd545bba563201d0f50068eb277ec4b721507b3d5e667d8a51a12b82aab245"
+        }
+      ]
+    },
+    {
+      "id": "claim_0763aad84bb942129344790fd88c80a1",
+      "statement": "Recurring backup jobs declare critical every four hours retaining 42 backups, important daily at 02:00 retaining 14, and standard Sunday at 03:00 retaining four, each with concurrency one; these counts do not establish successful backups or guaranteed recovery windows.",
+      "evidence": [
+        {
+          "resource": "repo://apps/longhorn/recurringjobs.yaml",
+          "version": "repo-file-v1:sha256:a3bd8fa05826ab8680392e10204b89e06306c83f2669d4c52c7204cc0b644508"
+        }
+      ]
+    },
+    {
+      "id": "claim_463a279b03004a56ae5883bae448c6f1",
+      "statement": "Tiered StorageClasses intend new-volume backup assignment but their isGroup:true selectors name backup-critical, backup-important, and backup-standard, whereas the declared RecurringJob groups are critical, important, and standard; automatic coverage therefore requires verification and reconciliation of this mismatch.",
+      "evidence": [
+        {
+          "resource": "repo://apps/longhorn/recurringjobs.yaml",
+          "version": "repo-file-v1:sha256:a3bd8fa05826ab8680392e10204b89e06306c83f2669d4c52c7204cc0b644508"
+        },
+        {
+          "resource": "repo://apps/longhorn/storageclasses.yaml",
+          "version": "repo-file-v1:sha256:79fd545bba563201d0f50068eb277ec4b721507b3d5e667d8a51a12b82aab245"
+        },
+        {
+          "resource": "repo://docs/backup-storage.md#L68-L85",
+          "version": "repo-lines-v1:sha256:b5b921757ffac117cee01a8d484dcc386f86a04bc0b0082e243998cb78718b68:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNmMDJmMGFkZmZiM2MxMmQ1YTgzZGYwYWVjZTdiOWFkMDVlNWY1OTM2NDEzN2I2NGRkN2ExNTk0ZGM5ZGYzMGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1ZjI2ZGRjNzY2NDM2YjM0ZGY1NGUxNTNjMzIyMTE0MmQ2ZDgwYWFkNDAyMjI1YzI2MDc0NzI1ZWE0MjY2ZjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxOGY2ZDY0N2NmYjIzNTQzN2NjYzliNjVmMDJmYWU5YjQyYmY3ODdiYWIyMmI2MTM1NzBiYjhkMjI0MjFkY2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwNDEyYjE0MTc1ZTQ1MGI2ZGRhNzFjNjQ1NjdjYjc0NDE5N2U0NzIyYjkwNWMwNjlmZjgyZTkwZWMxNDY3M2MifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_91f5c59aeb6540eb8c89648d97f06174",
+      "statement": "The default longhorn StorageClass has no automatic backup tier, and existing volumes must receive recurring-job-group.longhorn.io/<tier>=enabled labels directly on Longhorn Volume resources rather than PVCs.",
+      "evidence": [
+        {
+          "resource": "repo://docs/backup-storage.md#L50-L79",
+          "version": "repo-lines-v1:sha256:c827a163fd742dc62a36811b9ee295c81fa299913dc1ee1c5c1d5c3e20f2f51d:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM2YWQ1NmZiNTlkOTNjYjVlOTMxZmYyYTFlMjI4YjVjYzgwZWE2OGE2Zjg0NzI1M2I4Y2QyZmIwMGU3ZTk5MDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ4MTFhYzA2N2UzZGY0NGFhNjI4MTM2NTQ3ZDZhOTA5MTg4MmFjY2U1YmE2NGI0N2U0YTA3MGM4MTZkYWZkZmQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4b4b69f0013a42999263384d5216bb5e",
+      "statement": "The documented rebuild assignment maps Homarr database to critical, three ArgoCD Redis HA PVCs to important, and three Netdata PVCs to standard; these labels must be applied after rebuild rather than assumed present.",
+      "evidence": [
+        {
+          "resource": "repo://docs/backup-storage.md#L36-L66",
+          "version": "repo-lines-v1:sha256:75be142030a36c5edcedd8968f539777e397b84adfda8685c2b4f35291f666b8:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRiMTc2MDNlZWMzZTYyMzFiOTZmYjk5ODAxOTVhNzliNmQwMzM2ZWZiZDdhOTZkNjBjYjcwNjFmNGQ5MjcxMmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNhODVlZDFiNTkyOWY5MjBmMDE5MTBhNGY2NDAyOTIyOTdkMDE0N2QwNmY0ZDJkNjhmMWNjZjMyNWRiNzQ3MTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_69be6767dd5e4532955041c5216a3469",
+      "statement": "Phoenix's data PVC is documented as having no backup tier, while Radar requests longhorn-standard and thus depends on tiered-class selector wiring for intended automatic coverage.",
+      "evidence": [
+        {
+          "resource": "repo://apps/longhorn/storageclasses.yaml#L36-L53",
+          "version": "repo-lines-v1:sha256:230e9b6d5372baa0f5d1563d1f472e2091dde3b0fe92c6e6e1e882ae36e02938:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxMTM2YmY1ODFkN2E4MDdmYTkyYTMwYmQzYTA1YzU4MjI3M2NmODgzNGJiNjc0ZjFkMGIwODllNzkxOGQ0YmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxMTM2YmY1ODFkN2E4MDdmYTkyYTMwYmQzYTA1YzU4MjI3M2NmODgzNGJiNjc0ZjFkMGIwODllNzkxOGQ0YmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVmZWM3MWE4MGJkZWFmYmNiM2EyZWI2ZjJhZjdmNDFhMjA5ZmI1OTQ4OTg4ZjZlY2ZjMmJmY2FhODQ1ZDg4YzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://apps/radar/application.yaml#L50-L56",
+          "version": "repo-lines-v1:sha256:dea14e34c79807370503a60ffbb51d97824c077f2e6e0ad120c4884d55b0658d:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGY0M2QzYjg5YjViZGI0ZDRjYWI3NzdmYTE5ZjhlYWRlYjYxZTExYTQ3YjhhZTEyNmM4MDczZmRjNjMzNjcxNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjZiNTIyMjBjZDkzNWYwZWY1NWUzMDAyNWZhNjhiNDkwNjJmMDFiOTUwODFmOGMyMzUxNDkwZDNhZThkYjQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWMxNDZiOTg2ODQ2NThmOTUwY2RlYjc5OWVjMjNiMWE5ZTMyYmU4MWMwNDViYzg5ODdhNGE2N2E3N2VhMjMzZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjBlOTAxMjJjYjhiMTBjZDg1NDRiMTljOTQzMGM2NjE3NzAwYWEwYjc1YzY4NTU1NDQ2ZWMzMGNiZmRlYzc4NSJ9"
+        },
+        {
+          "resource": "repo://docs/backup-storage.md#L87-L95",
+          "version": "repo-lines-v1:sha256:bb7466f675da28932c2b8e10886da77ea0a76105bc4ff133aefa46e63159aaf7:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2E1NGMyOTJjY2U0ZWQzMDNjNjFjNzQyMGI2OTQ4NGY4NmNjN2ZiZmNlNDY0YjkyNmY3OTRlZjFjZjE3ZDI2ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2E2ZjRkZGEzZWFlYzAzMGY1NTI4MjgxYWViMjU4ZGZjNGI5MDIwOGViOWU1ZGJkOTFkYmVjYTMxZGJkMWE1OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmVhYzI5MWMzYzkzZTI5YzUwOTJkOTQ4M2E0ZjNlYmNjN2Q2MjZhY2VmODBiOGZjZmY1OTU5MGIxZTc3ODE2ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzAxOTdkZGRiYWNmMDQ2MzhiYjE3N2VjZTUxOGIwODViYWMzNmYwOTEwNTc1YWU3YmM4YjhhMzVmM2E4MDc5YSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_1de644474a354674b2f6d866a440cc29",
+      "statement": "Longhorn targets s3://longhorn-backups@us-east-1/ using longhorn-backup-credentials, whose hourly ExternalSecret sources AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and AWS_ENDPOINTS from the Infisical prod /longhorn scope via infisical-longhorn.",
+      "evidence": [
+        {
+          "resource": "repo://apps/external-secrets/clustersecretstore.yaml#L84-L107",
+          "version": "repo-lines-v1:sha256:8c786506c2ee0e188be4f7fa65556ac415d0e88186801ab9a3004fd7c6b2ec53:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVjYTlhZjRjMDU1ZTJiZjE5YzY0YWNmMjMyZWQzZDEzODc2NzY2Y2NjOTliNDQzMzc5N2Y3OWNkNjNhYmExZTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyMDkyYzkwNjM4OWFiM2MzZWIzODNlMThmODkyZWVlZTA5ODAyY2Y4NGU3YmI4NzU2OGVjM2JjMTllMWVjMzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY5ZjQ5OGE1N2U4NzI5YjVhMjk2OWMzNDEwNTNkMWQ3NDlkZjdjNDA0MzcyZjQzNTBiYzQyMTBmMzZkMDdmOTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE1ZGQwMDQyNjU2NDc5MjMyZGUxNThmNTRlMzExOWVlMzgzNDliZTZjY2Y2YmQyZDM4ODk2NGFjZTc0NDY1MzIifQ"
+        },
+        {
+          "resource": "repo://apps/longhorn/application.yaml#L25-L26",
+          "version": "repo-lines-v1:sha256:d34c7d769efbb5c30a123bff1d7e2126c2f803678462b31c2a423aa088d8fce6:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjk3YjkxM2UxOTQyZmE4NjJjZjg5ZDI1ZjM1Mjg0ZjZmNmJlMGQ0MzI0ZTIyMmMxZGE0YTY5YzhhM2VhN2MyOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2I2MjI1Mzk1NmMyMWQxMzJmMjAxYWIxY2IwYWFjMGViN2YzMzRkMjlhNDI3YzgxYzM5ODdjZjQ2NjZkNGMxOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjg2MDg4MzFkZDMyMDE1NWUxMzkzNzJiNTc4YTdkOWY0MGI4ODM5ZGY5OGI0MzEwNGFjZjI2ZTY4ODdmNjQwZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODg0NzRlYzlkMjlmY2IzNjI4NmExMDk4N2MzYTVjODkyNzg4ZDY5M2I1NTU2NjIwYmZkYzUzYzU3ODE1ZjRiMiJ9"
+        },
+        {
+          "resource": "repo://apps/longhorn/externalsecret.yaml",
+          "version": "repo-file-v1:sha256:686f21bdd6d6e15f6d3de6b9eb06c2df328ea810607fa79b2615f39e3c8b16c1"
+        }
+      ]
+    },
+    {
+      "id": "claim_08733a5c037846f6b36bcbe32865eeaf",
+      "statement": "MinIO backups are intended to reach TrueNAS on port 9000 through the minio-truenas Tailscale egress Service targeting truenas-scale.tailfb3ea.ts.net; its committed externalName is a placeholder and the parent Application ignores externalName differences.",
+      "evidence": [
+        {
+          "resource": "repo://apps/longhorn/minio-egress.yaml",
+          "version": "repo-file-v1:sha256:3055478cfe7990dfb272e8bb3b245d7e1a53f28afa1d1c6738c7860cf28691c1"
+        },
+        {
+          "resource": "repo://apps/root.yaml#L142-L147",
+          "version": "repo-lines-v1:sha256:0a6f4ee636c82950406caacc74ceaa0e3462ce1e61463d6c5d15c1a3c8953eb5:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmRmMGQyOTQxNmQ2YzEzOGY5NTM5ZjZmYzMxZGM4NGU5MGMxNjZkOGU2Yjc0ZDA5NGRiNjFmMWNkMjViYWE5NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmVmOTAzYWU5NTBkN2Y5Njk1OTdiNjBhOWRjYWFiMTA3ZDJlNzA5NmYxOTc0NWY0MzM0OGFjZjIyOGNjZDBhMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDFmOGZhZTdmOWI1M2Y3YzlkMjhjZTBiNzEzMmRhYTI0NWIwNjhhNTc2OWEyNWFiZDlmZjMwNjQ1NGNhMWNlYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzI2MjJhNmE2NzYwNjRmNGZhMjlhY2RkN2YyN2QxYWIxMWZiY2NhOWIyZmY1MmNjNjUxYjdkYmY2MzQyODFhMyJ9"
+        },
+        {
+          "resource": "repo://docs/backup-storage.md#L1-L20",
+          "version": "repo-lines-v1:sha256:3a5b6b4814e5e3e525efbe95c1ceaa48b38d5c80f1e4b97882096958924805f9:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQyNGEwMzMwNWE3Mjc5MzUzODg0MGFlODA4ZDJiMTdlNDUwODVhMzZjZjVlZTFhMzEzOGM4ZTk5OWY0ZjU3ZjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZlODYxYmU4ZWVhNjgzMzk3MTAwZTVkNDg3ZDFhNmMzODhiZTNlNGQzMjQ4OGVhMzY4NDhlZDIwNjJiYWE4OTYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b16017959996435a87ae46cae7f1192b",
+      "statement": "The MinIO policy scopes bucket listing and object get, put, delete, and multipart actions to longhorn-backups while permitting global ListAllMyBuckets; it is not an immutable backup policy because object deletion is allowed.",
+      "evidence": [
+        {
+          "resource": "repo://minio-config/longhorn-backups-policy.json",
+          "version": "repo-file-v1:sha256:41041fa44673983749ee33a59ffde28d1e39de48d96cac32bd1230259c5dc4f4"
+        }
+      ]
+    },
+    {
+      "id": "claim_88a48643959146fcac07abfe27d6c531",
+      "statement": "Both Longhorn Applications deliberately disable automated prune, including protection against pruning chart-owned CRDs whose deletion removes stored custom resources; this is not equivalent to retaining PVC data or preventing direct deletion, and the parent still has an ArgoCD resources finalizer.",
+      "evidence": [
+        {
+          "resource": "repo://apps/longhorn/application.yaml#L35-L45",
+          "version": "repo-lines-v1:sha256:b33c06ab9fc490d5137571786908270b263354f61b3d9067b0f62aae7baca868:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImViMDM0NzJhODU3NzkxNGNkYjkwNzY0YzVjNzIxZWY2ODMxZTM1OGMwNWZkZDI2NmFjYzEyMDNmZjc0YmY5NjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmY2UxZDFmOTc1YzJiYWEwZGU2ZDJjZmE3ZmNhZTU1ZDMzZTFjNWE4ODM3OWVmYTY1Y2ZlYjFhYTQzMDRlZTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQxZjhmYWU3ZjliNTNmN2M5ZDI4Y2UwYjcxMzJkYWEyNDViMDY4YTU3NjlhMjVhYmQ5ZmYzMDY0NTRjYTFjZWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://apps/longhorn/storageclasses.yaml",
+          "version": "repo-file-v1:sha256:79fd545bba563201d0f50068eb277ec4b721507b3d5e667d8a51a12b82aab245"
+        },
+        {
+          "resource": "repo://apps/root.yaml#L124-L166",
+          "version": "repo-lines-v1:sha256:7b785cbc2d02a0e35b6bb5d54f1a7cc17c123b5533802f4728f14e0a75ed8afc:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZlZGQ2ZjNmYjFhYzFkYTljMTA5YTBjNTcyNzg4NDE0ZDNmMTMwMGI5OGM5NGRiMjUxOGMwYzY4Nzg2OTllNTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ3MWZlOWJhMjRlNTc3ZWRhOGJkM2Y0NzcxZDg0NTQwOGNhZjMwZGY3NmM5ZTJhYWRkYzUwNmJhOTEyNTJhZDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRjZTVlYjE2NjFkNTQ3MzUxZjg4YzEwZjllNTIwOTFmYzFiYjdkYzQwMDVjZDhkYmI1YjAwNTE1MTQzNDEwY2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI4YmMwOWM3ZTIxZDdlM2MwODA5MWI1ZTBmOTZmNmQ3OGFjNTQ1YjI0NTg4ZTkyNzA5NGJjMTdjMGNjODEwMDEifQ"
+        },
+        {
+          "resource": "repo://docs/architecture.md#L35-L47",
+          "version": "repo-lines-v1:sha256:3dee63942ffb0e869b3341c7211fe4bf6330af68ddd8c1de1c963751ff637144:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlMDdhMzQ0MjU0ZjUxYjczMjcyYmIyYzlkMjE1NmM5ZThhOWViMDE5OTNlZThkMzNlMWZkYjkzNjRkYmIyODQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxZGM1MzgxOTI4ZGRlMzhjMGJhMDlkYjZmNTA4Mzc1NjllN2NmNWQ4YWUwN2NkYzNhYTM1OTVlMDRlZjczMjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJjMTdiZjBjMjQ4YjBhZDQ3MDg3ZDhlOTNlMWEwNzEyYjliZWYxNmViNWE2Yzk4NTQ3MzhiMDQ5ZWQ3ZWI4YzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImExY2NhNTVlNmU2YWY3Mzg4NjExODc1YjUwNGRjM2Y1MTc1ZDFiYjE0MDJiMWFjOWY4NzFkODk1ODlhNjI3NDEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b24fdaa71b2540acac8cecaa18583758",
+      "statement": "Longhorn downgrade triage compares desired revision and deployment history with live version; the documented stale 1.12.0 pin followed running 1.12.1, establishing a downgrade trigger but not the lost hook error, and recovery calls for convergent Git state with the checker disabled and no-prune preserved.",
+      "evidence": [
+        {
+          "resource": "repo://docs/troubleshooting.md#L50-L85",
+          "version": "repo-lines-v1:sha256:16ede9fb648de65685a83eed226d93fb466b51811b1bf91cd2cab2d8db7803af:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4Y2VkM2VlMWZiNDIyY2UwZjEwNGIzYjk3YzcyZDMxNDI0OTNlZGYzMmE0MWQ3ZWQ1MTVlMTc1NzljMGFmYzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1MjYyZDU3ZWFhYmJmYWZiODkxOTQ0OWViNjQxYzg3OTlkZDQ3NGQ5NjA3NTc4Y2MzMDJiNjM0YTliNThlODkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdkZjY4NjA0ZDYzY2VhZTdiYTJlNzMzMzc2Mjg5NjNiODk0YTE3YmI2OGM3ZmE4N2RlZmExZTRjYjMzZWUyNTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhkODFjNzcyMzJiYjI0NDhjZTQxNDk3MTVlMzQ3OGRhY2U0ZTczYzViZDY5MzVmMmEwZTNmMTNlMThkZDcwMjUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_125184268d0e49cb8a0dd7bd4f1a5c59",
+      "statement": "A historical failed ArgoCD operation can persist after Longhorn is Synced and Healthy; a matching-revision no-prune sync is advised only after desired, live, and rendered revisions have been verified to agree.",
+      "evidence": [
+        {
+          "resource": "repo://docs/troubleshooting.md#L87-L118",
+          "version": "repo-lines-v1:sha256:11a1c8c86fa1e7cf60b24af8e42edd65f2422ab77e624942609291e0fcf59fef:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ0ZTFkZTU0NzRjMzdlNjM2MjY1ZjQwNGRjMjU4ZjRjYjQ4MGRkNDkwNTBmMDhiMjI0NGE2MjUxZmM2MGQ5MWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE4OTM1ZmI4MzFmNTMyMDhjYmIzNWJlMjYyODIyMWQ3Y2FmNjBiYjM1OTRmMDk0OTZiNmI0YzJhNDRkYTRkNjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2MzI3ZTdhMGI1YjVmN2UyYmUxZjIyODUwYmI2Y2YxOGVjODlmNTJkYTU4NTBmNzMwZmE3YmFlZTdmYzY4YWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFiYjNjNTA3MmIzYjZlMmE3NjI4MzE0YzNmY2UzYTdlMWM5ZDFiMmUwY2IzNjE4YzViYmNkZjM2ZGM1MGNkM2UifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4c27fb3611bf45178c516ecbf0e0ea33",
+      "statement": "Before application schema migrations the documented procedure creates a Longhorn Snapshot and checks readyToUse; rollback requires reverting the version bump and restoring the volume because chart reversion does not undo on-disk migration.",
+      "evidence": [
+        {
+          "resource": "repo://docs/backup-storage.md#L87-L110",
+          "version": "repo-lines-v1:sha256:96e542065ab8c7feab4c6c3d368f5e0b5591a4e9b61abd87925b21aeb73dcfa7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhNTRjMjkyY2NlNGVkMzAzYzYxYzc0MjBiNjk0ODRmODZjYzdmYmZjZTQ2NGI5MjZmNzk0ZWYxY2YxN2QyNmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJlYWMyOTFjM2M5M2UyOWM1MDkyZDk0ODNhNGYzZWJjYzdkNjI2YWNlZjgwYjhmY2ZmNTk1OTBiMWU3NzgxNmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc1ZjhmOWExMDI2MTJhN2E2ZGQyODMzOTIzMjNlZGE4YTQ2NmE1MDU2ZDEyZWM5Y2E4MDhlNmVmZjY1OGJlYjEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_eef0a14a7e00415ea509fddd27e4266f",
+      "statement": "Manual pre-upgrade Snapshot objects are outside ArgoCD management and should be tracked and deleted after clean operation; the guide describes running-pod snapshots as crash-consistent for its SQLite example rather than establishing general application-consistent backups.",
+      "evidence": [
+        {
+          "resource": "repo://docs/backup-storage.md#L111-L122",
+          "version": "repo-lines-v1:sha256:b7528e8f52a5b840562b62e1ae70a87a3b5fd2f9e8305bd84f1daeb0cb8ee119:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkwN2RlNTU2MmFiMjliYjlhOGYyZGMzMTY1NmZjNWIxYmI3MzY5ODYxOGU3MTE0NGRiOWEyYWMyMzU1OGI1NWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMzZjNlMDRiZDc0ZGIyODMwZmFjMTcyYzQxNzc0YjU3ZTY5MmE5Njg5NDdiNTlhMDM2NzMwZTQxZDY5YjA5ZjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI2ODA4ZWI1ZDg5OTFhNTk3YWJkMGEyOTBhZjkxODYzNjQzMWQ3MGM5M2RlMmY4Y2Q0YTliMTIyZThhODg2N2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY1NzlkNWU2NjUyZTgzNzdjYjZmZWM5ZTA1M2Y0NzQ5M2Q0NzU4ZDBjZDQ4MDA1Mzc1YWFjZjExYzQxODI2ODkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e25b282d09ca4b4a8b0921b2bd5d418a",
+      "statement": "Instance-manager PDBs allowing zero voluntary disruptions for one healthy pod are expected Longhorn protection; planned drains require volume and replica health checks and controlled maintenance rather than weakening the PDBs.",
+      "evidence": [
+        {
+          "resource": "repo://docs/troubleshooting.md#L161-L176",
+          "version": "repo-lines-v1:sha256:b4f3c5412394b211f2d13a80e08b8b4b247c5aa5d07d4c2afef2cb6a5e93a700:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3NDMwZDZkZTk5YzZhNTlhYTBlNWNkZGE4NzE5ODcwNjlmNTJmMWM0Njk4Yzk5OTI5ZjY4NzlhYmQwYWZkYjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhhMDJkY2M0ZjM2YmEzMzQ4Nzk4Y2VlNmQ1MmExYTdlYzk4Yjg1ZDE3MWYwN2MyZjY1MDEzOWQ3ZTJjY2NhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1YmJmZWY0ZjJhMWE1NTMwM2VkNWFiNWNhNDE0ODM3NzYyNjM1ZDgxNjMwYTljZmI3NGFlZjA2NGU2MzFkMjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFiYjhkOTAyYWIzOTc2NzkxYzQ4MDk0MzhmMjk1ZTNkMzQ2NGY1MTk5OTY0MjE3YjdiOTA1MTYyODYyMTdmNWUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_774d347c65334a99a3f9b6c3f188d676",
+      "statement": "Repository validation renders exact-pinned Helm charts with committed values and validates built-in schemas while ignoring missing schemas; it does not prove Longhorn recurring-job semantics, live connectivity, runtime health, or successful restoration.",
+      "evidence": [
+        {
+          "resource": "repo://docs/architecture.md#L76-L89",
+          "version": "repo-lines-v1:sha256:8439a8d86feb3ccc3e193752f7c0a84807b11dadad0e08f12d817cca3b69b842:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYyMjE2MTRlZjgzNjU0YWNiNGQ1MWY0OGRjMTA3NGQwYWI3YjMwOTdiODlhMjQ0NjVlYTBlOTM0NWM4ZTU0NTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlOGIzYzlhY2VmOThlZTczYjQ4ZTU3NGQ4ZmFlOTJkYjU2MTIzOGE5ZTU5YjExZjFlYmE3MWEzYTg3MjhkNWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIyZGI2Mzg0N2MwOTk4ZjUwMGZjNTNkMzJjNGU1NWRkNjEwYTk5OWIwYTNkMTA4M2NiMDgxMmYyNjcwMGQ3ZjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJmZjRjYjQyOTkyNjMwOWJlOThhNjA1ZmQwMzkyZDRhMmYzNzYwNzhlY2I1MTA4MzE4NWFiNWVlZGNkMGUyNGMifQ"
+        },
+        {
+          "resource": "repo://scripts/validate-gitops.sh",
+          "version": "repo-file-v1:sha256:13afc67f9eebbb472cd3882fa52993fe462b63c580d6d2ff9d169b6191911fe8"
+        }
+      ]
+    },
+    {
+      "id": "claim_23efff889738434fb05b2f09abdaeae8",
+      "statement": "The backup documentation supplies target configuration, rebuild labeling, and pre-migration snapshot instructions, but does not establish a tested end-to-end MinIO disaster-recovery procedure or guaranteed RPO/RTO.",
+      "evidence": [
+        {
+          "resource": "repo://docs/backup-storage.md",
+          "version": "repo-file-v1:sha256:3c387c34e90ca06a93888a707c0dcd34f2133511afebcbfdb700ec85c125fe72"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-11T09:22:19.403Z"
+  }
+}

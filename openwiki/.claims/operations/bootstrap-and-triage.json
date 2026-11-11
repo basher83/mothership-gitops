@@ -1,0 +1,308 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:680f250cd635234cca7b1e223f0e04256751c4de18a1136bae975df0ffcc3af1",
+  "claims": [
+    {
+      "id": "claim_f407575ce8ba4cb1b264a50e83259eea",
+      "statement": "Bootstrap and rebuild commands are authoritative in README; rebuilding requires Omni substrate recovery followed by deployment, and Git alone does not restore Longhorn workload data without S3 backups.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L20-L23",
+          "version": "repo-lines-v1:sha256:5dd30b9444734d6e883c9c7072630a8af23017af091ba3a6b641c276aa6a7f48:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWJhYjE0OGZlOGQxNzdiMWFjMzgwYTdlN2RkMDc3Yjg4YjI2YTlkOWQyZjEwODI3Zjk3ODBiNThjZTM4NzMxMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDk3YmQ4MDUxZjE2ZmVkYTI0YzUwZDM4ZDM0ZDVjZTEwZGZkN2MzZjMwOTg2ODEzYzdlZTFhZDRmZjFiZTliYiJ9"
+        },
+        {
+          "resource": "repo://README.md#L43-L136",
+          "version": "repo-lines-v1:sha256:599ad6f6e9e1c6dbae5abc4ef10116e99e9a69c12c7de5c285307a8ed74bbb1d:eyJzZWxlY3RlZExpbmVDb3VudCI6OTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFmNWYyMGRkYTViMjM5NWFiNTEyOWIyNjdlZWZmYTU0YmIyNTUyNDQ0OWYyMGQ5MTBjMTAwYzg1OGIwNjFhMTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmODU0NWQ0NzI4MTI1MTY2NTVmN2FiZTE5MDE2MWIxZGZhZjY1M2ZiZDRjNDFmNmNjNDY5MDFkMDU0NGEzMmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFkYmI2ZDUyOTMwYTdhZDY0ZjFkYTliMTRiZjNhZWY1N2E1NjE2YzZkNmFlNjIwYTY3NzZjYWU0M2EzMTdlZDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxNGY5Y2UyYTEyY2E3M2Y3MWQ0OWVmMGI0ZTAzYWMwMWQzNGMxYTVkZTE4ZjgyM2QyMDQxM2Q3MTNlNDkxOGYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2be41dd1f75f451a9a6a0cc8c4c9df73",
+      "statement": "This repository owns reconciled platform workloads, while Omni-Scale owns lifecycle, capacity, taints and machine classes; substrate limits must not be worked around with manifest hacks.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L7-L16",
+          "version": "repo-lines-v1:sha256:b038a2268d105ab45ed2274cd1ae94caea49537ec6b8cd0ebcf2056cf4d6a776:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1ZGMwMTU0MDBjY2Q5NTkzOTI2NDVlM2MxZTZjNmFjMzAzN2E1ODE1MTk0OGU4NWQwNzQ1YzE0OGEyOTAxMGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUwYWY4NTVjMzUyMjBhM2ZmNTFmZGQ3MmJiMjBjZjQzYzA0NTA0ZTgzMTg2MmY4NDhiMDE4NjcyMTBjMGIyOGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFiYWIxNDhmZThkMTc3YjFhYzM4MGE3ZTdkZDA3N2I4OGIyNmE5ZDlkMmYxMDgyN2Y5NzgwYjU4Y2UzODczMTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_55179c1e201b4f8086702fedb1718c60",
+      "statement": "Bootstrap preinstalls Cilium, ESO, Longhorn and non-HA ArgoCD to break scheduling, CRD and hook/ServiceAccount dependencies; Cilium requires the explicit MTU=1450 override.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L43-L115",
+          "version": "repo-lines-v1:sha256:b099e5852bdb52c961d5f2584d9f8cb5cf2d719c99dd5d025747ae3423e40909:eyJzZWxlY3RlZExpbmVDb3VudCI6NzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFmNWYyMGRkYTViMjM5NWFiNTEyOWIyNjdlZWZmYTU0YmIyNTUyNDQ0OWYyMGQ5MTBjMTAwYzg1OGIwNjFhMTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxZWMwYzU0ZTNjMmNjNjY5NjhhMWMxZjdjNDgwMmM1ZTE5NWQ5ZDM4NzhlYjEyY2E3MGZkYTExOTg2Y2Y5NjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFkYmI2ZDUyOTMwYTdhZDY0ZjFkYTliMTRiZjNhZWY1N2E1NjE2YzZkNmFlNjIwYTY3NzZjYWU0M2EzMTdlZDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY3N2M4YTQ1OWU0MTgyMjdhZTY2ZTEzNTE3YTM0MjE1Mjc1NWVkN2E0Yzg4OWVjMTcwY2ZmOWY3YzAwMjMwYzQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4a0b63e265c14d01b3441625b3a34240",
+      "statement": "Normal secrets flow Infisical through ESO to Kubernetes Secrets; the ESO bootstrap credential is the only documented manual secret exception.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L35-L45",
+          "version": "repo-lines-v1:sha256:213e356fc4ea5de48ad6a8fc5496ce940eaa11d7db50a308f6a991d35771b8ef:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5ZTYxMjEzNWZhNDFlOTgwMzA4NDY1YmVhZjEyZDllZTJkYzQyZGZjZTQyNzY1MDIwOGJkODIyOTk0MWQ3YzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI3Y2RmMmJiNmY0MWY1YjgzNjk5ZDE0YjIxYmZiMWI2MDc0YjU0OWNiOWFlNzg0Mzk0OWIyN2Y4MDRjZDhkMzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVjYWQ5MDFlNGVkMjQ1NWUwOTMwMTc2MzVhNDEyMWQ5Mzk3NDZhNmJmZmZhMzc3NjhkNDI1NjljMDRhNTE0YWIifQ"
+        },
+        {
+          "resource": "repo://README.md#L60-L67",
+          "version": "repo-lines-v1:sha256:7c420c06998287260a8ebc1aa9545b4e1d6dbc443c69d16047222aa74f18d985:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTdkODNkMzNlM2YxZTIwZDVhNjE3YmYzZjEyZmUyZTE4NzFjNjQ0ZTNjMjY1NDg0ZjhmNzI1Y2EyY2MxYjgzNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzJjNDg1OGUyMmNjMmM5NjdiNDIxNTBmYTU1MDU2MmEyYzgzOWMyY2ViY2FhYjkxY2FiZGY2ZjRkYTAyMDAyMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGM4NDg5ZThmMzkxZTY1NTdkOTljODgyNDY0NTU1YWM2ODMyMjQyZWExNWE4ZWIzMWQwNTNhZDcyZjg2YTVjNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2NkOGNlMjk5MTEyMjljN2M1NTZhYzI4OTdlMmY0MzJmNTBkYzJkYjM3YmUyNWI0ZGNlMWMxZDQ0YzRhY2U4MiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_dfe41b6f65894875908850b80af28cf3",
+      "statement": "The bootstrap manifest creates the argocd namespace and root Application targeting apps on main with automated prune and self-heal.",
+      "evidence": [
+        {
+          "resource": "repo://bootstrap/bootstrap.yaml",
+          "version": "repo-file-v1:sha256:68f4f2166ec7b4deea017a2df69c3942db42647502861ff9fa135146884fefa7"
+        }
+      ]
+    },
+    {
+      "id": "claim_adf3a6b653bf46c9b4b91c2414e9bf79",
+      "statement": "Platform reconciliation orders secrets at wave 2, networking at 4, Longhorn at 5, monitoring/Radar at 6, Homarr at 7, proxy at 8, Phoenix at 9 and manual ArgoCD HA at 99, with ExternalSecrets ordered before consumers.",
+      "evidence": [
+        {
+          "resource": "repo://docs/architecture.md#L14-L35",
+          "version": "repo-lines-v1:sha256:85f3ab9b61200d5db287e3970543a6c5181214e8797423337ef348dad6aa5f8c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlMDdhMzQ0MjU0ZjUxYjczMjcyYmIyYzlkMjE1NmM5ZThhOWViMDE5OTNlZThkMzNlMWZkYjkzNjRkYmIyODQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEwZjEzMWQ1ZmQ4ZDJiN2VmNDVlZGE5ODI0YzA4ZmQ0N2Y3YzA3YWZjN2Y3MzE2MjI0ODQ5NGJlMDFmMjMxNzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBjZTNmYmY3ZmJlZTZkOWFlZDc5NjcwZDRhNGRjNjJiMGFjMDUwY2Y3MjE0Yzk5MzljMmIwYWZlODZkNDYyYTQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b166325d0fb341e6aa0e7fa1c5966cba",
+      "statement": "HA promotion requires healthy Longhorn capable of provisioning PVCs and two manual stages: argocd-ha creates or updates argocd-ha-helm without syncing it, then the child applies persistent Redis HA values using Longhorn.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L120-L125",
+          "version": "repo-lines-v1:sha256:b90ab0a69bdca712e49f09ced22d9234e0a97d119440c96237ded2c7c7d28d90:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzhmMDcxNzM2NjBhNjc4MmUyYmE2ZGRkMmUwMTk4MTk1MGVmZTk0ZjFjYmZkYjJkOGIxZTk2ZTk3MzA5NDUyZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzRkNWI3MzZkNTJjNjE1MDhmMWQyYThhNzM5NGRiN2EzOTY5MWFlNTkxMjlhYjRlMTQzYzVjZTExNjliMTkyOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmNjMWE5ODFhMjU3NWJjMDA0ZGFlMzdlOGU4NjJkYzY3NjNmYjMzNmY5MTcxZmRkZDVmMWY2NDZjYjhjZWUzMCJ9"
+        },
+        {
+          "resource": "repo://apps/argocd/ha-upgrade.yaml",
+          "version": "repo-file-v1:sha256:8b4b133f71d93c1efe3ec520af3b5e61af54c63448715e1b6e8b96d81efc2b24"
+        },
+        {
+          "resource": "repo://docs/argocd-cli.md#L106-L117",
+          "version": "repo-lines-v1:sha256:71d5f37114cd5016de7d6c51781992eda8de9f1dde71da4490d809287f858228:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5MjRhZjU1YTEzNzczMTdiZjMyNWI4MzAyMmFkMGRmODA2N2FkNDViMzViMmNmYjdhZGRiODMwMDU4YWU0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNmNThjYzViNjIyY2RlZTNmZWVhYjZiZDllNjJkZWI0MjVkZDAxZDA2ZGQwYjc5Njk0NmZlYjA5ZGNlZTMyZjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVhMTgxNzhmOWFjMjczYjliNTcyNWJjNjFjZGU3OWFmYTYwYTAzZGIyMTRjZjA3ZWMxZWM5ODJkNTQxNzYwM2IifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9b71f9a7969c454ea88df4af37045b72",
+      "statement": "Omni remains the primary API and lifecycle plane, while the authenticated Tailscale API server proxy is a standing secondary Kubernetes-only path whose externally managed grants require live revalidation.",
+      "evidence": [
+        {
+          "resource": "repo://docs/adrs/ADR-002-enable-tailscale-api-server-proxy.md#L23-L71",
+          "version": "repo-lines-v1:sha256:8644381a50131256c34a8548029cf4fe036fdd45ec3ad8544c7c682d85e5d854:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMwZGJjYjg1ZDNlNDQzZDQ5NzlhYzAxNWJkMDE1YmUzNjc2ODEzN2RjYjk3OGRkNmQyODViOTczM2JjMTFiMGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiMTU3YTZkMjc2N2ZmN2Y0MTMzZWUyNzY1MTM2N2M2ZmRmZjdhYjRmZDliYTNjYjQyNjJlMmFhNDQ5MGNjYTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM0NTNhNzcxNDMyMDNkMGNjODU4ZDM1OTg0NWM5NjY3Njc5YjRkODAzZTMwNTA2MGNjOGU5NTQzNmFhOWI4NTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9af65786c32b420783dc44e7b5caa5ab",
+      "statement": "ArgoCD core mode uses kubeconfig authority and bypasses ArgoCD server RBAC; it needs an argocd-namespaced dedicated context rather than modifying the generated Tailscale context.",
+      "evidence": [
+        {
+          "resource": "repo://docs/argocd-cli.md#L10-L62",
+          "version": "repo-lines-v1:sha256:320f3f9752595968a881389c6178f4e7fe1ebd7277a3d33eb833196fb2d2049b:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyMDE1YWZlY2I5ODY1M2RjYWM5MTI1NmVlZTZlZWU1ZmE2ZWFiMTY4NzcxN2NkZDg3YjMzYjRiYmQwMjQyNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwZjg1OWU3MmUxZmMwNjk3NTc2OWNiODdlZmE1ZDk3OTA3ZDNlMTRiZmE2NDQ1NzJmOTFiMDJlNGZkOTE2MDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU0OWU2MzMyMzQ0ODYzOWI0ZmQwNzhlYTU5ZmFlNzMwMjY4NzYxNzQzYmZlZGZmYzE2MDYzMGYwMWZhODQ3MzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ1OWZjZWM2ZDhmODJkN2IyNDliN2QzYjQ3NGQ5MDNiMzVkOTI2MDBkZDBjYjNjZWNmZmE4NzljNjY1M2EwZGUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2a36a305ae2f4198a45516d4011657ef",
+      "statement": "Server-mode CLI access uses ArgoCD authentication and gRPC-web over Tailscale TLS termination to an insecure backend; expired sessions need reauthentication, and Radar's applications-get API account is not an operator login.",
+      "evidence": [
+        {
+          "resource": "repo://apps/argocd/ha-upgrade.yaml#L47-L68",
+          "version": "repo-lines-v1:sha256:1067c5542132267324b646fd33f2ce1ce689097c502c37de2e55203d70cd2950:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM5ODEzOGMwMGUxNDJjZDYxNzFkMjZhZjViMDBmZTRkYzliNjQ2M2JiMGZmMWE5MGIxZDFlYzcxYzBlYzk4YTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdiOTNkNmRkZTBjNzdkODczZTUzNzA3Mjg0ZDRiNWI0NmMzMmIxZDljZDUzNDkyNmI5M2NmMmJlZDVhMjNlZWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNjMzg2OTFlMmQzODY3NTgyN2UxZGJkMDczZTRiMDYyOThhMDRhODM3YzVhMTEyYjFiNGNmYjEyZGY1ZTA3NDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQzYWI5Mzg5MTQyN2U4YjZlZjA5NWFjYzc1Mjg3M2ZhMjU3NGJjOTVmMDg1NmI1YWI0MmI3YTZhNDRkMzRlMWEifQ"
+        },
+        {
+          "resource": "repo://docs/argocd-cli.md#L64-L95",
+          "version": "repo-lines-v1:sha256:7d4cb3683d2a334bb564b0e752f55d6b276b6897b8260336d721e2925a229938:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVlYzE4ZmRjYTk0NGFmYWYwNzM4YzM3NmQwMjU3NGMxYjViNTliYjM3OWFkZTkwNWYwNjNhNzA1NzY5N2YzMWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJmODhmMzhiNzI2MGQ4NjQ4ZTVhNWJhNzlmYTRiZmRmZTBiMWQxNjM0MTAxZDIxNGY2OTI0MDFlNGY5YWU4YzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwOWQ2MWZjYjVhOTBkNmUzY2NjZDhjNjgwM2VkMzBjMzEwNDI5YWI0NWY2MTAwNDBkM2JhNjFhYWVkZDU1NmEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0c2ba3e4ce0b4552a8d79ac16aa7314d",
+      "statement": "The Homebrew CLI and manually gated server can diverge in version, especially affecting core mode; the November 7, 2026 documented v3.6.1 client and v2.14.11 live server comparison was a dated observation with a major upgrade pending in Git.",
+      "evidence": [
+        {
+          "resource": "repo://docs/argocd-cli.md#L119-L137",
+          "version": "repo-lines-v1:sha256:056d2927c193a34284041497ec5ca69fd474048ed8f3bfce60e299a1d51e88f4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVkZTJmNTMyOGVlNmU4MDUwZThhYWZkOGRjODY5YTA2OWNkOTU4NGVkYWFmNTRmZTU4OWQ3M2MzYjdkY2Q3OTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4NWYwMjZjNzA4NWNjMDhjMTFlYzIyODgzMTQwMTMxOWEwZDE3ZmUzY2U4NzJhYjhlZTk2Y2ZkYjQxN2EyYzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY2ZDdlZmIxNzUyYzliYjdkMThkYzMzOTQwZGJjMDc5ZmRhZmJhNTYwNGZlYzBiNGFjNTc3YWVhYzU4MWFhZjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e57b8931a65a43fdb04b6522cb7ff749",
+      "statement": "ArgoCD app get and diff are read-only; manual gate promotion requires reviewing diffs, and operators must never request prune for longhorn, longhorn-helm or coredns-tailscale.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L49-L61",
+          "version": "repo-lines-v1:sha256:cdb8ee68062eda88b225b5dc64df4c41fc32ed15b771ba91eb776aa717428555:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjOTU1OGM1ZDY5YWNjYTM2NDE1MmU5ODM3MGQ0NTk4OGNkYTFlNTE3NTU3MmQ4OTNhZGE5ODc1YThjMTUwMWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNiMDBkNTNlM2Q0MWI4ZTU0Nzc3YWIyOTI5NjY3YjI2ODExNzRhZTZmYjA0NzdjOGZjNTAzMTJiOTM2ZGYxNmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVjYWQ5MDFlNGVkMjQ1NWUwOTMwMTc2MzVhNDEyMWQ5Mzk3NDZhNmJmZmZhMzc3NjhkNDI1NjljMDRhNTE0YWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY1ZDA0MGE1ZmNkODcwNTJhZGJjYjhkYTMxODQ5OWQxYmVjYTRlMTA4MmEyNzllOGQ1NDRjNjMwMjY1ZjMxNjIifQ"
+        },
+        {
+          "resource": "repo://docs/argocd-cli.md#L97-L117",
+          "version": "repo-lines-v1:sha256:9f6d8c7fe65836a2e0c422993bc145afb33a905b3c5121d3aca9dd35ca787fda:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5MjRhZjU1YTEzNzczMTdiZjMyNWI4MzAyMmFkMGRmODA2N2FkNDViMzViMmNmYjdhZGRiODMwMDU4YWU0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMzNmMyZTM2NDgwMTAyZTNjNzVkODQzYTY4MTc1MDg3Y2I5NzYwZDdmYjJkOGVhOWMwMjUwMjEzMDVhODYzZWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVhMTgxNzhmOWFjMjczYjliNTcyNWJjNjFjZGU3OWFmYTYwYTAzZGIyMTRjZjA3ZWMxZWM5ODJkNTQxNzYwM2IifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c3e5814631284e8da5d0a59541e74fe0",
+      "statement": "Longhorn desired pins can accidentally request downgrades against newer live releases; the August 16, 2026 case established the downgrade trigger but not the lost hook error, and recovery updates Git forward, disables the pre-upgrade checker and preserves both no-prune policies.",
+      "evidence": [
+        {
+          "resource": "repo://docs/troubleshooting.md#L51-L83",
+          "version": "repo-lines-v1:sha256:21522d2b3007b6baad02ca263d4ba4726b83c169ce76f9a5a98151e95fe3d939:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI4NTIxMjY0YjE0YTg5ZWNlMThhNjM2NjdhNmQ0ZGExM2Y4YjllYTY5MWE5MmMwOWYwMGFjM2M1MmUyMzU1YTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU2MzI3ZTdhMGI1YjVmN2UyYmUxZjIyODUwYmI2Y2YxOGVjODlmNTJkYTU4NTBmNzMwZmE3YmFlZTdmYzY4YWUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0ebdc7a54bbb4c87ac9f98bc55ac4623",
+      "statement": "Synced and Healthy Applications can retain Failed operation history and Radar alerts; after verifying convergence the documented Longhorn remedy is one no-prune matching-revision sync, with a Kubernetes operation request fallback and verification of Succeeded.",
+      "evidence": [
+        {
+          "resource": "repo://docs/troubleshooting.md#L85-L112",
+          "version": "repo-lines-v1:sha256:547f9897a2505864953c29460b37225a6f8cb056e5ae634db733adfbe194948e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1MjYyZDU3ZWFhYmJmYWZiODkxOTQ0OWViNjQxYzg3OTlkZDQ3NGQ5NjA3NTc4Y2MzMDJiNjM0YTliNThlODkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExNGI5NTE5ZDkyNGM2MDhhMGVhYmJmMmI0MWYyYWI3NjE2ZmYzNWI3YzBmZmNlNDc0M2UxYzI5ZjIxMmE2YzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVhMWZjM2RhMzFlZWEzNGEzNTRlOTQ5NDk2MjU1M2JlYjIxNTc5ZjQyY2IwYmE0NGY5OGU5OGUwYWI4NTExYzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiZjUxMTBjMmZhN2RlYTFlMzA0ZmEyZTNmMmNhNjBlMDE2YTc3NzgxNTllOTExODBlMDY0YzY5MDBhOTkyNTcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_430c4c19c0d54e8a8f6978a36d7012be",
+      "statement": "ESO default fields, ESO-managed Secret fields and operator-rewritten egress externalName have documented scoped drift exceptions; ESO data rules should cover all entries and use RespectIgnoreDifferences.",
+      "evidence": [
+        {
+          "resource": "repo://docs/tailscale-networking.md#L54-L77",
+          "version": "repo-lines-v1:sha256:619509c6b73c19c883580742c306ad896deaef06ad246df5877fa80ba95feebd:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNkMjU2MmMzNTBmOTBmOTE3NjkwNjAzNDQwOTBiZWU3MDNjMDFjZDgzNmU0MDY4NzM1NzA0MWVmY2I0NjUxMzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzMGI0ZTFmMzA3ODEzYjMxZjhlZTY4ZmFiYzBlNmZhMjRiNGZiODRhY2E2NWE1ZTQzNzg5NGJhZGY0ZjFkOWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI0MjAzMTRiMjgxZTA5ZWM2ODA3NjU1ZGIzNTliNWU4MTU5YjE2N2M0NWRjZDVkNzA5NTQ3NmNmMmJlYTk3NjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjliNzhlYTc3MjAwZjY5ZWEwMTJhMjNlY2ZkMDdkMWJiZGEyMzQ2NWQ2MDQ1NzQ0MzNhOWQ4MWMyZTNiOWVhZTEifQ"
+        },
+        {
+          "resource": "repo://docs/troubleshooting.md#L269-L329",
+          "version": "repo-lines-v1:sha256:c8e19f0433283d0f71e5dd0777b5a6f0f5246e7f7616a532bdaa6664949dec6b:eyJzZWxlY3RlZExpbmVDb3VudCI6NjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjljOGE4YTdjYWFkMGFmNWFjYTUxOTRjNDZlMDI4NmQ0NzFhMzIzMWFhN2FhNDhkZDA3MGM3OTMyMTI5YzkyZGIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYyNGI0MmIxZmNhYjQwYTliZGVmODMyODVlYzI5MTkzMmNkMmNlMjc2NDUwM2VhOWJkNjcyODllYjRjMWI1MmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkyNmMyZDQ4MzBjZGRhOGY3NjI0ZmNlNTVjZTkxZTI3YjYyOWE0YTk4NmJkOGZhOTkxOTE2MzNkODU5NTcyMmYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_41fc60ed49764807817c78f67f65264a",
+      "statement": "The August 16, 2026 Radar generation-churn investigation associated missing CRD status subresources with status-write generation changes; generation-only labels do not justify syncing or rollback without spec and desired/live inspection.",
+      "evidence": [
+        {
+          "resource": "repo://docs/troubleshooting.md#L244-L267",
+          "version": "repo-lines-v1:sha256:f2f09a215a7eb31da6025b58e7a79de084f0fd03c8a3f7491dd19b8e6fb3aa43:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRjMTBiY2QyMDA5OTQ3M2ZjMmNkOWY0YzZkYjIxZjA4NTM5NjU0MDBmODZjMDRlZTY3ZGY5M2Q1MTIyOWRjNGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVmZWI0YzkwNjAzOWFiMWY5OTViYTE4NzRjMjVjMmFlNGMwZjdmOTVlMDc3ZGY2Y2NjMmFlMjQ1NGQ1YWNkYzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJiZGI0ZmIwNDJmODZhN2IwNzU3N2VjZGQ4M2YwNmEwZmQ5NWU0M2UwNGIxYWFjODBiOWQ3Y2JhMWNiZDhiNzIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_14d673bf203740478e9f44c4081e95d5",
+      "statement": "Progressing applications commonly have unresolved ingress health or unschedulable pods; unused chart ingress should be disabled in favor of local Tailscale Ingress, while machine capacity issues belong to Omni-Scale.",
+      "evidence": [
+        {
+          "resource": "repo://docs/troubleshooting.md#L33-L49",
+          "version": "repo-lines-v1:sha256:b52382565b9c0638d934feb12d4c30e721d9cd8d0af0fc0f8386cb5e1bc55d11:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMxMzE5ZDU2ZjVlYzcwNWQ1MjBiNWM3NmFjYmMyODZiNTlmNGJlNmNlYmYzNWUzNWQwMWZkOGNhNzA2ZDI3M2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFkMDRiNWJkZjFmMTY5MzFjMjVjYzRlZTQ0MzQ4MWU0MjZjMjZmZWJjODZmMGE0NWViOTdlYWRiNWNjYWMzYTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc1YjkyNjY2NmE4Y2RiMWFlMDQ0MmM4ZmE0NWY5ZTk0NTU2MWQwNzM1NWNmNjk3MmFhNDUzMmU0YjFjNjMxY2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYxYzEzOTljODM0ZGNkMTM1MzljY2IzNjBjY2Q4ZTk4NGE2YjExM2M3ZGI2M2FmZmVkZTQ4NmFiODFjY2RhNGYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5dd0b49fb9f1456cac0a2d3adc501937",
+      "statement": "Tailscale Ingress provides TLS on 443 unlike backend-port Service exposure; proxies need privileged PodSecurity and initial certificate provisioning may delay access.",
+      "evidence": [
+        {
+          "resource": "repo://docs/tailscale-networking.md#L5-L18",
+          "version": "repo-lines-v1:sha256:a915872e9a7594187825d8764b84c6668fe84158b81ca5e8811030ff173894b8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkMzQ0YmY1NjFiOWNiNTU1MzFjYTE3ZmZkMTdmMzliMzljZjIyY2MxNDgxM2I0MWYzMGJjMTBhYmY2Yjg2YzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFhN2IyODk1OTE4MDYyYWJkOGM0N2Y0OWJkMjE3Zjc0YjRlNWQ5ZmUwMGMzYmZiNDM4MmU0ODgxODMyYTlkOGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVmMmJkNmIzZDU5ZjdhZTVmODFiNzE4OTY4ZGFmMWNiZTYxY2JmMjQ3OTA4NGI1MDNhNWQwNGMwMGU2N2NmM2IifQ"
+        },
+        {
+          "resource": "repo://docs/troubleshooting.md#L331-L390",
+          "version": "repo-lines-v1:sha256:0bc1c00a5ddc0db883316e8f43b2d06298eb4fe0161882db67a40be7fe818750:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM1MGIzYjc0YjE2OGFmZGUzYzA3NjE3ZjhkN2I0NmU3YjhmOTgzNzY2ZTMxMzg0ZmU0NTM2YzYxYTNiMTA3ZWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEwM2MxZmE3ZjkyMzdjNzg3YTJjMTg2ZTIwOTFiODliNzZjZGJiNjI5YWZhNTBhZDFlM2EwNjFmZjAxMDI3ZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZkNTBjZjdmZTYyNTY4ODM0MGQzMTEyYjM0YjY5YTIyNmY5ZjNlMTFhZDk3MDFlNTRmMzlhNDBhY2ExNmE3ODQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_41cac8cb2fdb4a31ad154c5b2737df84",
+      "statement": "Pod-to-tailnet networking depends on egress Service, DNSConfig and CoreDNS forwarding; coredns-tailscale self-heals lifecycle overwrites without prune, and DNSConfig recreation can change the nameserver ClusterIP requiring revalidation.",
+      "evidence": [
+        {
+          "resource": "repo://docs/tailscale-networking.md#L50-L121",
+          "version": "repo-lines-v1:sha256:c4fb9abbb9787a0451f00c2dfa284f0e97c52e1c5c89b3e45eb67407c2c6ad47:eyJzZWxlY3RlZExpbmVDb3VudCI6NzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNjNTQ5MjkyYzFlNWFhNGI5ZjI5ZDQ3MzZlMzZkNThiMjQwOWIwYTA2ODEwNTQwNTJjMThiYmJiZmEwMjQwMWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNiOTVhOWE1YmRkZmIyM2I1NGYzMGNlY2I5NTRmYTQ5ODYzYjcxNjQyZDYyYzg2MzZkNzUzZWZhNDFhMzg0ODYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_04fd9082bfc84a19ab787deae8b92d04",
+      "statement": "Radar's request-based scheduling ledger is independent of actual Metrics API samples and PromQL integration, so healthy Netdata does not imply Radar usage metrics and missing usage is unknown rather than zero.",
+      "evidence": [
+        {
+          "resource": "repo://docs/troubleshooting.md#L118-L155",
+          "version": "repo-lines-v1:sha256:d02e5aa47e6cd204e839accfc079ca88377cbb1459ad88ac2770579a63f2eea2:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE4OTM1ZmI4MzFmNTMyMDhjYmIzNWJlMjYyODIyMWQ3Y2FmNjBiYjM1OTRmMDk0OTZiNmI0YzJhNDRkYTRkNjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdhNDc5NWVmMGIzMzkwNmM0ZTJiYjJiMzBkZTY2MDhkMTNlMWI3MzY2MjFhMTVlMzMyZGIxZDkzZjYyMTI0ZDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVhMjEwNTYwNTYwYTI2ODMwNWI2NTJmOWQwODJlMWU5NGRjYTQwMTJkYWFhYTU0N2QzMDU1ZTYwMDc5MWEwY2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZkNGZjMjhjZmFkNDM5MmU4NjEzNDM1NDYxNGRmMmI4Y2JjN2QzMDQ1YjJkODBkYmVkNGJmYjNmNDRkNzg1MGUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d221c18d5fa44c0ca07696f8668fae77",
+      "statement": "Longhorn instance-manager PDBs allowing zero voluntary disruptions protect attached volumes and should not be weakened as a generic alert fix; maintenance requires health checks and controlled drain procedures.",
+      "evidence": [
+        {
+          "resource": "repo://docs/troubleshooting.md#L157-L173",
+          "version": "repo-lines-v1:sha256:30966d0049d5ba1e54b5e2da9254b2244daaf087e9676272a1738b239e9e4e6c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ2M2RkYTFkOTc5NzE1NDg5YjIxYmU3NzE0OGQ0NmJjNDJkZDhjN2JjYjMyYjY3Yzg2ZTk2NjcxMDY0ZDQyNjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU0OGQwMjJmZDlmZGRjMjlkNzQ0MjdmYjlmNjgxMzhlMDI3M2JhMmJjNGJiN2FhNTdiMTEwN2ZiOGNlY2Y3NDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ1ZmVkZTZmNWI1NTNlMmUwM2NjOTZmMDFiYjNlYjcwZDI1N2JkNTU5ODk4MWNhZGRiYmJiNzc2ZDAzYzI4YWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZmMjE3MDg4YjVhMGQ1OTI0MjZjMjM0ZDY5MWFkNGVlMTUxYzJjNjkwN2NjMTQ0OTAwZmQ1NzUzMGM5MjcxMmMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_41b5f4917d7340619829b4a67bdd8c80",
+      "statement": "Three anti-affine Redis HA replicas cannot schedule on only two eligible workers when control-plane nodes are tainted; capacity belongs to Omni-Scale rather than reduced replicas or toleration workarounds.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L13-L16",
+          "version": "repo-lines-v1:sha256:d49e27ea2fdd3a46a63e65875bde0e5d5935a7b24179f1f151c2a75814179516:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWM5ZDJmYjQyMmYzZjhlM2VmY2QwODdhNDJlOTUyN2ZhYTIxYTgzMGMwNzI3OTJhMWEyMTFjNjRmMDVkZjdhMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTVkYzAxNTQwMGNjZDk1OTM5MjY0NWUzYzFlNmM2YWMzMDM3YTU4MTUxOTQ4ZTg1ZDA3NDVjMTQ4YTI5MDEwYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTgzYTBkMWY2Y2VkODAyZjE4YTE5MTY1Nzk3Zjc5Zjg5Yjc4ZTBhYTQxYzRhMWQwMmE0Zjg4MWQyZjk3MjgyMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWJhYjE0OGZlOGQxNzdiMWFjMzgwYTdlN2RkMDc3Yjg4YjI2YTlkOWQyZjEwODI3Zjk3ODBiNThjZTM4NzMxMSJ9"
+        },
+        {
+          "resource": "repo://docs/troubleshooting.md#L9-L31",
+          "version": "repo-lines-v1:sha256:1b50d54b1509d7516a56e0392337c86c962fddf76932672ff6b5dbb24afa7002:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4YzgzOWY2ODI2NTA1YzQ3OGEyODJkYTE5N2E5NzIwMzViMWQ3YjJiYjVmOTJmOWM3NmNiYTdmNzQzOTIyN2YiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk0MTBhOTk1MzgzMzA4YTgyMzljMmVhYzg1Yzk4MmIwMTdmY2E1Y2U3ZDg3MzBmZmNhNzRmNGUyOWY2NzY5NGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE2NWNmMjM0MzlkYzU2ODgwNjFkNDdmMWZmZmJmZWRmOTE5ZTRhM2QxMmY4NzM2ZjZhZjgzN2U0M2M3NGIwNzIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a29b5bf595154b38bc77043ded53a8ba",
+      "statement": "Imperative fixes are limited to documented break-glass procedures and must leave Git convergent; the SSA Recreate strategy failure permits removing stale rollingUpdate fields or replacement, with rollingUpdate:null as prevention.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L65-L69",
+          "version": "repo-lines-v1:sha256:bfe8e9f6426bf7289360113d34dc16924fff001f64c89198c7e061a5f9275710:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjE0ZjA0YjQ1ZjVjNDczMjY0YTk3NmJhYjFmY2JhNWNkMTJlOWZiZTdlZmY1MjAyMDM1MDk0Njc5ZjFjMDQyZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjVkMDQwYTVmY2Q4NzA1MmFkYmNiOGRhMzE4NDk5ZDFiZWNhNGUxMDgyYTI3OWU4ZDU0NGM2MzAyNjVmMzE2MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWVmM2YyNzBhMDcxOTIyY2VkY2ExYmQwMTBkZDYyMTFmZGY0N2JkYzMxNTYzYTk5NWVmNmVlN2Y3ODlmOGI0OSJ9"
+        },
+        {
+          "resource": "repo://docs/troubleshooting.md#L392-L417",
+          "version": "repo-lines-v1:sha256:cf2b46653a3adc2e04d1d66729fc4e3409bb7a7efcbcf64fac67c7667a8c0235:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmNjE5MzFlYWQ0NzMwYzM3MTk2MDMwZjQzYzUxZTc3MDZmNWFmNzIzMTg5N2YzOWI1MWQxZTIzNmU2MjQ5YzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmYjIzNjg1MzhmMjVmNDM1OTQ5YTUyOWVjNDQ4MjgxN2JmYjM4NWFlOWM4NGE0MTA1ODA0OWI1YjVjNmYyODEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk2M2UxOGE5ZjAyY2NiYWQ5ZTI4NWZjZWNmMTNjZDBhNmFhZGFkMmRjYTI2ZmM2N2I3ODZmN2RmMWM3NzViZTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU2OTdhYzU0MTMzMWY4YTYzNmUxNjVmNDFkYWRkMWZlODFhNjNhZjMyMmU2M2NjZDlhZTU2OTg5ZWQ2MzhlZWMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_744a3d60bb0849d587601ee892c0a307",
+      "statement": "Automated prune/self-heal is the default, but Longhorn parent and child and CoreDNS disable prune, while both ArgoCD HA stages and the cross-repo OAuth proxy retain manual promotion gates.",
+      "evidence": [
+        {
+          "resource": "repo://docs/architecture.md#L37-L50",
+          "version": "repo-lines-v1:sha256:000c2e57dc0360c15703ddf19a63e2f7e93ce23e2df76275c469826ce15e4903:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhMWFlMTgyY2EwYWViZjhmYmIzMmY0ZWU0YWNjODk0N2QxNjQwNjkxMjlhMmE1OTJlOTBkY2I4ZTkzM2IwYTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdhZjIwYWMxNjdiZDhkYjFkNzM1OWRlMmMyY2VlNDBmYWUzNTFmMjRlYTY2ZWM5ZjRlYzMzYmUxMTAwNjhjNjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ2OTQ4YWE1N2RjNmMyMzliNmY2NzcxNWU5ZjhjYzIyZTEzNjQwNzljNjBkYzhiYTJhMjE4MDM1OGRmNzJkYzIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_64c40b98667e451c83467ff969c91ce3",
+      "statement": "Repository change validation includes focused pre-commit checks and mise CI with Helm rendering/kubeconform, but the cluster-independent gate does not prove CRD semantics, admission, reconciliation or runtime health.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L78-L81",
+          "version": "repo-lines-v1:sha256:c97598925fea28c00e80bd3f657f60bad92ab17a204edd9f8ca679afd68b2154:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWM0NGFjNTU3NThhODVlZDcxMzUwODNmOWQ0MGRlZjM0NGU0YzczMTI2MjI4OTY0YmNlZmQ3YWMzZTI0MDA1MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWUwN2IwOTM2ZTU3Zjg1M2ZiNWQ2MDI2NGQwZGQzNTNiNWFmZTliNmE1MDg5YjgyOWVkMjllN2E2ZWJiODRmMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWQyNWU1OWY0M2M5OWUzNDI3ZGQwYzg3YWZmOTcyNzdmNmI5ZmU5MTlmNDAyZDg4YzgxYmZhMmFjZGU4ZmMyMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDE0NGVmNTY0NmU3NGViYTc2MTc1NzFkMjdlODIyYWI1YTA5ODA2NzViM2JhNGY0ZGZiOTU3M2Q5MTBmNDFmZiJ9"
+        },
+        {
+          "resource": "repo://docs/architecture.md#L80-L94",
+          "version": "repo-lines-v1:sha256:2ac4e810f07af2326e9a60b0e0de6035e61d1f927f538049fa54688e7f768d3e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxZTk1M2RlOGQwMzM5NTMwM2IzZDc2NjFiZDdjMWUxZmI3Yzg5ODBjYTFjOTZlZmJhNDBjOTJmMTU3YjlmZGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyM2M4N2Q3MzVjMWZkOGI2NzA0YzVlYTQ1NDVmZTIzYTliYzVjNTNmZGFhYWMyOTk4MjU3NGJkNGVkZDM1Y2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ1NjI5MzQzNjZjYWE2NmI0NDMwYTZkNGZlMDVlMDZjMjMyMmMyYjliMTQyMDY2NmE5NjZjZGMzMzllNjE0MWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhiNjNjMTBiMTg1MGYxYjY1YWU2NTYwNzdjYjk4NmQ5NjcxZTIxZjU2NjA2OTNhODE2NTAwZDczNzI3ZTU2OWQifQ"
+        },
+        {
+          "resource": "repo://mise.toml#L10-L25",
+          "version": "repo-lines-v1:sha256:329126ea6b499b5f5e4ed91459f0b14c3835b8b59657d7c206e40c640feccee5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1YmE5ZTcwMTJjMWFmYmY3NmIyNGM1MzJlZTllZGM5OTE0ZTAzYWVjMGE1Y2ZmNTU5MDQ3YWNmYWFhMDJkNTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3YzBmZDU4MDhkYmI4MzYxNjNmNmNkYWM4NGY1ODlhYzk0ZmVkYTIzY2E4ZTU0ODdjOGRkNjJiNmMzMDU1YzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMwNTI5MWYyZTc1M2JiN2Q2YTVjOGFlYjc0MDM2MzdkNDc4MjQwMzUwNWNkODM5YmM2MDEzN2IxNGI2NDY3OWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZiNTc4ODQxYmJiYmUzOTJhMzVmOTg0ZGFhODFiYWFhNjNiNDE1ZjQ5ZGJhMDA0NmRjMGExMGUyYjBkMGEyMjcifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-11T09:22:19.403Z"
+  }
+}
