@@ -23,6 +23,3 @@ run = "bash scripts/validate-gitops.sh"
 description = "Run the fast pull-request gate"
 depends = ["hygiene", "validate:gitops"]
 run = "echo 'Fast gate passed'"
-
-[settings]
-jobs = 2
