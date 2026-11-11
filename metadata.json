@@ -1,0 +1,70 @@
+{
+  "cli_version": "0.13.2",
+  "checkpoint_id": "01M75702GKC0VWQ47389B64ZWE",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    ".github/workflows/openwiki-update.yml",
+    "AGENTS.md",
+    "openwiki/.claims/architecture/reconciliation.json",
+    "openwiki/.claims/architecture/workload-services.json",
+    "openwiki/.claims/integrations/radar.json",
+    "openwiki/.claims/integrations/secrets.json",
+    "openwiki/.claims/integrations/tailscale-networking.json",
+    "openwiki/.claims/operations/bootstrap-and-triage.json",
+    "openwiki/.claims/operations/storage-and-backups.json",
+    "openwiki/.claims/quickstart.json",
+    "openwiki/.claims/testing/validation-gates.json",
+    "openwiki/.claims/workflows/application-changes.json",
+    "openwiki/.last-update.json",
+    "openwiki/.page-manifest.json",
+    "openwiki/INSTRUCTIONS.md",
+    "openwiki/architecture/index.md",
+    "openwiki/architecture/reconciliation.md",
+    "openwiki/architecture/workload-services.md",
+    "openwiki/index.md",
+    "openwiki/integrations/index.md",
+    "openwiki/integrations/radar.md",
+    "openwiki/integrations/secrets.md",
+    "openwiki/integrations/tailscale-networking.md",
+    "openwiki/operations/bootstrap-and-triage.md",
+    "openwiki/operations/index.md",
+    "openwiki/operations/storage-and-backups.md",
+    "openwiki/quickstart.md",
+    "openwiki/testing/index.md",
+    "openwiki/testing/validation-gates.md",
+    "openwiki/workflows/application-changes.md",
+    "openwiki/workflows/index.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "compact_transcript": "/0/transcript.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": "/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 1346,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 201088,
+    "output_tokens": 619,
+    "api_call_count": 3
+  },
+  "redaction": {
+    "replacements": 20,
+    "layers": {
+      "betterleaks": 0,
+      "connection_string": 0,
+      "credential_key": 0,
+      "credential_value": 2,
+      "credentialed_uri": 0,
+      "entropy": 17,
+      "key_context": 1,
+      "provider_token": 0,
+      "shell_stdin": 0
+    }
+  }
+}
