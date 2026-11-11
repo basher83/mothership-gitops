@@ -1,0 +1,7 @@
+review the repos changes and unstaged work and group them accordingly for commits, for openwiki work use "feat(wiki): bootstrap OpenWiki knowledge base" for everything else use judgement.
+
+---
+
+<send_user_message_question_reply>
+[{"answer":"Create the commits","question":"Should I create the grouped commits after validation, or leave a commit plan for you?","questionItemId":"[\"request_user_input_async\",\"call_5992ef23c9684f34b1fe973af6270220\",0]"}]
+</send_user_message_question_reply>
