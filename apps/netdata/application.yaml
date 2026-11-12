@@ -12,7 +12,7 @@ spec:
   source:
     repoURL: https://netdata.github.io/helmchart
     chart: netdata
-    targetRevision: 3.7.178
+    targetRevision: 3.7.179
     helm:
       valuesObject:
         image:
