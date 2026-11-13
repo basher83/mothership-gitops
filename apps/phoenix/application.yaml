@@ -12,7 +12,7 @@ spec:
   source:
     chart: phoenix-helm
     repoURL: registry-1.docker.io/arizephoenix
-    targetRevision: 13.0.0
+    targetRevision: 13.0.1
     helm:
       valuesObject:
         # PXI agent assistant (new in v17) left enabled: it uses Phoenix's
