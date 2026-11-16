@@ -3,24 +3,33 @@ name: OpenWiki Update
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 8 * * *"
+    - cron: "0 8 * * 0"
 
 permissions:
   contents: write
   pull-requests: write
+  id-token: write
 
 jobs:
   update:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           # Full history so `openwiki code --update` can diff HEAD against the
           # commit it last documented; a shallow clone hides that commit and the
           # update runs against an empty change summary.
           fetch-depth: 0
-
+      
+      - name: Connect to tailnet
+        uses: tailscale/github-action@v4
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          audience: ${{ secrets.TS_AUDIENCE }}
+          tags: tag:ci
+          ping: agents
+          
       - name: Set up Node.js
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
@@ -35,9 +44,11 @@ jobs:
         continue-on-error: true
         run: openwiki code --update --print
         env:
-          OPENWIKI_PROVIDER: openai-chatgpt
-          # OpenAI (ChatGPT login) authenticates through a browser login, which has no
-          # unattended equivalent. Supply CI credentials for it yourself.
+          OPENWIKI_PROVIDER: openai-compatible
+          OPENAI_COMPATIBLE_BASE_URL: "http://agents.tailfb3ea.ts.net/v1"
+          OPENAI_COMPATIBLE_API_KEY: "-"
+          OPENWIKI_OPENAI_COMPATIBLE_USE_RESPONSES_API: "true"
+          # OpenAI API via Aperture
           OPENWIKI_MODEL_ID: "gpt-6.1-sol"
           # Required for the LangSmith connector's code-mode pull to authenticate.
           # For extra workspaces, add OPENWIKI_LANGSMITH_API_KEY_2, _3, ... as repo
@@ -45,8 +56,9 @@ jobs:
           OPENWIKI_LANGSMITH_API_KEY: ${{ secrets.OPENWIKI_LANGSMITH_API_KEY }}
           # Optional: also trace this workflow's own OpenWiki run to LangSmith.
           LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
-          LANGCHAIN_PROJECT: openwiki
+          LANGCHAIN_PROJECT: "openwiki"
           LANGCHAIN_TRACING_V2: "true"
+          OPENWIKI_PAGE_CONCURRENCY: "4"
 
       - name: Remove transient OpenWiki run state
         if: ${{ !cancelled() }}
@@ -61,7 +73,6 @@ jobs:
           paths=openwiki,AGENTS.md,.github/workflows/openwiki-update.yml
           if [ -e CLAUDE.md ]; then paths="$paths,CLAUDE.md"; fi
           echo "list=$paths" >> "$GITHUB_OUTPUT"
-
       - name: Create OpenWiki update pull request
         id: create-pr
         if: ${{ !cancelled() }}
@@ -73,13 +84,10 @@ jobs:
           title: "docs: update OpenWiki"
           body: |
             Automated OpenWiki documentation update.
-
             OpenWiki result: ${{ steps.openwiki.outcome }}
-
             When the result is `failure`, this PR intentionally preserves only the
             pages completed before the failure. Merge it to make that progress the
             baseline for the next scheduled run.
-
       - name: Annotate OpenWiki update pull request
         if: ${{ !cancelled() && steps.create-pr.outputs.pull-request-url != '' }}
         run: echo "::notice title=OpenWiki update pull request::${{ steps.create-pr.outputs.pull-request-url }}"
