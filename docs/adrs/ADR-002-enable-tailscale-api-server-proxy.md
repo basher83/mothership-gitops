@@ -58,7 +58,7 @@ Authenticated proxy mode delegates Kubernetes identity through the Tailscale
 Kubernetes application capability. The adopted live tailnet grant permits
 tailnet members to reach `tag:k8s-operator` and impersonate
 `system:masters`. Kubernetes' built-in cluster-admin binding supplies the
-corresponding authorization in this single-administrator homelab.
+corresponding authorization for every tailnet member the grant covers.
 
 The tailnet policy is externally managed and is not currently checked into
 this repository. Consequently, the Helm value is source-verified here, while
@@ -76,9 +76,11 @@ availability impact of an Omni proxy or certificate failure. The additional
 path introduces another authentication, policy, and troubleshooting surface,
 but the demonstrated outage justifies that continuing cost.
 
-The `system:masters` impersonation grant is intentionally broad. It reflects
-the single-administrator homelab context and must be revisited before the
-tailnet or operator-access population expands.
+The `system:masters` impersonation grant is intentionally broad: every
+`autogroup:member` identity receives cluster-admin. That is acceptable only
+while every tailnet member is intended to have cluster-admin access, and the
+grant must be revisited before the tailnet or operator-access population
+expands.
 
 ## Alternatives Considered
 
@@ -105,8 +107,8 @@ ADR.
 ## Deferred Capabilities
 
 Kubernetes session recording, API request event recording, and an HA
-ProxyGroup remain deferred. The single-administrator environment has no
-identified compliance need for the recording features, and a single proxy
+ProxyGroup remain deferred. No compliance or audit requirement has been
+identified for the recording features, and a single proxy
 replica is sufficient for a secondary recovery path. A demonstrated audit or
 availability requirement should trigger a new ADR rather than silently expand
 this one.
