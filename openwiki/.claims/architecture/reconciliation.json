@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:4f0fc9631968ebe1dd28a42407a3822cad20448b0fbb85d0f0102cf6c0cdf958",
+  "pageVersion": "sha256:48096ad4fe3336dd970d0ba14c74de550e6286f9ca2b0b99345c78af80f99977",
   "claims": [
     {
       "id": "claim_b325b483778a4d16b64f7877bff199e1",
@@ -48,7 +48,7 @@
         },
         {
           "resource": "repo://apps/tailscale-operator/application.yaml",
-          "version": "repo-file-v1:sha256:dabfb590a9c5ada753c8d1e49498c07a23bb4311e7656cdde96f4a371fa58a17"
+          "version": "repo-file-v1:sha256:914979cf7d06fa1aa7d7983313c538ed883c3f5d5b8b11262f60f474b740ed25"
         }
       ]
     },
@@ -84,7 +84,7 @@
         },
         {
           "resource": "repo://apps/tailscale-operator/application.yaml",
-          "version": "repo-file-v1:sha256:dabfb590a9c5ada753c8d1e49498c07a23bb4311e7656cdde96f4a371fa58a17"
+          "version": "repo-file-v1:sha256:914979cf7d06fa1aa7d7983313c538ed883c3f5d5b8b11262f60f474b740ed25"
         },
         {
           "resource": "repo://apps/tailscale-operator/coredns-patch.yaml",
@@ -228,7 +228,7 @@
         },
         {
           "resource": "repo://apps/tailscale-operator/application.yaml",
-          "version": "repo-file-v1:sha256:dabfb590a9c5ada753c8d1e49498c07a23bb4311e7656cdde96f4a371fa58a17"
+          "version": "repo-file-v1:sha256:914979cf7d06fa1aa7d7983313c538ed883c3f5d5b8b11262f60f474b740ed25"
         },
         {
           "resource": "repo://apps/tailscale-operator/externalsecret.yaml",
@@ -349,10 +349,38 @@
           "version": "repo-lines-v1:sha256:21e03ea2f3a54b36b0832510696beb788ff14091ac7538e276ebde1e87859e0c:eyJzZWxlY3RlZExpbmVDb3VudCI6NjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4Y2VkM2VlMWZiNDIyY2UwZjEwNGIzYjk3YzcyZDMxNDI0OTNlZGYzMmE0MWQ3ZWQ1MTVlMTc1NzljMGFmYzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiMDU2NWUzNmFkNjY4YWRjMGNiMzk3Y2M1ODQ5MmRlOGU1ZTY1YTZkZTRlOWU3ODk1ZTgxM2Q4NTI2MGQ2NjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdkZjY4NjA0ZDYzY2VhZTdiYTJlNzMzMzc2Mjg5NjNiODk0YTE3YmI2OGM3ZmE4N2RlZmExZTRjYjMzZWUyNTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVhMjEwNTYwNTYwYTI2ODMwNWI2NTJmOWQwODJlMWU5NGRjYTQwMTJkYWFhYTU0N2QzMDU1ZTYwMDc5MWEwY2EifQ"
         }
       ]
+    },
+    {
+      "id": "claim_ab7c957cb07344f5b3b8450ad7d2d9fa",
+      "statement": "The Tailscale chart Application is pinned to 1.104.7 and uses automated prune and self-heal with ServerSideApply and RespectIgnoreDifferences enabled.",
+      "evidence": [
+        {
+          "resource": "repo://apps/tailscale-operator/application.yaml#L12-L49",
+          "version": "repo-lines-v1:sha256:bd68dd36639f5274d3c63a49b5960e7c3a447d70600de8b459af75d58cf99a0c:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQzYzY1MDUyOWMzZTNmZDMzMjA2NDc4NGNlZmVkMDVmMDgyOGU4MmQ5Y2EwY2RmYjY5YmIwYWQ4Mjg2ZGIyMzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ3MWZlOWJhMjRlNTc3ZWRhOGJkM2Y0NzcxZDg0NTQwOGNhZjMwZGY3NmM5ZTJhYWRkYzUwNmJhOTEyNTJhZDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYwNmJlZTM5MWE2MDU3YjNjMDE0MDdkNDcyYzgyNzQ0MzhmNDMwZTA2NTg4MTRmOTAxMWZjNWRiNzE0ZTZkNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f0cf6f97f1944e4489b9fae2c41a351c",
+      "statement": "Tailscale's committed apiServerProxyConfig.mode is \"true\", enabling the authenticated Kubernetes API proxy; this is separate from the external Anthropic OAuth Proxy Application's manual promotion gate.",
+      "evidence": [
+        {
+          "resource": "repo://apps/anthropic-oauth-proxy.yaml#L10-L25",
+          "version": "repo-lines-v1:sha256:3b73fbe7ca5094431aefbabc3baa4893e916d25599f08613905a1f9656a78fa7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlOTFlNTFjZTUzOGVmMTIwZWUyMGNiZGY5NDE1OGJhY2UxY2MxMTc5MDZmODY0ZmVkMmQ5NGUzNzExMGNiMjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgzODE2ZDkxOTgzMDQ5ZTMwN2Y2NWQ5YmNiNjRhYjYzYWM0MzFjNzMwZGUyYjcyNzRkZTMxYTA5MjFhYTE0NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ5YTlhMjM1MDczMjcwNmFmNThjNjQyMTQxYmMyZDlhNjdlNjE1ODA5YzdlZDE2M2Y0M2ViMTljNGZkYmVlZDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://apps/tailscale-operator/application.yaml#L27-L28",
+          "version": "repo-lines-v1:sha256:2a8c74ff772ec56e373ed5e0df0283cd8f51765418777db75dae0d383dd8a84e:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzc5OGI2OTVlY2E3YjZjNDJjNTQyNDNiNGYwNmQxNjhiNjgxOTE2ZDI3N2UwYjgyZjQwNzc3NDg2MzRlMzY5YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGU4NmVkNDU2YThmYTZlOGU2MTIyOGEwZGM2MWUyMGFhYjFmNzVjOTA2ZDc2YTQ0Y2FhZjdhZGY2MmRhYWMyYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2ZhNmFlNzFkNmMzYzIwYzMxNzc1ZWE0M2NjMTJhZDJlMGFhZjg0YjVlYjJhYjExMjcyN2IzOWE4NTI5YjVkNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWRkNTBlMWJiNjAyZmY5OGJhOGZmNDYwMGMzMWM1MWJlMDFkNTQxZTIwZThiMTU0ZmNkNzJjMjVmYjk0YmE1YiJ9"
+        },
+        {
+          "resource": "repo://docs/adrs/ADR-002-enable-tailscale-api-server-proxy.md#L21-L46",
+          "version": "repo-lines-v1:sha256:fb87f0a0e98f79aba6fb210bbd2d029b41cb9e03f6d07dbab2511acf887edeae:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdkM2RiYzRlN2U3Y2JlNWRkYzg5MWIwODA3MTJmNjM1MWM5NGI3MjhlYzhiZDg1NTZmNDYxMmIwNzBkMjdiNDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3NTZiODNmODMxYWYwZTQzOGQ3NzY1NmUyYjdmMWNkNzFhMWU2NzJkMGU2YWY3OWI4OWFkMWJhOWRkMjM5ODgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIxYTE4NmQwNGFjNGM3MzRmZWViM2VhNzU3NTc3YWY0NzQ1OTdmZTVmMDUwOWY5MjA1NDJiNTE2MDliZjFiYTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc0ZDk3YzM2NzM3OTA4YmM0ZGUwOTBlNjc2OWUzYmFlMGZlMjRkMDI4OTllZGRmZDM3ZmRjNjk2NjVjMDUwYWQifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.9.0",
-    "at": "2026-11-11T09:22:19.403Z"
+    "at": "2026-11-22T15:48:05.788Z"
   }
 }

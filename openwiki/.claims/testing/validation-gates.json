@@ -1,38 +1,42 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:c275ec101ae63f281f9c581e194a77fa6cded83f20dfb5f713d47d1119b1815c",
+  "pageVersion": "sha256:2b283effb5d7bb0634315d5e09f9d0a36f04a61aedc113145977beff1e2561c2",
   "claims": [
     {
       "id": "claim_b79a841106c246728a2f3a6356e68058",
-      "statement": "Mise installs pinned Helm, kubeconform, pre-commit, ripgrep, and yq tools; ci depends on hygiene and validate:gitops, while validate:renovate is a focused schema-hook task.",
+      "statement": "mise.toml requires Mise 2026.8.12 or newer and pins Helm 4.3.2, kubeconform 0.8.0, pre-commit 4.7.0, ripgrep 15.2.0, and yq 4.54.3; ci depends on hygiene and validate:gitops, while validate:renovate runs the focused check-renovate hook.",
       "evidence": [
         {
           "resource": "repo://mise.toml",
-          "version": "repo-file-v1:sha256:e6c3b92b3a6958211542214fdee793e6d1bcd0a22dd058cd012397cbd083c862"
+          "version": "repo-file-v1:sha256:faaaa2d484f77b476df20b6840727b09e476a2f91d441aff21e6978d17bead9b"
         }
       ]
     },
     {
       "id": "claim_a6570fcb8cc14d6481beb3da264d73f0",
-      "statement": "Repository hygiene runs pre-commit across all files, covering whitespace, EOF, conflict markers, large files, multi-document YAML parsing, private keys, relaxed yamllint, and Renovate and GitHub workflow schemas.",
+      "statement": "Repository hygiene runs pre-commit across all files, with hooks for whitespace, EOF, conflict markers, large files, multi-document YAML parsing, private keys, relaxed yamllint, and Renovate and GitHub workflow schemas; the global ^openwiki/ exclusion removes generated wiki content from every hook.",
       "evidence": [
         {
           "resource": "repo://.pre-commit-config.yaml",
-          "version": "repo-file-v1:sha256:7dab88cecb3cc82b2d1a15ce85483cf7b1ff2a3a78eda19b9e3e2dd0499c787f"
+          "version": "repo-file-v1:sha256:d35e9a674d1e6b873b795517892197256fbc29d5c780da083c508e7abf3c4324"
         },
         {
           "resource": "repo://mise.toml",
-          "version": "repo-file-v1:sha256:e6c3b92b3a6958211542214fdee793e6d1bcd0a22dd058cd012397cbd083c862"
+          "version": "repo-file-v1:sha256:faaaa2d484f77b476df20b6840727b09e476a2f91d441aff21e6978d17bead9b"
         }
       ]
     },
     {
       "id": "claim_98b31fa236d945ffbbb38ab2004dd332",
-      "statement": "Fast Gate runs mise run ci on pull requests and pushes to main and renovate/**, with read-only contents, a ten-minute Ubuntu job, Mise installation, and cancellation of superseded workflow/ref runs.",
+      "statement": "Fast Gate runs mise run ci on pull requests and pushes to main and renovate/** with read-only contents, a ten-minute Ubuntu job, SHA-pinned checkout v7.0.1 and mise-action v5.2.9, Mise 2026.11.8 with caching, and cancellation of superseded workflow/ref runs; this CI Mise pin is separate from the repository minimum.",
       "evidence": [
         {
           "resource": "repo://.github/workflows/fast-gate.yml",
-          "version": "repo-file-v1:sha256:9db8780afd4fdfdeec2c96885fc84d0f022644ef37a31f15e7edd9f6a2b26ea0"
+          "version": "repo-file-v1:sha256:9b663196f87184f3095e34210e5209b00120b3fa8a6d65d057799294913dabde"
+        },
+        {
+          "resource": "repo://mise.toml#L1-L8",
+          "version": "repo-lines-v1:sha256:788c774ed4bb3f570e58aa94cad3d47a3d4dbc80afd470f703e7c014c0caa20a:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2UxYThhYjYyMDhmZWY0MzVlZWQzYzg1ZDQwNmNkNDBlMjI5Y2RjYWM5NDU5MGM0Nzc1MWEwYzZkOGM2NjMwOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTUzZTJhMjI1ZGIzZmJhMmQwYjc0YzhhMjA3NTdhODMzYzc5MmRiYjFkZDdjN2NjZjU0ZDdmNzhkZGIzNDMxOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmUyMzZlNjVhNjQyZDliMjNjMjQzZWZmMDMyYTcyZjg4MTk0OTg5ODI1NWVkYzNhMWYyZjM2YTJmOGQ4NjZiOCJ9"
         }
       ]
     },
@@ -255,10 +259,70 @@
           "version": "repo-lines-v1:sha256:199928a6f9ea4f9162e4ae58752768b7a40e018388a85b331d8853ebf4554835:eyJzZWxlY3RlZExpbmVDb3VudCI6NjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdkOTc4Y2E2MWQ3MjE1OTZkOTE5MGRjODNlYWEzZmQ0NmViMmNmN2FlMjc2ODYxMjc4NjQ2MzQ1NTJkYzFmMGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwYzc5MmYzYjQyYzJhNDVlZDliZDQ1YzIwMmQxM2RjM2E0YzNkMzMyN2QxZTVlMWNjZjNlZjEzNTI1MGQ0MjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI2OGQ0MjAwMDI5MmQ5MmE1NTExM2RhMjU3NTM4MzMyYmYyN2M5MWM4MThjOGM2ZTQzNzAzMjljZTA5YjgwODUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_91e2f4cf4d8b4b5cbc8d248fb50417e1",
+      "statement": "Only trailing-whitespace and end-of-file-fixer additionally exclude .github/workflows/openwiki-update.yml using an anchored pattern; other applicable pre-commit hooks, including YAML parsing, yamllint and workflow schema validation, still check that workflow.",
+      "evidence": [
+        {
+          "resource": "repo://.pre-commit-config.yaml",
+          "version": "repo-file-v1:sha256:d35e9a674d1e6b873b795517892197256fbc29d5c780da083c508e7abf3c4324"
+        }
+      ]
+    },
+    {
+      "id": "claim_7d5ffae98b844b1bb4516b312e8ce285",
+      "statement": "OpenWiki Update is separate documentation maintenance, triggered manually or Sundays at 08:00 UTC; it uses full-history checkout to retain the previously documented commit for update diffs and does not invoke mise run ci.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml",
+          "version": "repo-file-v1:sha256:bd9b27be772c72213d39a9a7f00979fbf78107a018c3c65953fb730e693082de"
+        }
+      ]
+    },
+    {
+      "id": "claim_695c450c92ff4a6ba78fbd8b43b44cb3",
+      "statement": "OpenWiki Update grants contents, pull-requests and id-token write permissions and uses tailscale/github-action@v4 with tag:ci and ping agents, referencing TS_OAUTH_CLIENT_ID and TS_AUDIENCE secrets for tailnet access.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L8-L31",
+          "version": "repo-lines-v1:sha256:1a47a2b97d232e656dd382cba060c4d480b27b98169cd0df31dd9d4626819f10:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM1MjYyNDdlZGUwMDZlOWJkYWI5YzY4NTA3Mjg0MjVkMWI0MTY2Y2FmNWNhYzUwY2YwOTU1YzQ0ZDI0YzFhOGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJiMjVlNzI3NzJmNWI4MGMwYzY5NjkyNmQ2OGI0MGY4Mzc1MDlkYTQwYzlmMmVhNGM0MTE3YzYzNDcyMDg5MDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE3YjU4NjM3ZGQ1NzBkODA2YTFiYWYzZTY2ZGEzM2M1YTJjNTYwNmM3OWY3YjdlYWM4YjljODdjYjQzNGM1N2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdlZjE2ZTNjOGI1NGUyYjIwNDgxOTZhYmI0Y2Q4MGQyMmE1MDhlY2Q2MDc0NjEyNGEyZWEyZGNjMzQxNzk5ZDEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b8651b8f10204ed2868bd6ccc25f47c9",
+      "statement": "The maintenance job installs Node.js 22, OpenWiki 0.9.0, Mermaid 11.16.0 and jsdom 29.1.1, then runs openwiki code --update --print with four-page concurrency against the OpenAI-compatible agents endpoint using the Responses API and gpt-6.1-sol; the API key entry is a placeholder, OPENWIKI_LANGSMITH_API_KEY is required for connector authentication, and LANGSMITH_API_KEY supports optional tracing.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L32-L62",
+          "version": "repo-lines-v1:sha256:edb83f767ebf3b79ecd5cf8084e50734d07e57727dc74c7d71eeac9f8772f3a3:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM3MmEzNzIzNmJmNzgxOGVmYWVkY2I5NDhlMmI3ZmZjNzE5OWVlOWM3N2ZjNzdhZDk5N2RlOTU3NjljZjQwNjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlhODM5MDY3ZjQ3YmViMWNhMDhjNzEwYjcxZTU5OGIwNDAyY2MxZmQxODRmYmFmZmIwNjQxYmU5MjVlZjhhN2EifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2906e2721ac14134a73b13b6f5a175f4",
+      "statement": "OpenWiki generation continues on error so noncancelled cleanup and PR steps can preserve completed partial pages: cleanup removes openwiki/.run.json, staging includes openwiki, AGENTS.md, the maintenance workflow and CLAUDE.md only when present, and PR creation uses openwiki/update with the generation outcome and partial-progress explanation.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L41-L90",
+          "version": "repo-lines-v1:sha256:d60048e2f102d51441d1595e81f8ec0cb28481cf2f29a24f17a3b63262e0cb92:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMzNjE3ODE1YmY5YzBlZGQ4MjRhMWVmNDcwOGI4NTgyZmRjN2I3MTk5NWU5ZjlhOGJkYzg4ZmI0YmRjMTRkZDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU5NmEwOTU4OGJmZDQ1MGFlYWU2ZWQ3ODJkYjQ5OWJjMDU0YzIzYzEwZTZlMjQ5ZTU3YWNhM2JmNmMwM2IzOGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJkMjNlMjAxZTk5YzUwNDI3ZmJiMjMxMjExMjVlZjYyY2NhYTE4NzBmMzlkZWRlYjIxOGY0NWQ0NThkNmU3N2MifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_71e6483f7a6a4339b1c1a9d2f74433db",
+      "statement": "After the maintenance PR attempt, a notice reports a PR URL when available, and an OpenWiki failure outcome triggers exit 1; preserving partial pages does not suppress final generation failure.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L91-L97",
+          "version": "repo-lines-v1:sha256:1a08f7670fe406e14442540f76b4ae3e885802dd635a67cb154922dff96c2ed2:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTI1OGZmNWRjYTQ0Mzk4NjAyMmQ2NWU2MGQwYmZjOWFkZTk2NWRlYzYyZDU3NmIyY2Y5YzUwYmY0NWI3NTRjMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzY3MThmMDY3YjVlNWMxZjA5OTFhNmU3NDcyNmZlMmEyM2QyNjQzNDVlMDhlNGVhZDA0ZmFmNzNjMjdlZDQ0MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTBmZDk1YmUxMTY3OGU5MWFlMWU2NTNjZjM4YWQ4NTBlNWNjNzk1ZDMzZWEzZWUwMjg5ZGE3NThhNDQ5MjMyYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.9.0",
-    "at": "2026-11-11T09:22:19.403Z"
+    "at": "2026-11-22T15:48:05.788Z"
   }
 }

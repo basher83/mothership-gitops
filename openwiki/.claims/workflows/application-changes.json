@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:1b58edec03bc04b50b64dc51461e8abdcb8f9d4c0b5e8a35da15289d3bff739a",
+  "pageVersion": "sha256:e83b34dc0323acd8ad97d40cc2bc12d5475fdff04e8b4f36e9a7b465c20b99a9",
   "claims": [
     {
       "id": "claim_1f34b56d41f84634a2c3799e5ea2928d",
@@ -180,11 +180,11 @@
       "evidence": [
         {
           "resource": "repo://.github/workflows/fast-gate.yml",
-          "version": "repo-file-v1:sha256:9db8780afd4fdfdeec2c96885fc84d0f022644ef37a31f15e7edd9f6a2b26ea0"
+          "version": "repo-file-v1:sha256:9b663196f87184f3095e34210e5209b00120b3fa8a6d65d057799294913dabde"
         },
         {
           "resource": "repo://.pre-commit-config.yaml",
-          "version": "repo-file-v1:sha256:7dab88cecb3cc82b2d1a15ce85483cf7b1ff2a3a78eda19b9e3e2dd0499c787f"
+          "version": "repo-file-v1:sha256:d35e9a674d1e6b873b795517892197256fbc29d5c780da083c508e7abf3c4324"
         },
         {
           "resource": "repo://docs/architecture.md#L85-L98",
@@ -192,7 +192,7 @@
         },
         {
           "resource": "repo://mise.toml",
-          "version": "repo-file-v1:sha256:e6c3b92b3a6958211542214fdee793e6d1bcd0a22dd058cd012397cbd083c862"
+          "version": "repo-file-v1:sha256:faaaa2d484f77b476df20b6840727b09e476a2f91d441aff21e6978d17bead9b"
         }
       ]
     },
@@ -251,10 +251,42 @@
           "version": "repo-lines-v1:sha256:71ac92efc145a60e5160c22ea37561656ca87657c9e8bdff763cc4bf943ba5fb:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE2NmI5NjFlZjFmZTU2NjgyYzJjNzllODM3NmNmNWI3N2E0MjA3MmJmMzJmYmZhOGI1NjY3Njk1MWM2N2ZlODQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwNDEyYjE0MTc1ZTQ1MGI2ZGRhNzFjNjQ1NjdjYjc0NDE5N2U0NzIyYjkwNWMwNjlmZjgyZTkwZWMxNDY3M2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc1OTY0Y2Q4NGNlMTI5OGEwY2Q0M2U2ZmJkMjljZThjYmY5ZGYwZDc3OTZiYmU3ZjI5NDg1NWRlNDk4MWZlMjYifQ"
         }
       ]
+    },
+    {
+      "id": "claim_73c1ec63959747e6a906fd1d1475aeb3",
+      "statement": "Normal source changes still require pre-commit run --files <changed> before committing, while .pre-commit-config.yaml globally excludes generated openwiki/ files from hooks.",
+      "evidence": [
+        {
+          "resource": "repo://.pre-commit-config.yaml#L1-L2",
+          "version": "repo-lines-v1:sha256:77619837783772d0d91950362b7bba9dc74a7b6397779a135cfdadcd5a026ea3:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzk2N2Y3NWYzYzM2MzhkZTcxMzVmMDM3N2Y0NWRjNTFhZmM3ODViYWU3MTBiZGFhNTc5NTJlZTQyMWY5MTEwMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTBkZjdhNmUyMjJhYjI5NDYzOTg1NDAyYmRiMWJlYzA5OTNjMDgzNmZlZTFhNmRlYTEzYWU2ZTc3MDVlZmNkZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTJjMGY1NDE2OTk5YzIxM2ZhNzg1NDNhZTgyMjdiZThiNDMzNWY4ZDcyMzZhZmVhN2I4OTgyMTU3ODZjZWYzZSJ9"
+        },
+        {
+          "resource": "repo://AGENTS.md#L69-L84",
+          "version": "repo-lines-v1:sha256:48278c1138a7773360f130d118936419ce74e4550eebb92a8246eafdfa4dfccc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIxNGYwNGI0NWY1YzQ3MzI2NGE5NzZiYWIxZmNiYTVjZDEyZTlmYmU3ZWZmNTIwMjAzNTA5NDY3OWYxYzA0MmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYwMGQ5YTQ2YmM2NjdlZjVjZjdiYWY5MzA2ZTVlMzcwZWZlODJiODYzODg1MGI0Y2Y1MDM3MzQ4NjQ0ZWQyMzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZkZjJlOWQ0ZDRiOGFkOWU4OGE0NzIyOTU4MzFkYTJkOWYyNTY4Y2MyZDEyYWJjZTAwZTdlYmUzYzYxN2EyY2EifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_98e593284bf94c8c9b216e2af541f268",
+      "statement": "OpenWiki is a generated evidence index rather than the authoritative home for durable operational knowledge: maintain the matching source docs first, use the repository maintenance process to refresh generated pages, and check configuration and completed runs before relying on automatic updates; hand-editing generated pages is reserved for explicit requests.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml",
+          "version": "repo-file-v1:sha256:bd9b27be772c72213d39a9a7f00979fbf78107a018c3c65953fb730e693082de"
+        },
+        {
+          "resource": "repo://AGENTS.md#L21-L33",
+          "version": "repo-lines-v1:sha256:0fb93f343f0f138e853a8e5c9fb851e01cd0070e6404f409eadefbb19109b29c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhjMjIyMjQyM2EzMGZmNWZjNDk4YTNiY2E1YWY0MTRlMzExMWEwZjk3ODY0NjZmMWY4OGQ2ZDllNjkyODMyMjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQxMWFiMjYzNTM3YmM4YTAwMDEwMzg0YzMwZDM4ZjQ3Yzg5OGRlZWVmMDQyNDllMTQ5ZGM2MGQyZjFlMDNhZTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEifQ"
+        },
+        {
+          "resource": "repo://AGENTS.md#L98-L113",
+          "version": "repo-lines-v1:sha256:84988e87afc5dbaaa3ec4709835ca5d2d679bff7794a471ad5f991d8305ccfaa:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhjMTYxOGRlODA4NmQ4NDVhZjA3NjYzYTU0MTkzOGUzZWNhZjRiYjliM2NiNzU4NjBhYzY4MDk5NTY3NjNkZmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhZmY4MDhlYmQ5YTBhZGYxN2Y3M2IxMzM1ODk4MzZiOTE1Y2FlM2I5ZWM4OTIwMTNhYzI3Mzc0NDlmMzA3MDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY1YmI3Y2Y4N2RhMTBmNjFhNTJjYjM4MTkxODkwNWFhNmU4MTFjZjcxMjc5YzA5YjUyOWEzNzQyN2VjNWEyZjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMwODlkZjkzZjhiYTU3YTRkZGJmZDhmMDEzOTYyYzM5NzhjZTRkYjY4MTk5YzRkYTY2NjY0OWIwOTk2Y2VkYTkifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.9.0",
-    "at": "2026-11-11T09:22:19.403Z"
+    "at": "2026-11-22T15:48:05.788Z"
   }
 }

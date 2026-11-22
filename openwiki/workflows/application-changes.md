@@ -5,10 +5,12 @@ description: Plan application layout, dependencies, exact Helm chart pins, valid
 tags: [gitops, applications, helm, renovation, deployment, rollback]
 verified:
   - by: openwiki/0.9.0
-    at: 2026-11-11T09:22:19.403Z
+    at: 2026-11-22T15:48:05.788Z
 sources:
   - id: openwiki-source-3317c37c8efcc638f3359745
     resource: repo://.github/workflows/fast-gate.yml
+  - id: openwiki-source-6d4b4e707b8d60b6ccfa3425
+    resource: repo://.github/workflows/openwiki-update.yml
   - id: openwiki-source-4d1645cb6317345817452838
     resource: repo://.pre-commit-config.yaml
   - id: openwiki-source-8037e2358a2c4f9b2c722a11
@@ -33,7 +35,7 @@ sources:
     resource: repo://renovate.json
   - id: openwiki-source-8175f678b4142601a495a04e
     resource: repo://scripts/validate-gitops.sh
-generated: { by: "openwiki/0.9.0", at: "2026-11-11T09:22:19.403Z" }
+generated: { by: "openwiki/0.9.0", at: "2026-11-22T15:48:05.788Z" }
 ---
 
 # Add, upgrade, and promote applications safely
@@ -124,6 +126,8 @@ Before committing, run the required changed-file checks:
 pre-commit run --files <changed>
 ```
 
+This remains required for normal source changes. The global `exclude: ^openwiki/` in `.pre-commit-config.yaml` excludes generated wiki files from all hooks; it does **not** waive changed-file checks for application manifests, authoritative docs, or other non-excluded source files.
+
 For chart or manifest changes, use the repository gate as well:
 
 ```bash
@@ -136,6 +140,8 @@ mise run ci
 `mise run ci` combines the render gate with pre-commit hygiene, YAML checks, and Renovate/GitHub Actions schema checks. The repository-owned `Fast Gate` runs on pull requests and pushes to `main` and `renovate/**`. Renovate branch pushes provide a check before PR creation under the inherited `prCreation: not-pending` policy. See [validation gates](../testing/validation-gates.md) for the testing boundary.
 
 Keep one concern per commit and use an app-scoped conventional commit. Describe the actual parent or child Application changed, not a broader safety property the diff does not implement. If the change introduces a caveat, value-key trap, or new sync-policy exception, update the matching authoritative doc **in the same commit**: architecture for policy, adding-applications for patterns, troubleshooting for failures, or backup-storage for persistence. Do not hide durable operational knowledge only in a commit message or duplicate bootstrap commands.
+
+Treat `openwiki/` as a generated evidence index, not the authoritative place to record that knowledge. Update the source docs first, then refresh generated pages through the repository's maintenance workflow rather than hand-editing them unless explicitly asked. Check the workflow configuration and completed runs before relying on automatic refresh. See [validation gates](../testing/validation-gates.md) for tool pins and generated-wiki maintenance details.
 
 ## 5. Promote deliberately and prepare rollback first
 

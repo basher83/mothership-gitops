@@ -5,8 +5,10 @@ description: "Start here to identify ownership, authoritative entrypoints, and t
 tags: [gitops, orientation, argocd, task-routing]
 verified:
   - by: openwiki/0.9.0
-    at: 2026-11-11T09:22:19.403Z
+    at: 2026-11-22T15:48:05.788Z
 sources:
+  - id: openwiki-source-6d4b4e707b8d60b6ccfa3425
+    resource: repo://.github/workflows/openwiki-update.yml
   - id: openwiki-source-8037e2358a2c4f9b2c722a11
     resource: repo://AGENTS.md
   - id: openwiki-source-8223aa7ee93a67a7e22499e2
@@ -25,7 +27,7 @@ sources:
     resource: repo://README.md
   - id: openwiki-source-8175f678b4142601a495a04e
     resource: repo://scripts/validate-gitops.sh
-generated: { by: "openwiki/0.9.0", at: "2026-11-11T09:22:19.403Z" }
+generated: { by: "openwiki/0.9.0", at: "2026-11-22T15:48:05.788Z" }
 ---
 
 # Mothership GitOps: orientation and task routing
@@ -39,7 +41,9 @@ Mothership GitOps answers **what runs on `talos-prod-01` after the Omni-managed 
 - **Working rules:** [AGENTS.md](../AGENTS.md) governs changes and wins if another document contradicts it. Durable operational knowledge belongs in the matching source document under `docs/`.
 - **Installation and rebuilds:** [README bootstrap](../README.md#bootstrap) and [recovery](../README.md#recovery) are the command authority. Follow them directly; this page does not maintain a second bootstrap recipe. Applying the bootstrap manifest alone is not a complete cluster installation: prerequisite CNI, ESO, Longhorn, and non-HA ArgoCD installation comes first.
 - **Reconciliation entrypoint:** [bootstrap/bootstrap.yaml](../bootstrap/bootstrap.yaml) creates the `root` Application in `argocd`, tracking this repository's `main` branch at `apps/`. [apps/root.yaml](../apps/root.yaml) declares the wave-ordered platform Applications; standalone Application YAML in `apps/` is also discovered. This is an App of Apps graph, not one flat Helm release.
-- **Local checks:** [mise.toml](../mise.toml) pins the validation toolchain and defines the hygiene, GitOps validation, and combined CI tasks. The operator `argocd` CLI is installed separately through Homebrew; use the [CLI guide](../docs/argocd-cli.md) for context setup and access modes.
+- **Local tools and checks:** Use mise **2026.8.12 or newer** with [mise.toml](../mise.toml): it pins Helm `4.3.2`, kubeconform `0.8.0`, pre-commit `4.7.0`, ripgrep `15.2.0`, and yq `4.54.3`. Tasks cover `hygiene`, `validate:renovate` (Renovate schema), `validate:gitops`, and the combined `ci` gate. The operator `argocd` CLI is installed and upgraded separately through Homebrew, not pinned by mise; use the [CLI guide](../docs/argocd-cli.md) for context setup and access modes.
+
+**OpenWiki is optional just-in-time context, not required startup reading.** Retrieve only the relevant sections when architecture or dependency behavior is unfamiliar, source inspection leaves an important uncertainty, or the user requests it; do not preload the wiki. Source code and tests remain authoritative. For normal maintenance, update source code/docs and regenerate rather than hand-edit generated pages. Check the [update workflow](../.github/workflows/openwiki-update.yml) and completed runs before relying on automation; route refresh and generated-wiki validation questions to [validation gates](testing/validation-gates.md).
 
 ## Route by task
 
@@ -48,7 +52,7 @@ Mothership GitOps answers **what runs on `talos-prod-01` after the Omni-managed 
 | Understand sync order, drift, deletion, or a parent/child Application | [Reconciliation and promotion boundaries](architecture/reconciliation.md) | Establish which Application owns the change and whether sync is automated or gated. |
 | Add an app, change Helm values, upgrade, or promote a revision | [Application change workflow](workflows/application-changes.md) | Follow layout, dependency, exact-version, validation, and promotion rules together. |
 | Inspect a failing app, bootstrap, or recover a cluster | [Bootstrap and triage](operations/bootstrap-and-triage.md) | Start with diagnostics and the authoritative README procedure rather than ad hoc live mutations. |
-| Check what local or CI validation proves | [Validation gates](testing/validation-gates.md) | Separate rendering and schema checks from live reconciliation and runtime verification. |
+| Check local/CI validation or refresh generated OpenWiki | [Validation gates](testing/validation-gates.md) | Separate static checks from runtime verification; follow generated-wiki maintenance and validation guidance. |
 | Wire credentials or diagnose ExternalSecret drift | [Infisical and External Secrets](integrations/secrets.md) | Follow the credential ownership chain and controller-default handling. |
 | Expose a UI, reach a tailnet service, or diagnose DNS/access | [Tailnet networking](integrations/tailscale-networking.md) | Distinguish ingress, egress, operator mutations, and cluster-internal access boundaries. |
 | Change Radar UI, MCP, or ArgoCD diff access | [Radar integration](integrations/radar.md) | Review its API authorities, access restrictions, persistence, and validation contract. |

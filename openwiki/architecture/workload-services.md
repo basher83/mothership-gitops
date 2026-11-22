@@ -5,7 +5,7 @@ description: Runtime state, secrets, network dependencies, and upgrade hazards f
 tags: [architecture, workloads, observability, secrets, llm, gitops]
 verified:
   - by: openwiki/0.9.0
-    at: 2026-11-11T09:22:19.403Z
+    at: 2026-11-22T15:48:05.788Z
 sources:
   - id: openwiki-source-cb5eccfa5885c550d7c54c72
     resource: repo://apps/anthropic-oauth-proxy.yaml
@@ -37,7 +37,7 @@ sources:
     resource: repo://scripts/validate-gitops.sh
   - id: openwiki-source-b4432958d311f87ee678cc22
     resource: repo://specs/oauth-proxy-boundary-remediation.md
-generated: { by: "openwiki/0.9.0", at: "2026-11-11T09:22:19.403Z" }
+generated: { by: "openwiki/0.9.0", at: "2026-11-22T15:48:05.788Z" }
 ---
 
 # Dashboard, telemetry, and LLM workload contracts
@@ -56,6 +56,8 @@ Sources: [Homarr values](../../apps/homarr/application.yaml), [encryption Secret
 
 ## Netdata: claiming and collection are separate contracts
 
+The declared Netdata chart revision is **`3.7.180`**. This dependency pin does not establish the deployed image version or a change in runtime behavior; preserve the claiming and collection contracts below when reviewing upgrades.
+
 Both `parent` and `child` enable claiming, leave chart `token` and `rooms` values empty, and load `netdata-claiming` through `envFrom`. The actual ExternalSecret mapping is authoritative:
 
 | Infisical key through `infisical-netdata` | Kubernetes environment key |
@@ -72,6 +74,8 @@ The `k8sState` Go collector configuration sets `default_run: no` and explicitly 
 Sources: [Netdata values](../../apps/netdata/application.yaml), [claiming mapping](../../apps/netdata/externalsecret.yaml), [telemetry troubleshooting](../../docs/troubleshooting.md#radar-shows-no-cpu-or-memory-samples-while-netdata-is-healthy).
 
 ## Phoenix: SQLite state and stable provider encryption
+
+The declared Phoenix chart revision is **`13.0.4`**. It is not a deployed application-image observation and does not establish whether the historical experiment deadline described below changed; verify the exact running release before applying that diagnosis.
 
 Phoenix disables PostgreSQL and uses SQLite with a **10 GiB Longhorn RWO volume**. It uses `deployment.strategy.type: Recreate` and explicitly sets `rollingUpdate: null`. Both matter: under ServerSideApply, setting only `type` can leave stale `rollingUpdate` subfields behind, causing Kubernetes to reject the Deployment. Inspect the rendered strategy on upgrades rather than assuming chart value names are interchangeable with Homarr's.
 
