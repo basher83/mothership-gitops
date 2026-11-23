@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:680f250cd635234cca7b1e223f0e04256751c4de18a1136bae975df0ffcc3af1",
+  "pageVersion": "sha256:7a9c8cb1148987168a788368dc7f45c336fd5631757713038640553c34716857",
   "claims": [
     {
       "id": "claim_f407575ce8ba4cb1b264a50e83259eea",
@@ -94,7 +94,7 @@
       "evidence": [
         {
           "resource": "repo://docs/adrs/ADR-002-enable-tailscale-api-server-proxy.md#L23-L71",
-          "version": "repo-lines-v1:sha256:8644381a50131256c34a8548029cf4fe036fdd45ec3ad8544c7c682d85e5d854:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMwZGJjYjg1ZDNlNDQzZDQ5NzlhYzAxNWJkMDE1YmUzNjc2ODEzN2RjYjk3OGRkNmQyODViOTczM2JjMTFiMGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiMTU3YTZkMjc2N2ZmN2Y0MTMzZWUyNzY1MTM2N2M2ZmRmZjdhYjRmZDliYTNjYjQyNjJlMmFhNDQ5MGNjYTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM0NTNhNzcxNDMyMDNkMGNjODU4ZDM1OTg0NWM5NjY3Njc5YjRkODAzZTMwNTA2MGNjOGU5NTQzNmFhOWI4NTgifQ"
+          "version": "repo-lines-v1:sha256:0edd5e7db830b278d6b60e628ce62c88ed0a7e206d4af98007fd90b58002127a:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMwZGJjYjg1ZDNlNDQzZDQ5NzlhYzAxNWJkMDE1YmUzNjc2ODEzN2RjYjk3OGRkNmQyODViOTczM2JjMTFiMGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiMTU3YTZkMjc2N2ZmN2Y0MTMzZWUyNzY1MTM2N2M2ZmRmZjdhYjRmZDliYTNjYjQyNjJlMmFhNDQ5MGNjYTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM0NTNhNzcxNDMyMDNkMGNjODU4ZDM1OTg0NWM5NjY3Njc5YjRkODAzZTMwNTA2MGNjOGU5NTQzNmFhOWI4NTgifQ"
         }
       ]
     },
@@ -299,10 +299,68 @@
           "version": "repo-lines-v1:sha256:329126ea6b499b5f5e4ed91459f0b14c3835b8b59657d7c206e40c640feccee5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1YmE5ZTcwMTJjMWFmYmY3NmIyNGM1MzJlZTllZGM5OTE0ZTAzYWVjMGE1Y2ZmNTU5MDQ3YWNmYWFhMDJkNTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3YzBmZDU4MDhkYmI4MzYxNjNmNmNkYWM4NGY1ODlhYzk0ZmVkYTIzY2E4ZTU0ODdjOGRkNjJiNmMzMDU1YzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMwNTI5MWYyZTc1M2JiN2Q2YTVjOGFlYjc0MDM2MzdkNDc4MjQwMzUwNWNkODM5YmM2MDEzN2IxNGI2NDY3OWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZiNTc4ODQxYmJiYmUzOTJhMzVmOTg0ZGFhODFiYWFhNjNiNDE1ZjQ5ZGJhMDA0NmRjMGExMGUyYjBkMGEyMjcifQ"
         }
       ]
+    },
+    {
+      "id": "claim_36fc4080c3814dd7838726c0a5a5dae6",
+      "statement": "The Tailscale operator Application enables authenticated API server proxy mode with apiServerProxyConfig.mode set to \"true\" and operator hostname talos-prod-operator.",
+      "evidence": [
+        {
+          "resource": "repo://apps/tailscale-operator/application.yaml#L27-L30",
+          "version": "repo-lines-v1:sha256:0febb7ea829dd8adb405210710f1248f39ec118fc69b9082ed477aeed2f02df2:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzc5OGI2OTVlY2E3YjZjNDJjNTQyNDNiNGYwNmQxNjhiNjgxOTE2ZDI3N2UwYjgyZjQwNzc3NDg2MzRlMzY5YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWQ3YWFmYjUwOWIxNzQxMWZmODNjN2Q4ZTgzZDg5MmRiMjk0OWJjNmIwMDAzNjc1ZDc5MjdjMDk0YjUwZjhjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2ZhNmFlNzFkNmMzYzIwYzMxNzc1ZWE0M2NjMTJhZDJlMGFhZjg0YjVlYjJhYjExMjcyN2IzOWE4NTI5YjVkNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWU3NTI5YzA3M2ZiMjljZjdjODA1ODk2ZTU3Y2U3NzZjYTlhZGYzNmE1N2ZlZWRjZmIyNTMzNGY5NWQ1ODQ3NSJ9"
+        },
+        {
+          "resource": "repo://docs/adrs/ADR-002-enable-tailscale-api-server-proxy.md#L40-L50",
+          "version": "repo-lines-v1:sha256:139d7989326f65bd84cfc9161c23447e5246029bbc797ee0908308c317fbb961:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY2MDRlYWI2MGE2OTEzNGY5ZTQ3ZDhmMjhkZmVkYmVlZmY5YmJhOGE4Y2JiZTFjNTY0ZmU3MzY1ZmJlMWEzZTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU1ZTE2ZjY5YTY5MDE0OWIxNWFhNGRiY2M5NDI5NThmMzJlMzI2OWU4MjIyMDM1ZmM2Y2RkNmNlMjZkM2U3ODQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFhNjI1N2M3YTc4ZjYyMjdiOTFkMjhlYjg2NmVjOWE1YjE2ZDQ3ZDc4MDc0ZDU0OTFlMjBiMDhkYWM2MzM1ZWUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1cb19c010c6a49c8a5554398c2747364",
+      "statement": "ADR-002 records a read-only verification on 2026-07-30 of the external autogroup:member grant to tag:k8s-operator, system:masters impersonation, and matching Kubernetes ClusterRoleBinding; the grant and tag ownership are not repository-enforced and require live revalidation before recovery relies on them.",
+      "evidence": [
+        {
+          "resource": "repo://docs/adrs/ADR-002-enable-tailscale-api-server-proxy.md#L55-L71",
+          "version": "repo-lines-v1:sha256:13d77f6f9b72fb390fc80f22c9042fdcd9ec70773e61369c29196b8a277ab025:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdjZGMyMjkxNDRiOGIzZDJhYmJhMDczYWI5MTQ3MjM5MzAzNDEyYjE3NjkyMTg5NWM5ZTU4Zjc2Zjg3NGJmYTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRmNGRiZjM5NjFjNzFmYmM0YTBlNDNmNTU2YWJmMzZmZDI0Yjg1ZTQwYzc0MDE0NWRmMjczMDZiMjZjNDM0MTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM0NTNhNzcxNDMyMDNkMGNjODU4ZDM1OTg0NWM5NjY3Njc5YjRkODAzZTMwNTA2MGNjOGU5NTQzNmFhOWI4NTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ea42e97cef9347e6958a2e641b09855e",
+      "statement": "Every autogroup:member identity covered by the adopted grant receives cluster-admin through system:masters; this is acceptable only while every tailnet member is intended to have that authority, and the grant must be reconsidered before expanding the tailnet or operator-access population.",
+      "evidence": [
+        {
+          "resource": "repo://docs/adrs/ADR-002-enable-tailscale-api-server-proxy.md#L57-L61",
+          "version": "repo-lines-v1:sha256:9bea282bc195fa46bdab6caab60e24d4ed077bd934c95cdd7e6b868d540ba6a9:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGE3MjlmZDAyYWFmMGVjYWQ5MGIwNjlkOWQzMzY3N2I0MjJmZGQyN2NiMGNkODNmZjA4MzljOWY4YmE2M2Q3NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGY5NjM3MWEzOTllNDQ2Y2EwNzcyNGE1YjExMDk5OWFkMmU5OTgxMWNkMDY3NmZlNTIxMzkyNjFiNzA3Mjk3ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjVhZTRmY2M4ZDI1NGMxODllNDdlZDk4NGFhMzU5NTljNjQ1NmZlNTcxMzIxMWZkZGRlZGU1ODNkZmViMjEyOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGY0OTFhMWJmM2Q3MGNkYzlmMGE0OTUzMjU1MTBlNDY1YjkyOWEwZDBmZGEzYzQ0YzI1NWE4NGNiZjUwMTY3ZSJ9"
+        },
+        {
+          "resource": "repo://docs/adrs/ADR-002-enable-tailscale-api-server-proxy.md#L80-L84",
+          "version": "repo-lines-v1:sha256:392fab08279cd7483cb130335d605daddb9ef9f1347afc4182b6a941e83914ba:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTI1YzMzM2IwOGM2ODE2MDFjOWVjZjA4OWRkMWY0ZTljYzdlZTRkODJmODdhN2NkNTBlYjQyMDM5OWVlNGVhMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjI1OTQ4NGU0OGVmODlkZTFjMGI4ZTRjZWQ1ZmRlMmQ5ZDBmYTVjNWJhMGU0YzMxNTZkYzk0N2ZhMzg5MWE3NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjk1MmU0YTBmNTFhY2FmY2Q3ODY3NjYxZTdlODhlNWUyMmU5MTE5NTc4NmQxZGNhY2VlNGE0Yjc0M2Y4NjMwNiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_c197d060b0264d9ba39354167c8f719a",
+      "statement": "The secondary API path must be tested without disabling or demoting Omni; working Tailscale Kubernetes access does not demonstrate Omni recovery, Talos administration, or application ingress, and application-proxy or admin-listener authorization is a separate decision.",
+      "evidence": [
+        {
+          "resource": "repo://docs/adrs/ADR-002-enable-tailscale-api-server-proxy.md#L96-L106",
+          "version": "repo-lines-v1:sha256:487940b5831075b3c61834a9add5d7c6a2afdf1a37b23f51f5e147c6ecd9f352:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk3M2Y5ODVkYjY5NjcyM2Y0NDE2MDlmZTJkNjc4OGVkNDA1ZGVmMjUwMTkwNzY3YzU0OTA3OTY3MDZhMmZkZmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ3ZDJlYjY2MGU5NTNiNzJkNmUzMWY4ZGE0ZmNmZTY2YjNmNzk3YzhmYWVmMGJiYmU0YTYzYWQ5ODk0MjFlY2QifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ad4cd2612b2f4f318bfd08ccab13d4a3",
+      "statement": "Kubernetes session recording, API request event recording, and an HA ProxyGroup remain deferred because no compliance or audit requirement for recording has been identified and one proxy replica is considered sufficient for secondary recovery; a demonstrated audit or availability need should trigger a new ADR.",
+      "evidence": [
+        {
+          "resource": "repo://docs/adrs/ADR-002-enable-tailscale-api-server-proxy.md#L108-L115",
+          "version": "repo-lines-v1:sha256:9cbd387ce38c3110182ace7dca1779ffa6620bbd731f0d77ab62e6ed1dc146d2:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWJmYTliNTAyYTQ3NTkyNzQwNGRjMTg2NTVkZmM3YzFhZmY5MTFjNTJmNTZlMGRlODY3MDZkODg2YzY4MjVmZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjAyMTMyYzBjMGQ3NzAwZDgzYThhMjQ2MzNjYWNkMDIzZTliMDgyZWZjYWQyNzQ0NWVjOWQ4MTVmODA2OTIyMSJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.9.0",
-    "at": "2026-11-11T09:22:19.403Z"
+    "at": "2026-11-22T15:48:05.788Z"
   }
 }

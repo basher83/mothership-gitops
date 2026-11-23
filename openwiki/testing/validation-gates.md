@@ -5,10 +5,12 @@ description: Explains the repository's local and CI checks, the exact-pinned Hel
 tags: [testing, validation, gitops, helm, security]
 verified:
   - by: openwiki/0.9.0
-    at: 2026-11-11T09:22:19.403Z
+    at: 2026-11-22T15:48:05.788Z
 sources:
   - id: openwiki-source-3317c37c8efcc638f3359745
     resource: repo://.github/workflows/fast-gate.yml
+  - id: openwiki-source-6d4b4e707b8d60b6ccfa3425
+    resource: repo://.github/workflows/openwiki-update.yml
   - id: openwiki-source-4d1645cb6317345817452838
     resource: repo://.pre-commit-config.yaml
   - id: openwiki-source-2c27f199195c739deb177b51
@@ -25,7 +27,7 @@ sources:
     resource: repo://specs/oauth-proxy-boundary-remediation.md
   - id: openwiki-source-589c4b9f6c1d98a51110564e
     resource: repo://specs/radar-in-cluster.md
-generated: { by: "openwiki/0.9.0", at: "2026-11-11T09:22:19.403Z" }
+generated: { by: "openwiki/0.9.0", at: "2026-11-22T15:48:05.788Z" }
 ---
 
 # Local validation, Fast Gate, and runtime verification gaps
@@ -40,7 +42,7 @@ A green **Fast Gate** means repository hygiene and the supported Helm render/sch
 
 ## Local entrypoints and installed tools
 
-[`mise.toml`](../../mise.toml) requires Mise `2026.8.12` or newer and installs Helm `4.3.1`, kubeconform `0.8.0`, pre-commit `4.7.0`, ripgrep `15.2.0`, and yq `4.54.2`. From the repository, use:
+[`mise.toml`](../../mise.toml) requires Mise `2026.8.12` or newer and installs Helm `4.3.2`, kubeconform `0.8.0`, pre-commit `4.7.0`, ripgrep `15.2.0`, and yq `4.54.3`. From the repository, use:
 
 ```sh
 mise install
@@ -55,15 +57,36 @@ mise run ci
 - `validate:gitops` runs `bash scripts/validate-gitops.sh`.
 - `ci` depends on `hygiene` and `validate:gitops`, then prints `Fast gate passed`. Mise allows two jobs; do not interpret these dependencies as a mandatory serial hygiene-then-render sequence.
 
-The [pre-commit configuration](../../.pre-commit-config.yaml) checks trailing whitespace, end-of-file newlines, merge-conflict markers, added files over 1024 KB, YAML parsing with multiple documents allowed, and private-key detection. It also runs relaxed yamllint and schema checks for Renovate and GitHub workflows. These are concrete hygiene and configuration checks, not application behavior tests.
+The [pre-commit configuration](../../.pre-commit-config.yaml) checks trailing whitespace, end-of-file newlines, merge-conflict markers, added files over 1024 KB, YAML parsing with multiple documents allowed, and private-key detection. It also runs relaxed yamllint and schema checks for Renovate and GitHub workflows. The global `exclude: ^openwiki/` removes generated wiki content from **all** these hooks. Only `trailing-whitespace` and `end-of-file-fixer` additionally exclude `.github/workflows/openwiki-update.yml` via the anchored pattern `^\.github/workflows/openwiki-update\.yml$`; other applicable hooks still check that workflow, including YAML, yamllint, and GitHub workflow schema validation. These are concrete hygiene and configuration checks, not application behavior tests.
 
 ## CI and Renovate's status dependency
 
-The [Fast Gate workflow](../../.github/workflows/fast-gate.yml) runs on pull requests and pushes to `main` and `renovate/**`. It has read-only repository contents permission, uses `ubuntu-latest`, and has a ten-minute timeout. It checks out the repository, installs the Mise tools through `jdx/mise-action` with Mise `2026.11.6` and caching, then runs `mise run ci`. A newer run cancels an in-progress run with the same workflow/ref concurrency group.
+The [Fast Gate workflow](../../.github/workflows/fast-gate.yml) runs on pull requests and pushes to `main` and `renovate/**`. It has read-only repository contents permission, uses `ubuntu-latest`, and has a ten-minute timeout. It checks out the repository with SHA-pinned `actions/checkout` v7.0.1, installs the Mise tools through SHA-pinned `jdx/mise-action` v5.2.9 with Mise `2026.11.8` and caching, then runs `mise run ci`. The workflow's Mise installation pin is distinct from the `2026.8.12` minimum in `mise.toml`. A newer run cancels an in-progress run with the same workflow/ref concurrency group.
 
 The Renovate branch-push trigger is intentional: the inherited `prCreation: not-pending` policy needs a repository-owned result **before** Renovate creates a PR. Renovate automerge depends on this repository's status checks; validating `renovate.json` alone does not validate a proposed chart deployment. The [architecture explanation](../../docs/architecture.md) records this relationship; the external inherited presets are not reproduced in this repository.
 
 [`renovate.json`](../../renovate.json) discovers ArgoCD dependencies under `apps/` using a `.ya?ml` pattern and applies `rangeStrategy: pin`. Chart patches generally allow automerge, but Radar explicitly disables it at every level, as do `longhorn`, `external-secrets`, and `argo-cd`. This distinction matters: a passing render does not replace the rendered RBAC, MCP-surface, and storage review required for a Radar upgrade.
+
+### Generated-wiki maintenance is a separate workflow
+
+[`OpenWiki Update`](../../.github/workflows/openwiki-update.yml) runs on Sundays at **08:00 UTC** (`0 8 * * 0`) or manually via `workflow_dispatch`. It maintains documentation, not deployment evidence, and does not run `mise run ci`. Full-history checkout (`fetch-depth: 0`) lets `openwiki code --update` compare HEAD with the previously documented commit rather than losing the change summary in a shallow clone.
+
+The job grants `contents: write`, `pull-requests: write`, and `id-token: write`. `tailscale/github-action@v4` joins with `tag:ci` and pings `agents`, using secret references `TS_OAUTH_CLIENT_ID` and `TS_AUDIENCE`. Node.js 22 installs `openwiki@0.9.0`, `mermaid@11.16.0`, and `jsdom@29.1.1`; the latter two support high-fidelity diagram validation. Generation runs `openwiki code --update --print` with `OPENWIKI_PROVIDER=openai-compatible`, base URL `http://agents.tailfb3ea.ts.net/v1`, Responses API enabled by `OPENWIKI_OPENAI_COMPATIBLE_USE_RESPONSES_API=true`, and model `gpt-6.1-sol`. The API-key environment entry is a placeholder, not a repository secret. The code-mode LangSmith connector requires `secrets.OPENWIKI_LANGSMITH_API_KEY`; `secrets.LANGSMITH_API_KEY` is optional tracing authentication. No credential values belong in documentation. Page concurrency is four.
+
+```mermaid
+flowchart TD
+    Setup["Full-history checkout and tailnet access"] --> Generate["Run OpenWiki with continue-on-error"]
+    Generate --> CleanupWiki["Unless cancelled, remove transient run state"]
+    CleanupWiki --> Paths["Select update paths"]
+    Paths --> PullRequest["Attempt update PR even after generation failure"]
+    PullRequest --> Outcome{"Generation failed?"}
+    Outcome -->|Yes| Failure["Propagate failure with exit 1"]
+    Outcome -->|No| Finish["Finish maintenance"]
+```
+
+*Generation failure does not discard completed pages or bypass the later failure-propagation step; cancellation skips the cleanup and PR steps.*
+
+The generation step uses `continue-on-error: true`. Subsequent cleanup, path selection, and PR creation use `if: ${{ !cancelled() }}`, so they can still run after generation fails. Cleanup deletes only transient `openwiki/.run.json`, preserving completed partial pages. PR staging is restricted to `openwiki`, `AGENTS.md`, `.github/workflows/openwiki-update.yml`, and `CLAUDE.md` **only if it exists**; an absent `CLAUDE.md` must not break staging. `peter-evans/create-pull-request` targets branch `openwiki/update` with title and commit message `docs: update OpenWiki`. Its body records the generation outcome and explains that a failure PR preserves completed pages for merging as the next run's baseline. A PR URL notice is emitted when available. Finally, an OpenWiki outcome of `failure` triggers `exit 1`: preserving partial progress does not turn failed generation green, and a PR attempt does not guarantee changes or a PR exist.
 
 ## How Helm validation works
 

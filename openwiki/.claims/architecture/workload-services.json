@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:a87fb2fd21305c08a9ec08c7ebbfe693c39a29e199fbc8668956535dcf4eed00",
+  "pageVersion": "sha256:b5d24558023e03b7c0e6e64dee212c311a734f3f436748e75703264060302b17",
   "claims": [
     {
       "id": "claim_0f3838bdb25b47fb9ec7b54fddeb7d77",
@@ -46,7 +46,7 @@
       "evidence": [
         {
           "resource": "repo://apps/netdata/application.yaml",
-          "version": "repo-file-v1:sha256:c3d3a85b93b1e53cec213cfb8d5c9bc8976eed8df60dea7e3ff5f987a709768c"
+          "version": "repo-file-v1:sha256:51a4ccf9f3ec05454d9441d4538eee9637892b38e50ebde49ac8dcfbaaf346b4"
         },
         {
           "resource": "repo://apps/netdata/externalsecret.yaml",
@@ -60,7 +60,7 @@
       "evidence": [
         {
           "resource": "repo://apps/netdata/application.yaml",
-          "version": "repo-file-v1:sha256:c3d3a85b93b1e53cec213cfb8d5c9bc8976eed8df60dea7e3ff5f987a709768c"
+          "version": "repo-file-v1:sha256:51a4ccf9f3ec05454d9441d4538eee9637892b38e50ebde49ac8dcfbaaf346b4"
         }
       ]
     },
@@ -80,7 +80,7 @@
       "evidence": [
         {
           "resource": "repo://apps/phoenix/application.yaml",
-          "version": "repo-file-v1:sha256:f0da32e7091e9ed559a62d65dedc205aa36fa800da99b86cceceb700fbc1f3b6"
+          "version": "repo-file-v1:sha256:e46a65a8b2132cbd92325ca97d69da207324ec07f8b3e83e75cd90773cf276fd"
         },
         {
           "resource": "repo://docs/troubleshooting.md#L368-L394",
@@ -94,7 +94,7 @@
       "evidence": [
         {
           "resource": "repo://apps/phoenix/application.yaml",
-          "version": "repo-file-v1:sha256:f0da32e7091e9ed559a62d65dedc205aa36fa800da99b86cceceb700fbc1f3b6"
+          "version": "repo-file-v1:sha256:e46a65a8b2132cbd92325ca97d69da207324ec07f8b3e83e75cd90773cf276fd"
         },
         {
           "resource": "repo://apps/phoenix/ingress.yaml",
@@ -108,7 +108,7 @@
       "evidence": [
         {
           "resource": "repo://apps/phoenix/application.yaml",
-          "version": "repo-file-v1:sha256:f0da32e7091e9ed559a62d65dedc205aa36fa800da99b86cceceb700fbc1f3b6"
+          "version": "repo-file-v1:sha256:e46a65a8b2132cbd92325ca97d69da207324ec07f8b3e83e75cd90773cf276fd"
         },
         {
           "resource": "repo://apps/phoenix/externalsecret.yaml",
@@ -132,7 +132,7 @@
       "evidence": [
         {
           "resource": "repo://apps/phoenix/application.yaml",
-          "version": "repo-file-v1:sha256:f0da32e7091e9ed559a62d65dedc205aa36fa800da99b86cceceb700fbc1f3b6"
+          "version": "repo-file-v1:sha256:e46a65a8b2132cbd92325ca97d69da207324ec07f8b3e83e75cd90773cf276fd"
         }
       ]
     },
@@ -280,17 +280,41 @@
         },
         {
           "resource": "repo://apps/netdata/application.yaml",
-          "version": "repo-file-v1:sha256:c3d3a85b93b1e53cec213cfb8d5c9bc8976eed8df60dea7e3ff5f987a709768c"
+          "version": "repo-file-v1:sha256:51a4ccf9f3ec05454d9441d4538eee9637892b38e50ebde49ac8dcfbaaf346b4"
         },
         {
           "resource": "repo://apps/phoenix/application.yaml",
-          "version": "repo-file-v1:sha256:f0da32e7091e9ed559a62d65dedc205aa36fa800da99b86cceceb700fbc1f3b6"
+          "version": "repo-file-v1:sha256:e46a65a8b2132cbd92325ca97d69da207324ec07f8b3e83e75cd90773cf276fd"
+        }
+      ]
+    },
+    {
+      "id": "claim_7bae1eaba5ed42fc9293e191de8459f8",
+      "statement": "Netdata's Application pins chart netdata to revision 3.7.180; this declaration alone does not establish a deployed image version or changed runtime behavior.",
+      "evidence": [
+        {
+          "resource": "repo://apps/netdata/application.yaml#L12-L19",
+          "version": "repo-lines-v1:sha256:07f67b8679cbe21d5f07265ae1866f756d5d58486af443fd2824f0f46ff1295b:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDNjNjUwNTI5YzNlM2ZkMzMyMDY0Nzg0Y2VmZWQwNWYwODI4ZTgyZDljYTBjZGZiNjliYjBhZDgyODZkYjIzMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNWZiYWYzODk0NjgyYWQ4ZDlkMjE2NjY4ZjFkOTY3OGU0MWI5ZjgzZGQ0OTJmOTQ3ODBhMzdjYTMzMGM3NTdjMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjA2YmVlMzkxYTYwNTdiM2MwMTQwN2Q0NzJjODI3NDQzOGY0MzBlMDY1ODgxNGY5MDExZmM1ZGI3MTRlNmQ0MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGExNTM2NTMxM2E2YWJhYmJiNzg1ODk5MmZkMTBlYmJhMWFiOGVkZWZhNzJiYmI0MDRjOTllNjU1YmQyYmZiOCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_03f1aa8b323f477f848895724657284e",
+      "statement": "Phoenix's Application pins phoenix-helm to chart revision 13.0.4; the chart pin is not a running image observation and does not establish whether the Phoenix 20.4.0 experiment deadline diagnosed on 2026-08-27 changed.",
+      "evidence": [
+        {
+          "resource": "repo://apps/phoenix/application.yaml#L12-L17",
+          "version": "repo-lines-v1:sha256:1c4fd7ea8ba4465a4e4b7c55cc8187bf3296201b3f990e5f839427d80aa328db:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDNjNjUwNTI5YzNlM2ZkMzMyMDY0Nzg0Y2VmZWQwNWYwODI4ZTgyZDljYTBjZGZiNjliYjBhZDgyODZkYjIzMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzU5MDFmYTY4M2RiMjA2MWQ2NTY1YTZmZjc4M2RiZWY4NDMzNDhlZGFlYjJlZjUyNzBiYTBjZDNiMDA3YmVhMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjA2YmVlMzkxYTYwNTdiM2MwMTQwN2Q0NzJjODI3NDQzOGY0MzBlMDY1ODgxNGY5MDExZmM1ZGI3MTRlNmQ0MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMGQwOTVhYjVhZjkxMmRhMGExMzIwMWE0OGY5NzI0NzRkYjI1MGZlMWZlY2EyNDZkYTA1YTQwNWEzZGQ2Yzg3NiJ9"
+        },
+        {
+          "resource": "repo://docs/incidents/2026-08-27-phoenix-experiment-timeouts.md#L74-L90",
+          "version": "repo-lines-v1:sha256:11c498dec0acfd56b31ba9980e173d74140c7e8022b32641c257b7a2af0d8d4b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2ZGIxNWZkMGQ1NmE0ZWM2N2Y5YTA4NDM5MTQxYjIzMGI3YjdiZTZlMDYxYmI2YjRjNGRiOWE5NTYwMzhmY2YiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJjMDIzMGJkMTliNWMyYzkyNTQ3NTE4ZGUwYjEyN2NiYzVlYTI5NDFlN2NmMzhlNTg1ZjJkNzY1ZWM2OWZmYTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwYjQ1NTViYzU2MGJmMjQ0MzU0OGJkYjZjYzFlNjE5Y2Q4NmM2YWRkMTZlMjgwY2M3NDgwMTZhZmI2ZDJjYzUifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.9.0",
-    "at": "2026-11-11T09:22:19.403Z"
+    "at": "2026-11-22T15:48:05.788Z"
   }
 }

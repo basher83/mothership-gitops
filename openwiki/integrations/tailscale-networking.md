@@ -5,7 +5,7 @@ description: How Tailscale exposes cluster UIs and connects workloads to tailnet
 tags: [tailscale, networking, dns, gitops, security]
 verified:
   - by: openwiki/0.9.0
-    at: 2026-11-11T09:22:19.403Z
+    at: 2026-11-22T15:48:05.788Z
 sources:
   - id: openwiki-source-8037e2358a2c4f9b2c722a11
     resource: repo://AGENTS.md
@@ -33,18 +33,20 @@ sources:
     resource: repo://apps/tailscale-operator/dnsconfig.yaml
   - id: openwiki-source-cde9895204de6d20ca05a9c2
     resource: repo://apps/tailscale-operator/namespace.yaml
+  - id: openwiki-source-17ad53d7bfd81cb5903a0b18
+    resource: repo://docs/adrs/ADR-002-enable-tailscale-api-server-proxy.md
   - id: openwiki-source-8889ba2f1aa87f54da837921
     resource: repo://docs/tailscale-networking.md
   - id: openwiki-source-24da63931d7b260f1749f6ef
     resource: repo://docs/troubleshooting.md
   - id: openwiki-source-8175f678b4142601a495a04e
     resource: repo://scripts/validate-gitops.sh
-generated: { by: "openwiki/0.9.0", at: "2026-11-11T09:22:19.403Z" }
+generated: { by: "openwiki/0.9.0", at: "2026-11-22T15:48:05.788Z" }
 ---
 
 # Tailnet ingress, egress, DNS, and access boundaries
 
-Tailscale has two separate roles here: **ingress** gives tailnet users HTTPS access to cluster applications; **egress** lets cluster workloads reach hosts on the tailnet. DNS connects the egress pieces, while NetworkPolicy closes a different boundary: direct access from other cluster pods.
+For application networking, Tailscale has two separate roles: **ingress** gives tailnet users HTTPS access to cluster applications; **egress** lets cluster workloads reach hosts on the tailnet. DNS connects the egress pieces, while NetworkPolicy closes a different boundary: direct access from other cluster pods.
 
 All web UIs **must use Tailscale Ingress, with no public exposure**. That requirement is not a claim that backend ClusterIPs are inaccessible inside Kubernetes. An application relying on the tailnet as its user-access boundary also needs an explicit internal access policy. These are repository requirements in [AGENTS.md](../../AGENTS.md) and the [networking guide](../../docs/tailscale-networking.md).
 
@@ -52,11 +54,19 @@ This repository owns application-facing manifests. Talos/Omni provisioning, Side
 
 ## Operator and reconciliation responsibilities
 
-The [operator Application](../../apps/tailscale-operator/application.yaml) installs the Tailscale Helm chart, currently pinned to `1.104.4`, in `tailscale-operator`. It consumes the `operator-oauth` Secret, sets hostname `talos-prod-operator`, and enables `apiServerProxyConfig.mode: "true"`. Its automated sync uses prune, self-heal, server-side apply, and `RespectIgnoreDifferences=true`.
+The [operator Application](../../apps/tailscale-operator/application.yaml) installs the Tailscale Helm chart, currently pinned to `1.104.7`, in `tailscale-operator`. It consumes the `operator-oauth` Secret, sets hostname `talos-prod-operator`, and enables `apiServerProxyConfig.mode: "true"`. Its automated sync uses prune, self-heal, server-side apply, and `RespectIgnoreDifferences=true`.
 
 Proxy pods need privileged networking. The [namespace manifest](../../apps/tailscale-operator/namespace.yaml) therefore sets the Pod Security `enforce`, `audit`, and `warn` labels to `privileged`. A proxy creation error mentioning a baseline PodSecurity violation should lead here before debugging application endpoints.
 
 Git declares Ingress resources, annotated egress Services, and DNS configuration. The operator creates the proxies and nameserver and rewrites egress Service destinations. ArgoCD must preserve those runtime-owned fields rather than continuously trying to restore placeholders.
+
+## Authenticated Kubernetes API access is a separate boundary
+
+[ADR-002](../../docs/adrs/ADR-002-enable-tailscale-api-server-proxy.md) makes the operator's **authenticated API server proxy** a standing secondary `kubectl` path. Omni remains the primary Kubernetes access path and authoritative cluster lifecycle plane. The Tailscale proxy supplies Kubernetes API access only: it does not replace Omni provisioning or Talos administration, and it is distinct from application Ingress and pod egress.
+
+The checked-in `apiServerProxyConfig.mode: "true"` enables that authenticated mode; it does **not** encode the external authorization policy. ADR-002 records an externally managed grant from `autogroup:member` to `tag:k8s-operator` with `system:masters` impersonation, giving every covered tailnet member cluster-admin through the built-in Kubernetes binding. This is intentionally broad, not a least-privilege or application-specific grant. Revisit it before expanding tailnet membership or operator access.
+
+The grant and tag ownership are not version-controlled here. ADR-002 records a read-only live verification on 2026-07-30, not a guarantee of current policy: reverify the external grant, tags, and Kubernetes binding before recovery relies on them. This cluster-administration grant must not be read as authorization for an application's UI, credential-backed proxy, or admin listener. Keep kubeconfig setup and operational authorization checks in [Bootstrap and triage](../operations/bootstrap-and-triage.md#establish-access-then-inspect-without-mutating).
 
 ## Ingress: tailnet HTTPS to a backend Service
 
@@ -74,6 +84,7 @@ sequenceDiagram
     Service->>App: Route request
     App-->>Browser: Response through proxy
 ```
+*Tailnet browsers reach the application through an HTTPS ingress proxy and its configured backend Service.*
 
 The ingress path uses tailnet name resolution and automatic TLS, independently of the CoreDNS forwarding used by cluster workloads below.
 
@@ -139,6 +150,7 @@ sequenceDiagram
     Egress->>Host: Forward over tailnet
     Host-->>Pod: Response through proxy
 ```
+*Cluster workloads resolve the tailnet FQDN through CoreDNS and the Tailscale nameserver, then connect through the egress proxy.*
 
 The workload uses the real tailnet FQDN while DNS directs it through the managed egress path. Keeping `https://foxtrot.tailfb3ea.ts.net` preserves SNI for valid TLS with Tailscale Serve; changing clients to a Kubernetes Service alias is not the documented TLS pattern.
 

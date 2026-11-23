@@ -5,7 +5,7 @@ description: How scoped Infisical stores deliver credentials through External Se
 tags: [secrets, infisical, external-secrets, argocd, gitops]
 verified:
   - by: openwiki/0.9.0
-    at: 2026-11-11T09:22:19.403Z
+    at: 2026-11-22T15:48:05.788Z
 sources:
   - id: openwiki-source-8037e2358a2c4f9b2c722a11
     resource: repo://AGENTS.md
@@ -47,7 +47,7 @@ sources:
     resource: repo://docs/troubleshooting.md
   - id: openwiki-source-8175f678b4142601a495a04e
     resource: repo://scripts/validate-gitops.sh
-generated: { by: "openwiki/0.9.0", at: "2026-11-11T09:22:19.403Z" }
+generated: { by: "openwiki/0.9.0", at: "2026-11-22T15:48:05.788Z" }
 ---
 
 # Infisical and External Secrets ownership
@@ -93,7 +93,7 @@ The following are key names and references only, not values. Each row's remote k
 |---|---|---|
 | `infisical-tailscale`, `/tailscale-operator` | `CLIENT_ID` → `client_id`; `CLIENT_SECRET` → `client_secret` | `tailscale-operator/operator-oauth`; chart `oauth.clientId.existingSecret` and `oauth.clientSecret.existingSecret` |
 | `infisical-homarr`, `/homarr` | `HOMARR_DB_KEY` → `db-encryption-key` | `homarr/db-encryption`; Homarr database encryption |
-| `infisical-netdata`, `/netdata` | `CLAIMING_TOKEN` → `NETDATA_CLAIM_TOKEN`; `CLAIMING_ROOM` → `NETDATA_CLAIM_ROOMS` | `netdata/netdata-claiming`; both parent and child use `envFrom.secretRef` |
+| `infisical-netdata`, `/netdata` | `CLAIMING_TOKEN` → `NETDATA_CLAIM_TOKEN`; `CLAIMING_ROOM` → `NETDATA_CLAIM_ROOMS` | `netdata/netdata-claiming`; both `parent.envFrom[].secretRef.name` and `child.envFrom[].secretRef.name` reference `netdata-claiming` |
 | `infisical-longhorn`, `/longhorn` | `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_ENDPOINTS` → same names | `longhorn-system/longhorn-backup-credentials`; chart `defaultSettings.backupTargetCredentialSecret` |
 | `infisical-phoenix`, `/phoenix` | `PHOENIX_SECRET`, `PHOENIX_ADMIN_SECRET` → same names | `phoenix/phoenix-secret`; Phoenix chart auth secret injection |
 | `infisical-radar`, `/radar` | `ARGOCD_TOKEN` → `token` | `radar/radar-argocd-token`; chart `argocd.existingSecret` and `argocd.existingSecretKey` |

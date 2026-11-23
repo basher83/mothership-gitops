@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:6f27c1cdccdc7f0e088a59b0ba9b633c93d45db2780503a67d59bc896cf99f78",
+  "pageVersion": "sha256:e24e3d9e7a040d565800a4e9f11e1e4640ef78f34bdae511639f41f76189c5d2",
   "claims": [
     {
       "id": "claim_ca0b979edb4d47f5a953f0241c66d293",
@@ -64,15 +64,15 @@
     },
     {
       "id": "claim_27bb4bd3a62846a198b880254954df8e",
-      "statement": "mise.toml pins validation tools and exposes hygiene, validate:gitops, and combined ci tasks; the operator argocd CLI is separately installed and upgraded through Homebrew.",
+      "statement": "mise.toml requires mise 2026.8.12 or newer, pins Helm 4.3.2, kubeconform 0.8.0, pre-commit 4.7.0, ripgrep 15.2.0, and yq 4.54.3, and defines hygiene, validate:renovate, validate:gitops, and combined ci tasks; the operator argocd CLI is separately installed and upgraded through Homebrew rather than pinned by mise.",
       "evidence": [
         {
           "resource": "repo://docs/argocd-cli.md#L1-L6",
           "version": "repo-lines-v1:sha256:b1ea962e9063b230b999bb8bdadc35cd9168a193cc70fdeba41a77a879017d5a:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzI2NTEwZjYwN2JmZGI5YzhlY2E2M2ZlYzAxM2E1Yzg5MWRkOTEyNDlmYWIwMmE3YzI4ZWQ3ZDlkODVhMzY0ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTcwOTA3Yjg4M2U5Zjg3OTZhNDkyN2JhNTM1YWFkNTdmZmYyNzg2MzAwYzNjM2JkMjMyMjhiNDQyMDgyNGNkMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTQ5ZTYzMzIzNDQ4NjM5YjRmZDA3OGVhNTlmYWU3MzAyNjg3NjE3NDNiZmVkZmZjMTYwNjMwZjAxZmE4NDczNCJ9"
         },
         {
-          "resource": "repo://mise.toml",
-          "version": "repo-file-v1:sha256:e6c3b92b3a6958211542214fdee793e6d1bcd0a22dd058cd012397cbd083c862"
+          "resource": "repo://mise.toml#L1-L25",
+          "version": "repo-lines-v1:sha256:faaaa2d484f77b476df20b6840727b09e476a2f91d441aff21e6978d17bead9b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlMWE4YWI2MjA4ZmVmNDM1ZWVkM2M4NWQ0MDZjZDQwZTIyOWNkY2FjOTQ1OTBjNDc3NTFhMGM2ZDhjNjYzMDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3YzBmZDU4MDhkYmI4MzYxNjNmNmNkYWM4NGY1ODlhYzk0ZmVkYTIzY2E4ZTU0ODdjOGRkNjJiNmMzMDU1YzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -169,10 +169,34 @@
           "version": "repo-lines-v1:sha256:7fc7c5ef6c54e3a994c7cb780997afad392a64b33d69b39ef8dd677db300743e:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2I3OWI1YWZiOGQ4MzUzNjFmNDU3MWE2YjUwNjQxOGVhYTlhZWNmOWJiZDJlZjk5NmQ0ZGMwZWZmMWM2MzVkMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTRhMmM1ZDg2ZjE1Yzc4NGIwMzc1MWI3YzgyZWJkN2QxNzc3MGQzY2Y2OTRmNGUyOTI5NzQwNjc1ZDk0YTAyZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzFjZWQ4MDRlNTNjODdiZmRiNDUzOGVkNzRmNTJjNTllNTA3YzhjZjU1ZjFjY2JmNzUwNjg1NGFlMzI2ODA5MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTNiNmQ3MzgyMGQwNzJiMDgxNDU1ZThkZDMyOTdkMTI5NGI4ZmMwNWJiMDQyOWVmOGFhMDIwMzJiNGY4MmU4NCJ9"
         }
       ]
+    },
+    {
+      "id": "claim_4d4d873ce0d04a218c3e0825c2a7f057",
+      "statement": "Generated OpenWiki is optional just-in-time context rather than required startup reading: agents should not preload it, should retrieve relevant context only when requested or when material architectural uncertainty warrants it, and must treat source code and tests as authoritative.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L95-L111",
+          "version": "repo-lines-v1:sha256:2edfae72847d87712c820f6d386e8cf183b85ec8c3230a56f66f4f9b8010b5ec:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhkYTFhNWY0MzBkOGQ4NWJkNzRkZmRmMTc3NDQyNTQ0MTlhZWQ4NWY2ZjY4NDA1OGMzOWM0MjFhZTliYTY5ZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJjYjMwNWRjYjE0ZGNiNDE1M2UxYTNmMjU5NDY1Y2VhZGFkYzliMDQ0YTc5M2RhNDI3ZDJjNDNkM2EwOWQ0OTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRiMWJlZDJjMWUxNzY1ZDc4M2UxMmNhMjIwZDNiZGQ1OWNkODdlOTVjYWY4OWQ4OWQ5YzIzOTVmMDVhYzBhNWIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5ef1e8dc4e3f4b21ac11fe10396ae6df",
+      "statement": "Normal generated-OpenWiki maintenance updates source code or documentation and regenerates pages rather than hand-editing them unless explicitly asked; operators should check maintenance configuration and completed runs before relying on automatic updates.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml",
+          "version": "repo-file-v1:sha256:bd9b27be772c72213d39a9a7f00979fbf78107a018c3c65953fb730e693082de"
+        },
+        {
+          "resource": "repo://AGENTS.md#L113-L113",
+          "version": "repo-lines-v1:sha256:9aff808ebd9a0adf17f73b133589836b915cae3b9ec892013ac2737449f30709:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWFmZjgwOGViZDlhMGFkZjE3ZjczYjEzMzU4OTgzNmI5MTVjYWUzYjllYzg5MjAxM2FjMjczNzQ0OWYzMDcwOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWFmZjgwOGViZDlhMGFkZjE3ZjczYjEzMzU4OTgzNmI5MTVjYWUzYjllYzg5MjAxM2FjMjczNzQ0OWYzMDcwOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjZjYjMwYThmOTQ4MTMxNDkwODJmM2RjYjkxOWRiMTJmMjIwYjMxYTI5NWZiZWU5NTM1MWNmOGYxNGJhZGEyZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzA4OWRmOTNmOGJhNTdhNGRkYmZkOGYwMTM5NjJjMzk3OGNlNGRiNjgxOTljNGRhNjY2NjQ5YjA5OTZjZWRhOSJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.9.0",
-    "at": "2026-11-11T09:22:19.403Z"
+    "at": "2026-11-22T15:48:05.788Z"
   }
 }

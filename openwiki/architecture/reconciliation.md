@@ -5,7 +5,7 @@ description: How the root and nested ArgoCD Applications reconcile the cluster, 
 tags: [argocd, gitops, reconciliation, promotion, storage]
 verified:
   - by: openwiki/0.9.0
-    at: 2026-11-11T09:22:19.403Z
+    at: 2026-11-22T15:48:05.788Z
 sources:
   - id: openwiki-source-cb5eccfa5885c550d7c54c72
     resource: repo://apps/anthropic-oauth-proxy.yaml
@@ -33,6 +33,8 @@ sources:
     resource: repo://apps/tailscale-operator/externalsecret.yaml
   - id: openwiki-source-0c9c49dabff608a7c4bfef1c
     resource: repo://bootstrap/bootstrap.yaml
+  - id: openwiki-source-17ad53d7bfd81cb5903a0b18
+    resource: repo://docs/adrs/ADR-002-enable-tailscale-api-server-proxy.md
   - id: openwiki-source-115b2dad781e2a2c5b5a980d
     resource: repo://docs/architecture.md
   - id: openwiki-source-24da63931d7b260f1749f6ef
@@ -41,7 +43,7 @@ sources:
     resource: repo://README.md
   - id: openwiki-source-8175f678b4142601a495a04e
     resource: repo://scripts/validate-gitops.sh
-generated: { by: "openwiki/0.9.0", at: "2026-11-11T09:22:19.403Z" }
+generated: { by: "openwiki/0.9.0", at: "2026-11-22T15:48:05.788Z" }
 ---
 
 # ArgoCD reconciliation and promotion boundaries
@@ -116,6 +118,8 @@ Preserve these exceptions when adding or refactoring Applications:
 | `anthropic-oauth-proxy` | No automated sync; explicitly promote external-repository `main` |
 
 For ordinary auto-synced charts, merging the exact-pinned chart revision or values change is the promotion step. Chart versions are exact-pinned and Renovate proposes updates. ArgoCD chart changes are not auto-merged: merging changes Git, while both manual HA stages still control cluster promotion.
+
+The [Tailscale chart Application](../../apps/tailscale-operator/application.yaml) is currently pinned to `1.104.7` and remains automated with prune, self-heal, SSA, and `RespectIgnoreDifferences=true`. Treat a chart-version bump separately from an ownership or access-mode change: the committed values still reference ESO's `operator-oauth` Secret for both OAuth fields and set `apiServerProxyConfig.mode: "true"`. That authenticated Kubernetes API proxy setting is distinct from the external Anthropic OAuth Proxy's manual promotion gate; see [Tailscale networking](../integrations/tailscale-networking.md).
 
 After verifying Longhorn is healthy and can provision PVCs, promote HA in two steps:
 
